@@ -1,0 +1,134 @@
+menubar:
+  columns: 4
+  items:
+    - id: post
+      theme: '#6366f1'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=abstract%20technology%20blog%20writing%20concept%20with%20purple%20blue%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      title: 博客
+      url: /
+    - id: wiki
+      theme: '#10b981'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20open%20notebook%20with%20code%20and%20notes%20green%20teal%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      title: 学习文档
+      url: /wiki/
+    - id: project
+      theme: '#f59e0b'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20rocket%20launch%20with%20code%20blocks%20orange%20amber%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      title: 项目展示
+      url: /projects/
+    - id: about
+      theme: '#ec4899'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20avatar%20portrait%20profile%20with%20creative%20design%20pink%20magenta%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      title: 关于我
+      url: /about/
+
+site_tree:
+  home:
+    leftbar: welcome, recent
+    rightbar:
+  index_blog:
+    base_dir: blog
+    menu_id: post
+    leftbar: welcome, recent
+    rightbar:
+    nav_tabs:
+      '分类': /blog/categories/
+      '标签': /blog/tags/
+      '归档': /blog/archives/
+  index_wiki:
+    base_dir: wiki
+    menu_id: wiki
+    leftbar: related, recent
+    rightbar:
+  post:
+    menu_id: post
+    leftbar: related, recent
+    rightbar: ghrepo, toc
+  wiki:
+    menu_id: wiki
+    leftbar: tree, related, recent
+    rightbar: ghrepo, toc
+  page:
+    leftbar: recent
+    rightbar: toc
+
+article:
+  type: tech
+  auto_excerpt: 128
+  license: '本文采用 [署名-非商业性使用-相同方式共享 4.0 国际](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
+  share: [wechat, weibo, email, link]
+
+search:
+  service: local_search
+  local_search:
+    field: all
+    path: /search.json
+    content: true
+
+footer:
+  social:
+    github:
+      icon: '<i class="fab fa-github"></i>'
+      url: https://github.com/liuyazhi1
+  sitemap:
+    - title: 博客
+      items:
+        - '[近期发布](/)'
+        - '[分类](/blog/categories/)'
+        - '[标签](/blog/tags/)'
+        - '[归档](/blog/archives/)'
+    - title: 学习文档
+      items:
+        - '[Maya学习](/wiki/maya/)'
+        - '[Nuke合成](/wiki/nuke/)'
+    - title: 项目展示
+      items:
+        - '[Maya绑定工具集](/projects/maya-rig-tools/)'
+    - title: 关于
+      items:
+        - '[关于我](/about/)'
+  content: |
+    本站由 [钱钱](/) 使用 [Stellar](https://xaoxuu.com/wiki/stellar/) 主题创建。
+    本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
+
+comments:
+  service: giscus
+  comment_title: 快来参与讨论吧~
+  lazyload: false
+  giscus:
+    src: https://giscus.app/client.js
+    data-repo: liuyazhi1/liuyazhi1.github.io
+    data-repo-id: # 访问 https://giscus.app/zh-CN 配置后获取
+    data-category: Comments
+    data-category-id: # 访问 https://giscus.app/zh-CN 配置后获取
+    data-mapping: pathname
+    data-strict: 0
+    data-reactions-enabled: 1
+    data-emit-metadata: 0
+    data-input-position: bottom
+    data-theme: dark
+    data-lang: zh-CN
+    crossorigin: anonymous
+
+inject:
+  head:
+    - '<link rel="stylesheet" href="/css/custom.css">'
+
+style:
+  prefers_theme: dark
+  smooth_scroll: true
+  font-size:
+    root: 16px
+    body: 17px
+  color:
+    theme: '#6366f1'
+    accent: '#f59e0b'
+    link: '#818cf8'
+  border-radius:
+    card-l: 16px
+    card: 12px
+    card-s: 8px
+    bar: 24px
+    image-l: 16px
+    image: 12px
+    image-s: 8px

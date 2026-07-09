@@ -1,0 +1,30 @@
+title: 钱钱的博客
+subtitle: 记录学习，分享成长
+avatar: https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20female%20tech%20artist%20portrait%20with%20cinematic%20lighting%20style&image_size=square_hd
+bio: |
+  影视流程TD，3年经验＋人工智能方向的pipeline TD
+  
+  🎬 影视动画管线开发
+  🤖 AI工具链集成
+  🚀 自动化流程优化
+  
+  欢迎一起交流探讨！
+
+social:
+  - name: GitHub
+    icon: '<i class="fab fa-github"></i>'
+    url: https://github.com/liuyazhi1
+  - name: Email
+    icon: '<i class="fa fa-envelope"></i>'
+    url: mailto:2698669434@qq.com
+
+stats:
+  - label: 文章数
+    value: 10+
+    icon: '<i class="fa fa-file-alt"></i>'
+  - label: 学习文档
+    value: 5+
+    icon: '<i class="fa fa-book"></i>'
+  - label: 项目数
+    value: 3+
+    icon: '<i class="fa fa-code"></i>'
