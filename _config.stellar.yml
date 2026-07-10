@@ -31,10 +31,6 @@ site_tree:
     menu_id: post
     leftbar: welcome, recent
     rightbar:
-    nav_tabs:
-      '分类': /blog/categories/
-      '标签': /blog/tags/
-      '归档': /blog/archives/
   index_wiki:
     base_dir: wiki
     menu_id: wiki
