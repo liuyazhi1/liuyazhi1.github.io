@@ -6,19 +6,19 @@
   --morandi-green: #A8C5A8;
   --morandi-bg: #F5E8EA;
   --morandi-bg-soft: #FAF0F2;
-  --morandi-card: rgba(255, 255, 255, 0.65);
+  --morandi-card: rgba(255, 255, 255, 0.7);
   --morandi-border: rgba(212, 165, 165, 0.25);
-  --morandi-text: #6B5D5D;
-  --morandi-text-soft: #9B8F8F;
+  --morandi-text: #4A3F3F;
+  --morandi-text-soft: #7A6B6B;
 }
 
 :root[data-theme="dark"] {
   --morandi-bg: #3A2E30;
   --morandi-bg-soft: #45383A;
-  --morandi-card: rgba(70, 58, 60, 0.6);
-  --morandi-border: rgba(212, 165, 165, 0.2);
-  --morandi-text: #E8D4D4;
-  --morandi-text-soft: #B8A0A0;
+  --morandi-card: rgba(70, 58, 60, 0.7);
+  --morandi-border: rgba(212, 165, 165, 0.25);
+  --morandi-text: #F0E0E0;
+  --morandi-text-soft: #C8B0B0;
 }
 
 body {
