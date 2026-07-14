@@ -2,23 +2,23 @@ menubar:
   columns: 4
   items:
     - id: post
-      theme: '#6366f1'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=abstract%20technology%20blog%20writing%20concept%20with%20purple%20blue%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      theme: '#D4A5A5'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20blog%20writing%20icon%20soft%20dusty%20pink%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 博客
       url: /
     - id: wiki
-      theme: '#10b981'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20open%20notebook%20with%20code%20and%20notes%20green%20teal%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      theme: '#A8B5C5'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20notebook%20study%20icon%20soft%20dusty%20blue%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 学习文档
       url: /wiki/
     - id: project
-      theme: '#f59e0b'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20rocket%20launch%20with%20code%20blocks%20orange%20amber%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      theme: '#E5C9A0'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20rocket%20project%20icon%20soft%20dusty%20orange%20cream%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 项目展示
       url: /projects/
     - id: about
-      theme: '#ec4899'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3d%20avatar%20portrait%20profile%20with%20creative%20design%20pink%20magenta%20gradient%20minimalist%20icon%20style&image_size=square" width="48" height="48" />'
+      theme: '#B5A8C9'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20avatar%20profile%20icon%20soft%20dusty%20lavender%20purple%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 关于我
       url: /about/
 
@@ -111,20 +111,20 @@ inject:
     - '<link rel="stylesheet" href="/css/custom.css">'
 
 style:
-  prefers_theme: dark
+  prefers_theme: light
   smooth_scroll: true
   font-size:
     root: 16px
     body: 17px
   color:
-    theme: '#6366f1'
-    accent: '#f59e0b'
-    link: '#818cf8'
+    theme: '#D4A5A5'
+    accent: '#A8B5C5'
+    link: '#B5A8C9'
   border-radius:
-    card-l: 16px
-    card: 12px
-    card-s: 8px
-    bar: 24px
-    image-l: 16px
-    image: 12px
-    image-s: 8px
+    card-l: 20px
+    card: 16px
+    card-s: 12px
+    bar: 28px
+    image-l: 20px
+    image: 16px
+    image-s: 12px
