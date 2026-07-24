@@ -2,50 +2,50 @@ menubar:
   columns: 4
   items:
     - id: post
-      theme: '#D4A5A5'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20blog%20writing%20icon%20soft%20dusty%20pink%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
+      theme: '#E8A598'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20blog%20writing%20icon%20soft%20cream%20coral%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 博客
       url: /
     - id: wiki
-      theme: '#A8B5C5'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20notebook%20study%20icon%20soft%20dusty%20blue%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
+      theme: '#A8C5B0'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20notebook%20study%20icon%20soft%20sage%20green%20cream%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 学习文档
       url: /wiki/
     - id: project
-      theme: '#E5C9A0'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20rocket%20project%20icon%20soft%20dusty%20orange%20cream%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
+      theme: '#C9A87C'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20rocket%20project%20icon%20soft%20honey%20gold%20cream%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 项目展示
       url: /projects/
     - id: about
-      theme: '#B5A8C9'
-      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20avatar%20profile%20icon%20soft%20dusty%20lavender%20purple%20morandi%20style%20pastel%20simple%20flat%20design&image_size=square" width="48" height="48" />'
+      theme: '#B8A9C9'
+      icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20avatar%20profile%20icon%20soft%20lavender%20cream%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 关于我
       url: /about/
 
 site_tree:
   home:
-    leftbar: welcome, recent
-    rightbar:
+    leftbar: welcome
+    rightbar: recent
   index_blog:
     base_dir: blog
     menu_id: post
-    leftbar: welcome, recent
-    rightbar:
+    leftbar: welcome
+    rightbar: recent
   index_wiki:
     base_dir: wiki
     menu_id: wiki
-    leftbar: related, recent
+    leftbar: tree, related
     rightbar:
   post:
     menu_id: post
-    leftbar: related, recent
-    rightbar: ghrepo, toc
+    leftbar: related
+    rightbar: toc
   wiki:
     menu_id: wiki
-    leftbar: tree, related, recent
-    rightbar: ghrepo, toc
+    leftbar: tree, related
+    rightbar: toc
   page:
-    leftbar: recent
+    leftbar:
     rightbar: toc
 
 article:
@@ -66,6 +66,9 @@ footer:
     github:
       icon: '<i class="fab fa-github"></i>'
       url: https://github.com/liuyazhi1
+    email:
+      icon: '<i class="fas fa-envelope"></i>'
+      url: mailto:2698669434@qq.com
   sitemap:
     - title: 博客
       items:
@@ -117,14 +120,14 @@ style:
     root: 16px
     body: 17px
   color:
-    theme: '#D4A5A5'
-    accent: '#A8B5C5'
-    link: '#B5A8C9'
+    theme: '#E8A598'
+    accent: '#A8C5B0'
+    link: '#C9A87C'
   border-radius:
-    card-l: 20px
-    card: 16px
-    card-s: 12px
-    bar: 28px
-    image-l: 20px
-    image: 16px
-    image-s: 12px
+    card-l: 24px
+    card: 20px
+    card-s: 16px
+    bar: 32px
+    image-l: 24px
+    image: 20px
+    image-s: 16px
