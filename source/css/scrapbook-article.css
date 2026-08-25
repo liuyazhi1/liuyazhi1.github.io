@@ -99,6 +99,20 @@
   color: #fffafc;
 }
 
+.l_body.content[layout="post"] article.md-text.content .highlight .code::before {
+  color: #fffafc;
+  opacity: 1;
+}
+
+.l_body.content[layout="post"] [data-reading-time] {
+  color: inherit;
+  white-space: nowrap;
+}
+
+.l_body.content[layout="post"] .scrapbook-mobile-toc {
+  display: none;
+}
+
 .l_body.content[layout="post"] .l_right .widgets .widget-wrapper.toc {
   position: sticky;
   top: calc(var(--gap-margin) * 2);
@@ -200,6 +214,28 @@
     width: calc(100% - 1rem);
     margin-block: 1.5rem;
     padding: 2.25rem 1rem 2rem;
+  }
+
+  .l_body.content[layout="post"] .scrapbook-mobile-toc {
+    display: block;
+    width: calc(100% - 1rem);
+    margin: 1rem auto 0;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--sb-nav);
+    border-radius: 0.75rem;
+    color: var(--sb-ink);
+    background: var(--sb-white);
+    box-shadow: var(--sb-shadow);
+  }
+
+  .l_body.content[layout="post"] .scrapbook-mobile-toc summary {
+    min-height: 2.75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .l_body.content[layout="post"] .scrapbook-mobile-toc .widget-body {
+    padding-top: 0.65rem;
   }
 
   .l_body.content[layout="post"] .l_right .widgets,

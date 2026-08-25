@@ -1,5 +1,6 @@
 :root {
   --sb-nav: #8f6f91;
+  --sb-nav-surface: #79547c;
   --sb-ink: #42374b;
   --sb-paper-ink: #42374b;
   --sb-paper: #f3ecf2;
@@ -14,6 +15,7 @@
 
 :root[data-theme="dark"] {
   --sb-nav: #6f5874;
+  --sb-nav-surface: #604564;
   --sb-ink: #f5edf6;
   --sb-paper: #2e2734;
   --sb-white: #3b3341;

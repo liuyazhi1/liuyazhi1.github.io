@@ -4,6 +4,9 @@ const {
   createInitialState,
   reduceSpaceState,
   mountSpaceTools,
+  mountNavigation,
+  estimateReadingMinutes,
+  shouldShowScrollTop,
   shouldMountArticleTools,
   mountArticleTools
 } = require('../source/js/scrapbook-space');
@@ -41,6 +44,27 @@ class FakeElement {
     return child;
   }
 
+  insertBefore(child, reference) {
+    this.children ||= [];
+    const index = this.children.indexOf(reference);
+    if (index < 0) return this.appendChild(child);
+    this.children.splice(index, 0, child);
+    child.parentNode = this;
+    return child;
+  }
+
+  cloneNode(deep = false) {
+    const clone = new FakeElement({
+      tagName: this.tagName,
+      textContent: this.textContent,
+      id: this.id,
+      className: this.className
+    });
+    clone.attributes = { ...this.attributes };
+    if (deep && this.children) this.children.forEach(child => clone.appendChild(child.cloneNode(true)));
+    return clone;
+  }
+
   focus() {
     this.focused = true;
   }
@@ -50,13 +74,13 @@ class FakeElement {
   }
 }
 
-function createDomFixture({ reducedMotion = false } = {}) {
+function createDomFixture({ reducedMotion = false, tracks = [{ title: 'A', src: '/music/a.mp3' }] } = {}) {
   let playCalls = 0;
   let pauseCalls = 0;
   const scrollOptions = [];
   let audioVolume = 1;
   const audio = new FakeElement({
-    src: '/music/a.mp3',
+    src: tracks[0]?.src || '',
     play() { playCalls += 1; return Promise.resolve(); },
     pause() { pauseCalls += 1; }
   });
@@ -67,6 +91,7 @@ function createDomFixture({ reducedMotion = false } = {}) {
       audioVolume = value;
     }
   });
+  const trackElements = tracks.map(track => new FakeElement({ dataset: { trackTitle: track.title, trackSrc: track.src } }));
   const elements = {
     '[data-space-dock]': new FakeElement(),
     '[data-space-panel]': new FakeElement({ hidden: true, dataset: { visitorStatus: 'disabled', commentsStatus: 'disabled' } }),
@@ -76,8 +101,11 @@ function createDomFixture({ reducedMotion = false } = {}) {
     '[data-audio-volume]': new FakeElement({ value: '0.7' }),
     '[data-theme-toggle]': new FakeElement(),
     '[data-scroll-top]': new FakeElement(),
-    '[aria-live="polite"]': new FakeElement({ textContent: '' })
+    '[data-space-status]': new FakeElement({ textContent: '' })
   };
+  const panel = elements['[data-space-panel]'];
+  panel.querySelector = selector => elements[selector] || null;
+  panel.querySelectorAll = selector => selector === '[data-audio-track]' ? trackElements : [];
   const documentElement = new FakeElement({ dataset: {} });
   const document = {
     documentElement,
@@ -90,6 +118,10 @@ function createDomFixture({ reducedMotion = false } = {}) {
     },
     listeners: {},
     querySelector(selector) { return elements[selector] || null; },
+    querySelectorAll(selector) {
+      if (selector === '[data-theme-toggle]') return [elements['[data-theme-toggle]']];
+      return [];
+    },
     addEventListener(type, listener) {
       this.listeners[type] ||= [];
       this.listeners[type].push(listener);
@@ -137,6 +169,40 @@ test('reduces panel, playback and clamped volume state', () => {
   assert.equal(reduceSpaceState(createInitialState(), { type: 'PLAY' }).playing, false);
 });
 
+test('wraps previous and next actions across a multi-track playlist', () => {
+  const initial = createInitialState({ tracks: [
+    { src: '/music/a.mp3' },
+    { src: '/music/b.mp3' },
+    { src: '/music/c.mp3' }
+  ] });
+
+  assert.equal(reduceSpaceState(initial, { type: 'NEXT_TRACK' }).trackIndex, 1);
+  assert.equal(reduceSpaceState({ ...initial, trackIndex: 2 }, { type: 'NEXT_TRACK' }).trackIndex, 0);
+  assert.equal(reduceSpaceState(initial, { type: 'PREVIOUS_TRACK' }).trackIndex, 2);
+});
+
+test('switches audio source only from explicit previous and next controls', () => {
+  const fixture = createDomFixture({ tracks: [
+    { title: 'A', src: '/music/a.mp3' },
+    { title: 'B', src: '/music/b.mp3' }
+  ] });
+  fixture.elements['[data-audio-previous]'] = new FakeElement();
+  fixture.elements['[data-audio-next]'] = new FakeElement();
+  fixture.elements['[data-audio-title]'] = new FakeElement({ textContent: '' });
+  const panel = fixture.elements['[data-space-panel]'];
+  panel.querySelector = selector => fixture.elements[selector] || null;
+
+  const mounted = mountSpaceTools(fixture.document, null);
+  assert.equal(fixture.calls.play, 0);
+  fixture.elements['[data-audio-next]'].dispatch('click');
+  assert.match(fixture.elements['[data-audio]'].src, /\/music\/b\.mp3$/);
+  assert.equal(fixture.elements['[data-audio-title]'].textContent, 'B');
+  assert.equal(fixture.calls.play, 0);
+  fixture.elements['[data-audio-previous]'].dispatch('click');
+  assert.match(fixture.elements['[data-audio]'].src, /\/music\/a\.mp3$/);
+  mounted.destroy();
+});
+
 test('mounts stored preferences but only plays after the user clicks play', async () => {
   const fixture = createDomFixture();
   const values = new Map([
@@ -182,6 +248,45 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
   mounted.destroy();
 });
 
+test('scopes space announcements away from the search live region', () => {
+  const fixture = createDomFixture();
+  const searchStatus = new FakeElement({ textContent: '找到 2 条结果' });
+  fixture.elements['[data-search-status]'] = searchStatus;
+
+  const mounted = mountSpaceTools(fixture.document, null);
+  fixture.elements['[data-theme-toggle]'].dispatch('click');
+  fixture.elements['[data-audio-volume]'].value = '0.5';
+  fixture.elements['[data-audio-volume]'].dispatch('input');
+
+  assert.equal(searchStatus.textContent, '找到 2 条结果');
+  assert.equal(fixture.elements['[data-space-status]'].textContent, '音量 50%');
+  mounted.destroy();
+});
+
+test('collapses mobile navigation with Escape and restores toggle focus', () => {
+  const toggle = new FakeElement();
+  const menu = new FakeElement({ dataset: {} });
+  const document = {
+    listeners: {},
+    querySelector(selector) {
+      return { '[data-nav-toggle]': toggle, '[data-nav-menu]': menu }[selector] || null;
+    },
+    addEventListener(type, listener) { this.listeners[type] = listener; },
+    removeEventListener(type) { delete this.listeners[type]; }
+  };
+
+  const mounted = mountNavigation(document);
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  toggle.dispatch('click');
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(menu.dataset.mobileCollapsed, 'false');
+  document.listeners.keydown({ key: 'Escape' });
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(menu.dataset.mobileCollapsed, 'true');
+  assert.equal(toggle.focused, true);
+  mounted.destroy();
+});
+
 test('clamps an out-of-range stored volume before assigning media volume', () => {
   const fixture = createDomFixture();
   const storage = {
@@ -202,6 +307,18 @@ test('uses non-smooth scrolling when reduced motion is requested', () => {
   fixture.elements['[data-scroll-top]'].dispatch('click');
   assert.deepEqual(fixture.calls.scrollOptions, [{ top: 0, behavior: 'auto' }]);
   mounted.destroy();
+});
+
+test('shows return-to-top only after scrolling beyond one viewport', () => {
+  assert.equal(shouldShowScrollTop(799, 800), false);
+  assert.equal(shouldShowScrollTop(800, 800), false);
+  assert.equal(shouldShowScrollTop(801, 800), true);
+});
+
+test('estimates a stable minimum reading time from article text', () => {
+  assert.equal(estimateReadingMinutes('短文'), 1);
+  assert.equal(estimateReadingMinutes('管'.repeat(701)), 3);
+  assert.equal(estimateReadingMinutes(Array.from({ length: 401 }, () => 'pipeline').join(' ')), 3);
 });
 
 test('returns the existing controller instead of binding duplicate listeners', async () => {
@@ -258,6 +375,40 @@ test('mounts one accessible article dock using the shared space protocol', () =>
   assert.equal(main.children[1].hidden, true);
   assert.equal(toc.id, 'data-toc');
   assert.equal(main.children[1].children[0].children[2].getAttribute('aria-controls'), 'data-toc');
+});
+
+test('places mobile TOC before article content and adds reading time to title metadata', () => {
+  const body = new FakeElement();
+  body.setAttribute('layout', 'post');
+  const main = new FakeElement();
+  const article = new FakeElement({ textContent: '管'.repeat(701) });
+  main.appendChild(article);
+  const toc = new FakeElement({ id: 'data-toc' });
+  const tocBody = new FakeElement();
+  toc.appendChild(tocBody);
+  const meta = new FakeElement();
+  const document = {
+    createElement(tagName) { return new FakeElement({ tagName }); },
+    querySelector(selector) {
+      return {
+        '.l_body': body,
+        '.l_main': main,
+        'article.md-text.content': article,
+        '#post-meta': meta,
+        '.widgets .widget-wrapper.toc': toc,
+        '.widgets .widget-wrapper.toc .widget-body': tocBody
+      }[selector] || null;
+    }
+  };
+
+  const mounted = mountArticleTools(document);
+
+  assert.equal(main.children[0], mounted.mobileToc);
+  assert.equal(main.children[1], article);
+  assert.equal(mounted.mobileToc.tagName, 'details');
+  assert.equal(meta.children.length, 1);
+  assert.equal(meta.children[0].getAttribute('data-reading-time'), '');
+  assert.equal(meta.children[0].textContent, '预计阅读 3 分钟');
 });
 
 test('does not mount article tools outside post layouts', () => {

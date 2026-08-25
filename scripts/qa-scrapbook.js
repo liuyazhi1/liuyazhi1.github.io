@@ -164,15 +164,11 @@ async function keyboardQa(browser) {
   assert.notEqual(themeAfter, themeBefore);
   result.themeChangedWithEnter = { before: themeBefore, after: themeAfter };
 
+  await page.keyboard.press('End');
+  await page.waitForFunction(() => scrollY > innerHeight && !document.querySelector('[data-scroll-top]').hidden);
   await tabUntil('[data-scroll-top]', { label: 'return top button' });
   let scrollBefore = await page.evaluate(() => scrollY);
-  if (scrollBefore === 0) {
-    await page.keyboard.press('End');
-    await page.waitForTimeout(150);
-    scrollBefore = await page.evaluate(() => scrollY);
-    await describeFocus('End before return top');
-  }
-  assert.ok(scrollBefore > 0);
+  assert.ok(scrollBefore > await page.evaluate(() => innerHeight));
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => scrollY === 0);
   await describeFocus('Enter return top button', '[data-scroll-top]');
@@ -218,40 +214,167 @@ async function viewportQa(browser, viewport) {
   await page.screenshot({ path: screenshotPath(filename) });
 
   const home = await page.evaluate(() => {
+    const parseRgb = value => (value.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const luminance = value => {
+      const channels = parseRgb(value).map(channel => channel / 255).map(channel => (
+        channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+      ));
+      return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2]);
+    };
+    const contrast = (foreground, background) => {
+      const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+      return (values[0] + 0.05) / (values[1] + 0.05);
+    };
     const cards = [...document.querySelectorAll('.scrapbook-grid > section')];
     const headings = [...document.querySelectorAll(
       '.profile-polaroid h2,.scrapbook-post-notes h2,.scrapbook-project-photos h2'
     )];
+    const header = document.querySelector('.scrapbook-header');
+    const headerLink = header.querySelector('a');
+    const learning = document.querySelector('.category-ticket__label');
+    const learningSurface = learning?.closest('.category-ticket');
     return {
       overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      hero: {
+        title: document.querySelector('.scrapbook-hero h1')?.textContent.trim(),
+        tagline: document.querySelector('.scrapbook-hero__tagline')?.textContent.trim(),
+        direction: document.querySelector('.scrapbook-hero__direction')?.textContent.trim(),
+        status: document.querySelector('.scrapbook-hero__status')?.textContent.trim()
+      },
       tapeClear: headings.every(heading => {
         const headingRect = heading.getBoundingClientRect();
         const cardRect = heading.closest('section').getBoundingClientRect();
         return headingRect.top - cardRect.top > 18;
       }),
       domOrder: cards.map(card => card.querySelector('h2')?.textContent.trim()),
+      gridAreas: Object.fromEntries(cards.map(card => [
+        card.dataset.gridArea,
+        getComputedStyle(card).gridArea
+      ])),
+      posts: [...document.querySelectorAll('.post-note')].map(note => ({
+        category: note.querySelector('.post-note__category')?.textContent.trim(),
+        excerpt: note.querySelector('.post-note__excerpt')?.textContent.trim(),
+        tags: [...note.querySelectorAll('.post-note__tag')].map(tag => tag.textContent.trim())
+      })),
+      projectStacks: [...document.querySelectorAll('.project-photo__stack')]
+        .map(stack => stack.textContent.trim()),
       readyTickets: [...document.querySelectorAll('.scrapbook-category-ticket--ready')].map(ticket => ({
         href: ticket.querySelector('a')?.getAttribute('href'),
         height: Math.round(ticket.getBoundingClientRect().height)
       })),
       learningHasLinks: [...document.querySelectorAll('.scrapbook-category-ticket--learning')]
         .some(ticket => ticket.querySelector('a')),
+      contrast: {
+        nav: contrast(getComputedStyle(headerLink).color, getComputedStyle(header).backgroundColor),
+        learning: learning ? contrast(
+          getComputedStyle(learning).color,
+          getComputedStyle(learningSurface).backgroundColor
+        ) : null,
+        learningOpacity: learning ? Number(getComputedStyle(learning).opacity) : null
+      },
       autoplayCount: document.querySelectorAll('[autoplay]').length
     };
   });
 
   assert.equal(home.overflow, 0);
+  assert.deepEqual(home.hero, {
+    title: '钱钱的 Pipeline 手账',
+    tagline: '今天也在把麻烦的制作流程，变成顺手的小工具。',
+    direction: 'Maya、Unreal、Deadline、Omniverse 与数据库流程开发',
+    status: '正在学习 Omniverse 与数据库'
+  });
   assert.equal(home.tapeClear, true);
   assert.equal(home.learningHasLinks, false);
   assert.equal(home.autoplayCount, 0);
+  assert.ok(home.posts.length >= 3);
+  assert.ok(home.posts.every(post => post.category && post.excerpt && post.tags.length <= 3));
+  assert.equal(home.projectStacks.length, 2);
+  assert.ok(home.projectStacks.every(Boolean));
+  assert.ok(home.contrast.nav >= 4.5);
+  assert.ok(home.contrast.learning >= 4.5);
+  assert.equal(home.contrast.learningOpacity, 1);
   assert.ok(home.readyTickets.every(ticket => ticket.href && ticket.height >= 44));
+  if (viewport.width > 639) {
+    assert.deepEqual(home.gridAreas, {
+      positioning: 'positioning',
+      posts: 'posts',
+      categories: 'categories',
+      projects: 'projects',
+      profile: 'profile',
+      visitor: 'visitor',
+      message: 'message'
+    });
+  } else {
+    assert.ok(Object.values(home.gridAreas).every(area => area === 'auto'));
+  }
+  let mobileMenu = null;
   if (viewport.width <= 390) {
-    assert.deepEqual(home.domOrder, ['最新笔记', '学习分类', '精选项目', '个人档案']);
+    assert.deepEqual(home.domOrder, [
+      '把流程经验变成可复用工具',
+      '最新笔记',
+      '学习分类',
+      '精选项目',
+      '个人档案',
+      '最近访客',
+      '留言与今日状态'
+    ]);
+    const toggle = page.locator('[data-nav-toggle]');
+    const menu = page.locator('[data-nav-menu]');
+    assert.equal(await menu.isHidden(), true);
+    await toggle.click();
+    assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+    assert.equal(await menu.isVisible(), true);
+    await page.keyboard.press('Escape');
+    mobileMenu = {
+      expanded: await toggle.getAttribute('aria-expanded'),
+      hidden: await menu.isHidden(),
+      focusReturned: await toggle.evaluate(element => document.activeElement === element)
+    };
+    assert.deepEqual(mobileMenu, { expanded: 'false', hidden: true, focusReturned: true });
   }
 
-  await page.goto(`${baseUrl}/2026/07/24/ue-submit-render-farm/#背景与痛点`, {
+  await page.goto(`${baseUrl}/2026/07/24/ue-submit-render-farm/`, {
     waitUntil: 'domcontentloaded'
   });
+  await page.waitForTimeout(650);
+  const articleScreenshot = [1440, 390].includes(viewport.width)
+    ? `article-${viewport.width}x${viewport.height}.png`
+    : null;
+  if (articleScreenshot) {
+    await page.screenshot({ path: screenshotPath(articleScreenshot), fullPage: true });
+  }
+  const articleContract = await page.evaluate(() => {
+    const parseRgb = value => (value.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const luminance = value => {
+      const channels = parseRgb(value).map(channel => channel / 255).map(channel => (
+        channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+      ));
+      return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2]);
+    };
+    const contrast = (foreground, background) => {
+      const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+      return (values[0] + 0.05) / (values[1] + 0.05);
+    };
+    const toc = document.querySelector('[data-mobile-toc]');
+    const article = document.querySelector('article.md-text.content');
+    const code = document.querySelector('.highlight .code');
+    const codeLabel = code ? getComputedStyle(code, '::before') : null;
+    const codeSurface = code?.closest('.highlight');
+    return {
+      mobileTocBeforeArticle: toc?.nextElementSibling === article,
+      mobileTocDisplay: toc ? getComputedStyle(toc).display : null,
+      readingTime: document.querySelector('[data-reading-time]')?.textContent.trim(),
+      codeLabelOpacity: codeLabel ? Number(codeLabel.opacity) : null,
+      codeLabelContrast: codeLabel && codeSurface
+        ? contrast(codeLabel.color, getComputedStyle(codeSurface).backgroundColor)
+        : null
+    };
+  });
+  assert.equal(articleContract.mobileTocBeforeArticle, true);
+  assert.match(articleContract.readingTime, /^预计阅读 \d+ 分钟$/);
+  assert.equal(articleContract.mobileTocDisplay, viewport.width <= 667 ? 'block' : 'none');
+  assert.equal(articleContract.codeLabelOpacity, 1);
+  assert.ok(articleContract.codeLabelContrast >= 4.5);
   const closedOverlap = await page.evaluate(() => {
     const tool = document.querySelector('[data-space-dock]').getBoundingClientRect();
     return [...document.querySelectorAll('article.md-text.content p,article.md-text.content li,article.md-text.content h2')]
@@ -276,7 +399,13 @@ async function viewportQa(browser, viewport) {
   assert.equal(opened.overlap, 0);
 
   await context.close();
-  return { viewport, screenshot: filename, home, article: { closedOverlap, opened } };
+  return {
+    viewport,
+    screenshot: filename,
+    home,
+    mobileMenu,
+    article: { screenshot: articleScreenshot, contract: articleContract, closedOverlap, opened }
+  };
 }
 
 async function stateQa(browser) {
@@ -297,7 +426,7 @@ async function stateQa(browser) {
   {
     const { context, page } = await openHome(browser, { viewport: { width: 390, height: 844 } });
     await page.getByRole('button', { name: '打开空间工具盒' }).click();
-    await page.locator('[data-theme-toggle]').click();
+    await page.locator('[data-space-panel] [data-theme-toggle]').click();
     result.dark = await page.evaluate(() => ({
       theme: document.documentElement.dataset.theme,
       colorScheme: getComputedStyle(document.documentElement).colorScheme,
@@ -317,6 +446,7 @@ async function stateQa(browser) {
       reducedMotion: 'reduce'
     });
     await page.locator('.scrapbook-hero').hover();
+    await page.locator('[data-nav-toggle]').click();
     await page.getByRole('button', { name: '搜索' }).click();
     result.reducedMotion = await page.evaluate(() => {
       const hero = getComputedStyle(document.querySelector('.scrapbook-hero'));
@@ -337,6 +467,7 @@ async function stateQa(browser) {
     assert.equal(result.reducedMotion.scrollBehavior, 'auto');
     await page.screenshot({ path: screenshotPath('reduced-motion-390x844.png') });
 
+    await page.keyboard.press('Escape');
     await page.getByRole('button', { name: '打开空间工具盒' }).click();
     await page.evaluate(() => {
       const nativeScrollTo = window.scrollTo.bind(window);
@@ -354,6 +485,54 @@ async function stateQa(browser) {
   }
 
   {
+    const { context, page } = await openHome(browser, { viewport: { width: 390, height: 844 } });
+    await page.locator('[data-nav-toggle]').click();
+    await page.getByRole('button', { name: '搜索' }).click();
+    await page.getByLabel('关键词').fill('Maya');
+    await page.getByRole('button', { name: '查找' }).click();
+    await page.waitForFunction(() => /^找到 \d+ 条结果$/.test(
+      document.querySelector('[data-search-status]').textContent.trim()
+    ));
+    const found = await page.locator('[data-search-status]').innerText();
+    const renderedLinks = await page.locator('[data-search-results] a').count();
+    assert.equal(found, `找到 ${renderedLinks} 条结果`);
+    assert.ok(renderedLinks > 0 && renderedLinks <= 8);
+
+    await page.getByLabel('关键词').fill('qa-no-result-needle');
+    await page.getByRole('button', { name: '查找' }).click();
+    const noResult = await page.locator('[data-search-status]').innerText();
+    assert.equal(noResult, '没有找到匹配笔记，请调整关键词或浏览技术分类');
+
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: '打开空间工具盒' }).click();
+    await page.locator('[data-space-panel] [data-theme-toggle]').click();
+    const afterSpaceChange = await page.locator('[data-search-status]').innerText();
+    assert.equal(afterSpaceChange, noResult);
+    result.search = { found, renderedLinks, noResult, afterSpaceChange };
+    await context.close();
+  }
+
+  {
+    const { context, page } = await openHome(browser, { viewport: { width: 390, height: 844 } });
+    const top = page.locator('[data-scroll-top]');
+    const hiddenAtTop = await top.evaluate(element => element.hidden);
+    await page.evaluate(() => scrollTo({ top: innerHeight, behavior: 'auto' }));
+    await page.waitForTimeout(100);
+    const hiddenAtOneViewport = await top.evaluate(element => element.hidden);
+    await page.evaluate(() => scrollTo({ top: innerHeight + 1, behavior: 'auto' }));
+    await page.waitForFunction(() => !document.querySelector('[data-scroll-top]').hidden);
+    await page.locator('[data-space-dock]').click();
+    const shownPastViewport = await top.isVisible();
+    result.returnTopThreshold = { hiddenAtTop, hiddenAtOneViewport, shownPastViewport };
+    assert.deepEqual(result.returnTopThreshold, {
+      hiddenAtTop: true,
+      hiddenAtOneViewport: true,
+      shownPastViewport: true
+    });
+    await context.close();
+  }
+
+  {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
     await page.route('**/search.json', route => route.fulfill({
@@ -363,6 +542,7 @@ async function stateQa(browser) {
     }));
     await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(650);
+    await page.locator('[data-nav-toggle]').click();
     await page.getByRole('button', { name: '搜索' }).click();
     await page.getByLabel('关键词').fill('Maya');
     await page.getByRole('button', { name: '查找' }).click();
@@ -407,6 +587,9 @@ async function keyPathQa(browser) {
     '/',
     '/blog/',
     '/projects/',
+    '/categories/',
+    '/tags/',
+    '/archives/',
     '/2026/07/24/ue-submit-render-farm/',
     '/2026/07/23/maya-asset-batch-submit/'
   ];
@@ -424,8 +607,23 @@ async function keyPathQa(browser) {
   assert.ok(result.every(item => item.status === 200 && item.overflow === 0));
   assert.match(result[0].bodyClass, /scrapbook-home/);
   assert.ok(result.slice(-2).every(item => item.layout === 'post' && item.article));
+  await page.goto(`${baseUrl}/blog/`, { waitUntil: 'domcontentloaded' });
+  const stellarConsumers = await page.evaluate(() => {
+    const expected = ['/blog/', '/categories/', '/tags/', '/archives/'];
+    return {
+      expected: Object.fromEntries(expected.map(href => [
+        href,
+        document.querySelectorAll(`a[href="${href}"]`).length
+      ])),
+      staleTaxonomyLinks: document.querySelectorAll(
+        'a[href="/blog/categories/"],a[href="/blog/tags/"],a[href="/blog/archives/"]'
+      ).length
+    };
+  });
+  assert.ok(Object.values(stellarConsumers.expected).every(count => count > 0));
+  assert.equal(stellarConsumers.staleTaxonomyLinks, 0);
   await context.close();
-  return result;
+  return { paths: result, stellarConsumers };
 }
 
 if (require.main === module) {

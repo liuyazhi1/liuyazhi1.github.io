@@ -1,53 +1,88 @@
 {
-  "generatedAt": "2026-08-25T09:12:49.874Z",
+  "generatedAt": "2026-08-25T10:20:46.031Z",
   "baseUrl": "http://127.0.0.1:44120",
   "browser": {
     "name": "playwright-chromium",
     "version": "151.0.4129.78",
     "executablePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
   },
-  "keyPaths": [
-    {
-      "pathname": "/",
-      "status": 200,
-      "bodyClass": "scrapbook-home",
-      "layout": null,
-      "article": false,
-      "overflow": 0
-    },
-    {
-      "pathname": "/blog/",
-      "status": 200,
-      "bodyClass": "",
-      "layout": "undefined",
-      "article": false,
-      "overflow": 0
-    },
-    {
-      "pathname": "/projects/",
-      "status": 200,
-      "bodyClass": "",
-      "layout": "page",
-      "article": true,
-      "overflow": 0
-    },
-    {
-      "pathname": "/2026/07/24/ue-submit-render-farm/",
-      "status": 200,
-      "bodyClass": "",
-      "layout": "post",
-      "article": true,
-      "overflow": 0
-    },
-    {
-      "pathname": "/2026/07/23/maya-asset-batch-submit/",
-      "status": 200,
-      "bodyClass": "",
-      "layout": "post",
-      "article": true,
-      "overflow": 0
+  "keyPaths": {
+    "paths": [
+      {
+        "pathname": "/",
+        "status": 200,
+        "bodyClass": "scrapbook-home",
+        "layout": null,
+        "article": false,
+        "overflow": 0
+      },
+      {
+        "pathname": "/blog/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "undefined",
+        "article": false,
+        "overflow": 0
+      },
+      {
+        "pathname": "/projects/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "page",
+        "article": true,
+        "overflow": 0
+      },
+      {
+        "pathname": "/categories/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "categories",
+        "article": false,
+        "overflow": 0
+      },
+      {
+        "pathname": "/tags/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "tags",
+        "article": false,
+        "overflow": 0
+      },
+      {
+        "pathname": "/archives/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "undefined",
+        "article": false,
+        "overflow": 0
+      },
+      {
+        "pathname": "/2026/07/24/ue-submit-render-farm/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "post",
+        "article": true,
+        "overflow": 0
+      },
+      {
+        "pathname": "/2026/07/23/maya-asset-batch-submit/",
+        "status": 200,
+        "bodyClass": "",
+        "layout": "post",
+        "article": true,
+        "overflow": 0
+      }
+    ],
+    "stellarConsumers": {
+      "expected": {
+        "/blog/": 3,
+        "/categories/": 2,
+        "/tags/": 2,
+        "/archives/": 2
+      },
+      "staleTaxonomyLinks": 0
     }
-  ],
+  },
   "keyboard": {
     "focusTrace": [
       {
@@ -56,7 +91,7 @@
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "跳到主要内容 首页 博客 项目 关于 搜索 搜索手账 关键词 查找 音乐暂未放入 关闭搜索 ✦ Pipeline 手账 钱钱 Pipeline TD 正在学习 Omniverse 与数据库 最新笔记 Hello World 2026-08-25 让 AWS Deadline 跑起 UE 的 Movie Render P",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "id": null,
         "dataControl": null,
@@ -84,7 +119,7 @@
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "跳到主要内容 首页 博客 项目 关于 搜索 搜索手账 关键词 查找 音乐暂未放入 关闭搜索 ✦ Pipeline 手账 钱钱 Pipeline TD 正在学习 Omniverse 与数据库 最新笔记 Hello World 2026-08-25 让 AWS Deadline 跑起 UE 的 Movie Render P",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "id": null,
         "dataControl": null,
@@ -98,6 +133,34 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
+        "text": "浏览技术日志",
+        "href": "/blog/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab search button 2",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "查看项目相册",
+        "href": "/projects/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab search button 3",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
         "text": "Hello World",
         "href": "/2026/08/25/hello-world/",
         "id": null,
@@ -107,7 +170,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 2",
+        "event": "Tab search button 4",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -121,7 +184,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 3",
+        "event": "Tab search button 5",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -135,7 +198,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 4",
+        "event": "Tab search button 6",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -149,7 +212,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 5",
+        "event": "Tab search button 7",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -163,7 +226,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 6",
+        "event": "Tab search button 8",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -177,7 +240,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 7",
+        "event": "Tab search button 9",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -191,7 +254,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 8",
+        "event": "Tab search button 10",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -205,7 +268,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 9",
+        "event": "Tab search button 11",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -219,7 +282,21 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 10",
+        "event": "Tab search button 12",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab search button 13",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -233,12 +310,12 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 11",
+        "event": "Tab search button 14",
         "path": "/",
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "跳到主要内容 首页 博客 项目 关于 搜索 搜索手账 关键词 查找 音乐暂未放入 关闭搜索 ✦ Pipeline 手账 钱钱 Pipeline TD 正在学习 Omniverse 与数据库 最新笔记 Hello World 2026-08-25 让 AWS Deadline 跑起 UE 的 Movie Render P",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "id": null,
         "dataControl": null,
@@ -247,7 +324,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 12",
+        "event": "Tab search button 15",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -261,12 +338,12 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 13",
+        "event": "Tab search button 16",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "首页",
+        "text": "钱钱的 Pipeline 手账",
         "href": "/",
         "id": null,
         "dataControl": null,
@@ -275,12 +352,26 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 14",
+        "event": "Tab search button 17",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "博客",
+        "text": "主页",
+        "href": "/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab search button 18",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "技术日志",
         "href": "/blog/",
         "id": null,
         "dataControl": null,
@@ -289,12 +380,12 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 15",
+        "event": "Tab search button 19",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "项目",
+        "text": "项目相册",
         "href": "/projects/",
         "id": null,
         "dataControl": null,
@@ -303,12 +394,12 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 16",
+        "event": "Tab search button 20",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "关于",
+        "text": "关于我",
         "href": "/about/",
         "id": null,
         "dataControl": null,
@@ -317,7 +408,21 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab search button 17",
+        "event": "Tab search button 21",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "留言板",
+        "href": "#space-message",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab search button 22",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -361,6 +466,48 @@
       {
         "event": "Tab Maya ready category 1",
         "path": "/",
+        "tag": "button",
+        "role": "button",
+        "ariaLabel": null,
+        "text": "切换深色主题",
+        "href": null,
+        "id": null,
+        "dataControl": "theme-toggle",
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab Maya ready category 2",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "浏览技术日志",
+        "href": "/blog/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab Maya ready category 3",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "查看项目相册",
+        "href": "/projects/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab Maya ready category 4",
+        "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
@@ -373,7 +520,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab Maya ready category 2",
+        "event": "Tab Maya ready category 5",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -387,7 +534,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab Maya ready category 3",
+        "event": "Tab Maya ready category 6",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -401,7 +548,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab Maya ready category 4",
+        "event": "Tab Maya ready category 7",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -415,7 +562,7 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab Maya ready category 5",
+        "event": "Tab Maya ready category 8",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -434,7 +581,7 @@
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "钱钱的博客记录学习，分享成长 没有找到内容！ 钱钱的博客记录学习，分享成长 近期发布分类：Maya标签归档 Maya 资产批量自动提交工具：从手动整理到一键分发的实践背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多\"杂活\"： 手动整理大纲（Outl",
+        "text": "钱钱的 Pipeline 手账Pipeline TD 的流程开发、工具实践与学习记录 没有找到内容！ 钱钱的 Pipeline 手账Pipeline TD 的流程开发、工具实践与学习记录 近期发布分类：Maya标签归档 Maya 资产批量自动提交工具：从手动整理到一键分发的实践背景与痛点在影视动画项目里，植被和道具类资",
         "href": null,
         "id": null,
         "dataControl": null,
@@ -462,7 +609,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "钱钱的博客记录学习，分享成长",
+        "text": "钱钱的 Pipeline 手账Pipeline TD 的流程开发、工具实践与学习记录",
         "href": "/",
         "id": null,
         "dataControl": null,
@@ -476,7 +623,7 @@
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "跳到主要内容 首页 博客 项目 关于 搜索 搜索手账 关键词 查找 音乐暂未放入 关闭搜索 ✦ Pipeline 手账 钱钱 Pipeline TD 正在学习 Omniverse 与数据库 最新笔记 Hello World 2026-08-25 让 AWS Deadline 跑起 UE 的 Movie Render P",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "id": null,
         "dataControl": null,
@@ -504,7 +651,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "首页",
+        "text": "钱钱的 Pipeline 手账",
         "href": "/",
         "id": null,
         "dataControl": null,
@@ -518,8 +665,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "博客",
-        "href": "/blog/",
+        "text": "主页",
+        "href": "/",
         "id": null,
         "dataControl": null,
         "disabled": false,
@@ -532,8 +679,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "项目",
-        "href": "/projects/",
+        "text": "技术日志",
+        "href": "/blog/",
         "id": null,
         "dataControl": null,
         "disabled": false,
@@ -546,8 +693,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "关于",
-        "href": "/about/",
+        "text": "项目相册",
+        "href": "/projects/",
         "id": null,
         "dataControl": null,
         "disabled": false,
@@ -556,6 +703,34 @@
       },
       {
         "event": "Tab space dock 6",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 7",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "留言板",
+        "href": "#space-message",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 8",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -569,43 +744,15 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab space dock 7",
-        "path": "/",
-        "tag": "a",
-        "role": "link",
-        "ariaLabel": null,
-        "text": "Hello World",
-        "href": "/2026/08/25/hello-world/",
-        "id": null,
-        "dataControl": null,
-        "disabled": false,
-        "focusVisible": true,
-        "matchesTarget": false
-      },
-      {
-        "event": "Tab space dock 8",
-        "path": "/",
-        "tag": "a",
-        "role": "link",
-        "ariaLabel": null,
-        "text": "让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践",
-        "href": "/2026/07/24/ue-submit-render-farm/",
-        "id": null,
-        "dataControl": null,
-        "disabled": false,
-        "focusVisible": true,
-        "matchesTarget": false
-      },
-      {
         "event": "Tab space dock 9",
         "path": "/",
-        "tag": "a",
-        "role": "link",
+        "tag": "button",
+        "role": "button",
         "ariaLabel": null,
-        "text": "Maya 资产批量自动提交工具：从手动整理到一键分发的实践",
-        "href": "/2026/07/23/maya-asset-batch-submit/",
+        "text": "切换深色主题",
+        "href": null,
         "id": null,
-        "dataControl": null,
+        "dataControl": "theme-toggle",
         "disabled": false,
         "focusVisible": true,
         "matchesTarget": false
@@ -616,7 +763,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "查看全部文章",
+        "text": "浏览技术日志",
         "href": "/blog/",
         "id": null,
         "dataControl": null,
@@ -630,8 +777,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "Maya",
-        "href": "/categories/Maya/",
+        "text": "查看项目相册",
+        "href": "/projects/",
         "id": null,
         "dataControl": null,
         "disabled": false,
@@ -644,8 +791,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "Unreal Engine",
-        "href": "/categories/Unreal-Engine/",
+        "text": "Hello World",
+        "href": "/2026/08/25/hello-world/",
         "id": null,
         "dataControl": null,
         "disabled": false,
@@ -686,6 +833,76 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
+        "text": "查看全部文章",
+        "href": "/blog/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 16",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Maya",
+        "href": "/categories/Maya/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 17",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Unreal Engine",
+        "href": "/categories/Unreal-Engine/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 18",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践",
+        "href": "/2026/07/24/ue-submit-render-farm/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 19",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Maya 资产批量自动提交工具：从手动整理到一键分发的实践",
+        "href": "/2026/07/23/maya-asset-batch-submit/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 20",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
         "text": "查看项目页",
         "href": "/projects/",
         "id": null,
@@ -695,7 +912,21 @@
         "matchesTarget": false
       },
       {
-        "event": "Tab space dock 16",
+        "event": "Tab space dock 21",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "id": null,
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true,
+        "matchesTarget": false
+      },
+      {
+        "event": "Tab space dock 22",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -767,16 +998,16 @@
       {
         "event": "Enter return top button",
         "path": "/",
-        "tag": "button",
-        "role": "button",
+        "tag": "body",
+        "role": null,
         "ariaLabel": null,
-        "text": "返回顶部",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "id": null,
-        "dataControl": "scroll-top",
+        "dataControl": null,
         "disabled": false,
-        "focusVisible": true,
-        "matchesTarget": true
+        "focusVisible": false,
+        "matchesTarget": false
       },
       {
         "event": "Escape space panel",
@@ -811,7 +1042,7 @@
       "after": "dark"
     },
     "returnTopWithEnter": {
-      "before": 12,
+      "before": 775,
       "after": 0
     },
     "toolboxEscapeReturnedFocus": {
@@ -838,6 +1069,30 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
+        "text": "浏览技术日志",
+        "href": "/blog/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab search button 2",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "查看项目相册",
+        "href": "/projects/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab search button 3",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
         "text": "Hello World",
         "href": "/2026/08/25/hello-world/",
         "dataControl": null,
@@ -845,7 +1100,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 2",
+        "event": "Tab search button 4",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -857,7 +1112,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 3",
+        "event": "Tab search button 5",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -869,7 +1124,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 4",
+        "event": "Tab search button 6",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -881,7 +1136,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 5",
+        "event": "Tab search button 7",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -893,7 +1148,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 6",
+        "event": "Tab search button 8",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -905,7 +1160,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 7",
+        "event": "Tab search button 9",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -917,7 +1172,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 8",
+        "event": "Tab search button 10",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -929,7 +1184,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 9",
+        "event": "Tab search button 11",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -941,7 +1196,19 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 10",
+        "event": "Tab search button 12",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab search button 13",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -953,19 +1220,19 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 11",
+        "event": "Tab search button 14",
         "path": "/",
         "tag": "body",
         "role": null,
         "ariaLabel": null,
-        "text": "跳到主要内容 首页 博客 项目 关于 搜索 搜索手账 关键词 查找 音乐暂未放入 关闭搜索 ✦ Pipeline 手账 钱钱 Pipeline TD 正在学习 Omniverse 与数据库 最新笔记 Hello World 2026-08-25 让 AWS Deadline 跑起 UE 的 Movie Render P",
+        "text": "跳到主要内容 钱钱的 Pipeline 手账 菜单 主页 技术日志 项目相册 关于我 留言板 搜索 切换深色主题 搜索手账 关键词 查找 输入关键词，按标题与正文查找笔记 关闭搜索 ✦ Pipeline 手账 钱钱的 Pipeline 手账 今天也在把麻烦的制作流程，变成顺手的小工具。 Pipeline TD Maya",
         "href": null,
         "dataControl": null,
         "disabled": false,
         "focusVisible": false
       },
       {
-        "event": "Tab search button 12",
+        "event": "Tab search button 15",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -977,55 +1244,79 @@
         "focusVisible": true
       },
       {
-        "event": "Tab search button 13",
+        "event": "Tab search button 16",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "首页",
+        "text": "钱钱的 Pipeline 手账",
         "href": "/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
       },
       {
-        "event": "Tab search button 14",
+        "event": "Tab search button 17",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "博客",
+        "text": "主页",
+        "href": "/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab search button 18",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "技术日志",
         "href": "/blog/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
       },
       {
-        "event": "Tab search button 15",
+        "event": "Tab search button 19",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "项目",
+        "text": "项目相册",
         "href": "/projects/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
       },
       {
-        "event": "Tab search button 16",
+        "event": "Tab search button 20",
         "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "关于",
+        "text": "关于我",
         "href": "/about/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
       },
       {
-        "event": "Tab search button 17",
+        "event": "Tab search button 21",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "留言板",
+        "href": "#space-message",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab search button 22",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -1039,6 +1330,42 @@
       {
         "event": "Tab Maya ready category 1",
         "path": "/",
+        "tag": "button",
+        "role": "button",
+        "ariaLabel": null,
+        "text": "切换深色主题",
+        "href": null,
+        "dataControl": "theme-toggle",
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab Maya ready category 2",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "浏览技术日志",
+        "href": "/blog/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab Maya ready category 3",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "查看项目相册",
+        "href": "/projects/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab Maya ready category 4",
+        "path": "/",
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
@@ -1049,7 +1376,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab Maya ready category 2",
+        "event": "Tab Maya ready category 5",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -1061,7 +1388,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab Maya ready category 3",
+        "event": "Tab Maya ready category 6",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -1073,7 +1400,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab Maya ready category 4",
+        "event": "Tab Maya ready category 7",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -1085,7 +1412,7 @@
         "focusVisible": true
       },
       {
-        "event": "Tab Maya ready category 5",
+        "event": "Tab Maya ready category 8",
         "path": "/",
         "tag": "a",
         "role": "link",
@@ -1114,7 +1441,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "钱钱的博客记录学习，分享成长",
+        "text": "钱钱的 Pipeline 手账Pipeline TD 的流程开发、工具实践与学习记录",
         "href": "/",
         "dataControl": null,
         "disabled": false,
@@ -1138,7 +1465,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "首页",
+        "text": "钱钱的 Pipeline 手账",
         "href": "/",
         "dataControl": null,
         "disabled": false,
@@ -1150,8 +1477,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "博客",
-        "href": "/blog/",
+        "text": "主页",
+        "href": "/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
@@ -1162,8 +1489,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "项目",
-        "href": "/projects/",
+        "text": "技术日志",
+        "href": "/blog/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
@@ -1174,14 +1501,38 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "关于",
-        "href": "/about/",
+        "text": "项目相册",
+        "href": "/projects/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
       },
       {
         "event": "Tab space dock 6",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 7",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "留言板",
+        "href": "#space-message",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 8",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -1193,38 +1544,14 @@
         "focusVisible": true
       },
       {
-        "event": "Tab space dock 7",
-        "path": "/",
-        "tag": "a",
-        "role": "link",
-        "ariaLabel": null,
-        "text": "Hello World",
-        "href": "/2026/08/25/hello-world/",
-        "dataControl": null,
-        "disabled": false,
-        "focusVisible": true
-      },
-      {
-        "event": "Tab space dock 8",
-        "path": "/",
-        "tag": "a",
-        "role": "link",
-        "ariaLabel": null,
-        "text": "让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践",
-        "href": "/2026/07/24/ue-submit-render-farm/",
-        "dataControl": null,
-        "disabled": false,
-        "focusVisible": true
-      },
-      {
         "event": "Tab space dock 9",
         "path": "/",
-        "tag": "a",
-        "role": "link",
+        "tag": "button",
+        "role": "button",
         "ariaLabel": null,
-        "text": "Maya 资产批量自动提交工具：从手动整理到一键分发的实践",
-        "href": "/2026/07/23/maya-asset-batch-submit/",
-        "dataControl": null,
+        "text": "切换深色主题",
+        "href": null,
+        "dataControl": "theme-toggle",
         "disabled": false,
         "focusVisible": true
       },
@@ -1234,7 +1561,7 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "查看全部文章",
+        "text": "浏览技术日志",
         "href": "/blog/",
         "dataControl": null,
         "disabled": false,
@@ -1246,8 +1573,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "Maya",
-        "href": "/categories/Maya/",
+        "text": "查看项目相册",
+        "href": "/projects/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
@@ -1258,8 +1585,8 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
-        "text": "Unreal Engine",
-        "href": "/categories/Unreal-Engine/",
+        "text": "Hello World",
+        "href": "/2026/08/25/hello-world/",
         "dataControl": null,
         "disabled": false,
         "focusVisible": true
@@ -1294,6 +1621,66 @@
         "tag": "a",
         "role": "link",
         "ariaLabel": null,
+        "text": "查看全部文章",
+        "href": "/blog/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 16",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Maya",
+        "href": "/categories/Maya/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 17",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Unreal Engine",
+        "href": "/categories/Unreal-Engine/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 18",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践",
+        "href": "/2026/07/24/ue-submit-render-farm/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 19",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "Maya 资产批量自动提交工具：从手动整理到一键分发的实践",
+        "href": "/2026/07/23/maya-asset-batch-submit/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 20",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
         "text": "查看项目页",
         "href": "/projects/",
         "dataControl": null,
@@ -1301,7 +1688,19 @@
         "focusVisible": true
       },
       {
-        "event": "Tab space dock 16",
+        "event": "Tab space dock 21",
+        "path": "/",
+        "tag": "a",
+        "role": "link",
+        "ariaLabel": null,
+        "text": "关于我",
+        "href": "/about/",
+        "dataControl": null,
+        "disabled": false,
+        "focusVisible": true
+      },
+      {
+        "event": "Tab space dock 22",
         "path": "/",
         "tag": "button",
         "role": "button",
@@ -1347,12 +1746,59 @@
       "screenshot": "home-1440x900.png",
       "home": {
         "overflow": 0,
+        "hero": {
+          "title": "钱钱的 Pipeline 手账",
+          "tagline": "今天也在把麻烦的制作流程，变成顺手的小工具。",
+          "direction": "Maya、Unreal、Deadline、Omniverse 与数据库流程开发",
+          "status": "正在学习 Omniverse 与数据库"
+        },
         "tapeClear": true,
         "domOrder": [
+          "把流程经验变成可复用工具",
           "最新笔记",
           "学习分类",
           "精选项目",
-          "个人档案"
+          "个人档案",
+          "最近访客",
+          "留言与今日状态"
+        ],
+        "gridAreas": {
+          "positioning": "positioning",
+          "posts": "posts",
+          "categories": "categories",
+          "projects": "projects",
+          "profile": "profile",
+          "visitor": "visitor",
+          "message": "message"
+        },
+        "posts": [
+          {
+            "category": "未分类",
+            "excerpt": "Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…",
+            "tags": []
+          },
+          {
+            "category": "Unreal Engine",
+            "excerpt": "背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…",
+            "tags": [
+              "Pipeline",
+              "自动化",
+              "Deadline"
+            ]
+          },
+          {
+            "category": "Maya",
+            "excerpt": "背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…",
+            "tags": [
+              "Maya",
+              "Pipeline",
+              "自动化"
+            ]
+          }
+        ],
+        "projectStacks": [
+          "Unreal Engine · Movie Render Pipeline · AWS Deadline",
+          "Python · Maya · AWS Deadline · Alembic · JSON"
         ],
         "readyTickets": [
           {
@@ -1365,9 +1811,23 @@
           }
         ],
         "learningHasLinks": false,
+        "contrast": {
+          "nav": 6.125906102125542,
+          "learning": 7.969436629609293,
+          "learningOpacity": 1
+        },
         "autoplayCount": 0
       },
+      "mobileMenu": null,
       "article": {
+        "screenshot": "article-1440x900.png",
+        "contract": {
+          "mobileTocBeforeArticle": true,
+          "mobileTocDisplay": "none",
+          "readingTime": "预计阅读 3 分钟",
+          "codeLabelOpacity": 1,
+          "codeLabelContrast": 14.961920021739253
+        },
         "closedOverlap": 0,
         "opened": {
           "hidden": false,
@@ -1384,12 +1844,59 @@
       "screenshot": "home-1024x768.png",
       "home": {
         "overflow": 0,
+        "hero": {
+          "title": "钱钱的 Pipeline 手账",
+          "tagline": "今天也在把麻烦的制作流程，变成顺手的小工具。",
+          "direction": "Maya、Unreal、Deadline、Omniverse 与数据库流程开发",
+          "status": "正在学习 Omniverse 与数据库"
+        },
         "tapeClear": true,
         "domOrder": [
+          "把流程经验变成可复用工具",
           "最新笔记",
           "学习分类",
           "精选项目",
-          "个人档案"
+          "个人档案",
+          "最近访客",
+          "留言与今日状态"
+        ],
+        "gridAreas": {
+          "positioning": "positioning",
+          "posts": "posts",
+          "categories": "categories",
+          "projects": "projects",
+          "profile": "profile",
+          "visitor": "visitor",
+          "message": "message"
+        },
+        "posts": [
+          {
+            "category": "未分类",
+            "excerpt": "Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…",
+            "tags": []
+          },
+          {
+            "category": "Unreal Engine",
+            "excerpt": "背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…",
+            "tags": [
+              "Pipeline",
+              "自动化",
+              "Deadline"
+            ]
+          },
+          {
+            "category": "Maya",
+            "excerpt": "背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…",
+            "tags": [
+              "Maya",
+              "Pipeline",
+              "自动化"
+            ]
+          }
+        ],
+        "projectStacks": [
+          "Unreal Engine · Movie Render Pipeline · AWS Deadline",
+          "Python · Maya · AWS Deadline · Alembic · JSON"
         ],
         "readyTickets": [
           {
@@ -1402,9 +1909,23 @@
           }
         ],
         "learningHasLinks": false,
+        "contrast": {
+          "nav": 6.125906102125542,
+          "learning": 7.969436629609293,
+          "learningOpacity": 1
+        },
         "autoplayCount": 0
       },
+      "mobileMenu": null,
       "article": {
+        "screenshot": null,
+        "contract": {
+          "mobileTocBeforeArticle": true,
+          "mobileTocDisplay": "none",
+          "readingTime": "预计阅读 3 分钟",
+          "codeLabelOpacity": 1,
+          "codeLabelContrast": 14.961920021739253
+        },
         "closedOverlap": 0,
         "opened": {
           "hidden": false,
@@ -1421,12 +1942,59 @@
       "screenshot": "home-768x1024.png",
       "home": {
         "overflow": 0,
+        "hero": {
+          "title": "钱钱的 Pipeline 手账",
+          "tagline": "今天也在把麻烦的制作流程，变成顺手的小工具。",
+          "direction": "Maya、Unreal、Deadline、Omniverse 与数据库流程开发",
+          "status": "正在学习 Omniverse 与数据库"
+        },
         "tapeClear": true,
         "domOrder": [
+          "把流程经验变成可复用工具",
           "最新笔记",
           "学习分类",
           "精选项目",
-          "个人档案"
+          "个人档案",
+          "最近访客",
+          "留言与今日状态"
+        ],
+        "gridAreas": {
+          "positioning": "positioning",
+          "posts": "posts",
+          "categories": "categories",
+          "projects": "projects",
+          "profile": "profile",
+          "visitor": "visitor",
+          "message": "message"
+        },
+        "posts": [
+          {
+            "category": "未分类",
+            "excerpt": "Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…",
+            "tags": []
+          },
+          {
+            "category": "Unreal Engine",
+            "excerpt": "背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…",
+            "tags": [
+              "Pipeline",
+              "自动化",
+              "Deadline"
+            ]
+          },
+          {
+            "category": "Maya",
+            "excerpt": "背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…",
+            "tags": [
+              "Maya",
+              "Pipeline",
+              "自动化"
+            ]
+          }
+        ],
+        "projectStacks": [
+          "Unreal Engine · Movie Render Pipeline · AWS Deadline",
+          "Python · Maya · AWS Deadline · Alembic · JSON"
         ],
         "readyTickets": [
           {
@@ -1439,9 +2007,23 @@
           }
         ],
         "learningHasLinks": false,
+        "contrast": {
+          "nav": 6.125906102125542,
+          "learning": 7.969436629609293,
+          "learningOpacity": 1
+        },
         "autoplayCount": 0
       },
+      "mobileMenu": null,
       "article": {
+        "screenshot": null,
+        "contract": {
+          "mobileTocBeforeArticle": true,
+          "mobileTocDisplay": "none",
+          "readingTime": "预计阅读 3 分钟",
+          "codeLabelOpacity": 1,
+          "codeLabelContrast": 14.961920021739253
+        },
         "closedOverlap": 0,
         "opened": {
           "hidden": false,
@@ -1458,12 +2040,59 @@
       "screenshot": "home-390x844.png",
       "home": {
         "overflow": 0,
+        "hero": {
+          "title": "钱钱的 Pipeline 手账",
+          "tagline": "今天也在把麻烦的制作流程，变成顺手的小工具。",
+          "direction": "Maya、Unreal、Deadline、Omniverse 与数据库流程开发",
+          "status": "正在学习 Omniverse 与数据库"
+        },
         "tapeClear": true,
         "domOrder": [
+          "把流程经验变成可复用工具",
           "最新笔记",
           "学习分类",
           "精选项目",
-          "个人档案"
+          "个人档案",
+          "最近访客",
+          "留言与今日状态"
+        ],
+        "gridAreas": {
+          "positioning": "auto",
+          "posts": "auto",
+          "categories": "auto",
+          "projects": "auto",
+          "profile": "auto",
+          "visitor": "auto",
+          "message": "auto"
+        },
+        "posts": [
+          {
+            "category": "未分类",
+            "excerpt": "Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…",
+            "tags": []
+          },
+          {
+            "category": "Unreal Engine",
+            "excerpt": "背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…",
+            "tags": [
+              "Pipeline",
+              "自动化",
+              "Deadline"
+            ]
+          },
+          {
+            "category": "Maya",
+            "excerpt": "背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…",
+            "tags": [
+              "Maya",
+              "Pipeline",
+              "自动化"
+            ]
+          }
+        ],
+        "projectStacks": [
+          "Unreal Engine · Movie Render Pipeline · AWS Deadline",
+          "Python · Maya · AWS Deadline · Alembic · JSON"
         ],
         "readyTickets": [
           {
@@ -1476,9 +2105,27 @@
           }
         ],
         "learningHasLinks": false,
+        "contrast": {
+          "nav": 6.125906102125542,
+          "learning": 7.969436629609293,
+          "learningOpacity": 1
+        },
         "autoplayCount": 0
       },
+      "mobileMenu": {
+        "expanded": "false",
+        "hidden": true,
+        "focusReturned": true
+      },
       "article": {
+        "screenshot": "article-390x844.png",
+        "contract": {
+          "mobileTocBeforeArticle": true,
+          "mobileTocDisplay": "block",
+          "readingTime": "预计阅读 3 分钟",
+          "codeLabelOpacity": 1,
+          "codeLabelContrast": 14.961920021739253
+        },
         "closedOverlap": 0,
         "opened": {
           "hidden": false,
@@ -1495,12 +2142,59 @@
       "screenshot": "home-320x568.png",
       "home": {
         "overflow": 0,
+        "hero": {
+          "title": "钱钱的 Pipeline 手账",
+          "tagline": "今天也在把麻烦的制作流程，变成顺手的小工具。",
+          "direction": "Maya、Unreal、Deadline、Omniverse 与数据库流程开发",
+          "status": "正在学习 Omniverse 与数据库"
+        },
         "tapeClear": true,
         "domOrder": [
+          "把流程经验变成可复用工具",
           "最新笔记",
           "学习分类",
           "精选项目",
-          "个人档案"
+          "个人档案",
+          "最近访客",
+          "留言与今日状态"
+        ],
+        "gridAreas": {
+          "positioning": "auto",
+          "posts": "auto",
+          "categories": "auto",
+          "projects": "auto",
+          "profile": "auto",
+          "visitor": "auto",
+          "message": "auto"
+        },
+        "posts": [
+          {
+            "category": "未分类",
+            "excerpt": "Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…",
+            "tags": []
+          },
+          {
+            "category": "Unreal Engine",
+            "excerpt": "背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…",
+            "tags": [
+              "Pipeline",
+              "自动化",
+              "Deadline"
+            ]
+          },
+          {
+            "category": "Maya",
+            "excerpt": "背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…",
+            "tags": [
+              "Maya",
+              "Pipeline",
+              "自动化"
+            ]
+          }
+        ],
+        "projectStacks": [
+          "Unreal Engine · Movie Render Pipeline · AWS Deadline",
+          "Python · Maya · AWS Deadline · Alembic · JSON"
         ],
         "readyTickets": [
           {
@@ -1513,9 +2207,27 @@
           }
         ],
         "learningHasLinks": false,
+        "contrast": {
+          "nav": 6.125906102125542,
+          "learning": 7.969436629609293,
+          "learningOpacity": 1
+        },
         "autoplayCount": 0
       },
+      "mobileMenu": {
+        "expanded": "false",
+        "hidden": true,
+        "focusReturned": true
+      },
       "article": {
+        "screenshot": null,
+        "contract": {
+          "mobileTocBeforeArticle": true,
+          "mobileTocDisplay": "block",
+          "readingTime": "预计阅读 3 分钟",
+          "codeLabelOpacity": 1,
+          "codeLabelContrast": 14.961920021739253
+        },
         "closedOverlap": 0,
         "opened": {
           "hidden": false,
@@ -1547,6 +2259,17 @@
         "top": 0,
         "behavior": "auto"
       }
+    },
+    "search": {
+      "found": "找到 5 条结果",
+      "renderedLinks": 5,
+      "noResult": "没有找到匹配笔记，请调整关键词或浏览技术分类",
+      "afterSpaceChange": "没有找到匹配笔记，请调整关键词或浏览技术分类"
+    },
+    "returnTopThreshold": {
+      "hiddenAtTop": true,
+      "hiddenAtOneViewport": true,
+      "shownPastViewport": true
     },
     "searchFailure": "搜索索引暂不可用，请浏览技术分类",
     "disabledServices": {

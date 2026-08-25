@@ -14,15 +14,22 @@ const urlFor = path => '/' + String(path ?? '')
 
 const hrefFor = path => escapeHtml(urlFor(path));
 
-function renderNavigation() {
+function renderNavigation(model = {}, site = {}) {
+  const brand = model.brand || site.title || '钱钱的 Pipeline 手账';
   return `<header class="scrapbook-header">
-    <nav aria-label="主导航">
-      <a href="${hrefFor('')}">首页</a>
-      <a href="${hrefFor('blog/')}">博客</a>
-      <a href="${hrefFor('projects/')}">项目</a>
-      <a href="${hrefFor('about/')}">关于</a>
+    <div class="scrapbook-header__inner">
+      <a class="scrapbook-brand" href="${hrefFor('')}">${escapeHtml(brand)}</a>
+      <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
+    <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
+      <a href="${hrefFor('')}">主页</a>
+      <a href="${hrefFor('blog/')}">技术日志</a>
+      <a href="${hrefFor('projects/')}">项目相册</a>
+      <a href="${hrefFor('about/')}">关于我</a>
+      <a href="#space-message">留言板</a>
       <button type="button" data-search-open aria-controls="search-panel" aria-expanded="false">搜索</button>
+      <button type="button" data-theme-toggle data-nav-theme aria-pressed="false">切换深色主题</button>
     </nav>
+    </div>
   </header>`;
 }
 
@@ -34,7 +41,8 @@ function renderSearchPanel() {
       <input id="scrapbook-search-input" type="search" data-search-input autocomplete="off">
       <button type="submit">查找</button>
     </form>
-    <div data-search-results aria-live="polite">输入关键词，按标题与正文查找笔记</div>
+    <p data-search-status aria-live="polite">输入关键词，按标题与正文查找笔记</p>
+    <div data-search-results></div>
     <button type="button" data-search-close>关闭搜索</button>
   </section>`;
 }
@@ -42,20 +50,36 @@ function renderSearchPanel() {
 function renderHero(model) {
   const profile = model.profile || {};
   const status = model.status || {};
+  const brand = model.brand || '钱钱的 Pipeline 手账';
 
   return `<section class="scrapbook-hero" aria-labelledby="hero-title">
     <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
     <p class="scrapbook-hero__eyebrow">Pipeline 手账</p>
-    <h1 id="hero-title">${escapeHtml(profile.name || '我的 Pipeline 手账')}</h1>
+    <h1 id="hero-title">${escapeHtml(brand)}</h1>
+    <p class="scrapbook-hero__tagline">${escapeHtml(model.tagline)}</p>
     <p class="scrapbook-hero__role">${escapeHtml(profile.role)}</p>
+    <p class="scrapbook-hero__direction">${escapeHtml(profile.direction)}</p>
     <p class="scrapbook-hero__status">${escapeHtml(status.text)}</p>
+  </section>`;
+}
+
+function renderPositioning(model) {
+  const profile = model.profile || {};
+  return `<section class="scrapbook-card scrapbook-positioning" data-grid-area="positioning" aria-labelledby="positioning-title">
+    <h2 id="positioning-title">把流程经验变成可复用工具</h2>
+    <p>${escapeHtml(model.tagline || '记录流程开发、工具实践与学习进度。')}</p>
+    <p>${escapeHtml(profile.direction || profile.role || 'Pipeline TD')}</p>
+    <div class="scrapbook-positioning__actions">
+      <a href="${hrefFor('blog/')}">浏览技术日志</a>
+      <a href="${hrefFor('projects/')}">查看项目相册</a>
+    </div>
   </section>`;
 }
 
 function renderProfile(model) {
   const profile = model.profile || {};
 
-  return `<section class="scrapbook-card scrapbook-profile profile-polaroid" aria-labelledby="profile-title">
+  return `<section class="scrapbook-card scrapbook-profile profile-polaroid" data-grid-area="profile" aria-labelledby="profile-title">
     <h2 id="profile-title">个人档案</h2>
     <dl>
       <div><dt>身份</dt><dd>${escapeHtml(profile.role || '未填写')}</dd></div>
@@ -80,7 +104,7 @@ function renderCategoryTickets(model) {
     }).join('')
     : '<li class="scrapbook-empty">暂无分类记录</li>';
 
-  return `<section class="scrapbook-card scrapbook-categories" aria-labelledby="categories-title">
+  return `<section class="scrapbook-card scrapbook-categories" data-grid-area="categories" aria-labelledby="categories-title">
     <h2 id="categories-title">学习分类</h2>
     <ul>${tickets}</ul>
   </section>`;
@@ -98,13 +122,21 @@ function formatDate(value) {
 function renderPostNotes(model) {
   const posts = model.latestPosts || [];
   const notes = posts.length
-    ? posts.map(post => `<li class="post-note">
-        <a href="${hrefFor(post.path)}">${escapeHtml(post.title || '未命名文章')}</a>
+    ? posts.map(post => {
+      const tags = (post.tags || []).slice(0, 3);
+      return `<li class="post-note">
+        <div class="post-note__meta">
+          <span class="post-note__category">${escapeHtml(post.category || '未分类')}</span>
         <time datetime="${escapeHtml(formatDate(post.date))}">${escapeHtml(formatDate(post.date))}</time>
-      </li>`).join('')
+        </div>
+        <a class="post-note__title" href="${hrefFor(post.path)}">${escapeHtml(post.title || '未命名文章')}</a>
+        <p class="post-note__excerpt">${escapeHtml(post.excerpt || '这篇笔记暂未提供摘要。')}</p>
+        ${tags.length ? `<ul class="post-note__tags" aria-label="文章标签">${tags.map(tag => `<li class="post-note__tag">${escapeHtml(tag)}</li>`).join('')}</ul>` : ''}
+      </li>`;
+    }).join('')
     : '<li class="scrapbook-empty">还没有公开文章</li>';
 
-  return `<section class="scrapbook-card scrapbook-post-notes" aria-labelledby="posts-title">
+  return `<section class="scrapbook-card scrapbook-post-notes" data-grid-area="posts" aria-labelledby="posts-title">
     <h2 id="posts-title">最新笔记</h2>
     <ol>${notes}</ol>
     <a class="scrapbook-more-link" href="${hrefFor('blog/')}">查看全部文章</a>
@@ -116,22 +148,48 @@ function renderProjectPhotos(model) {
   const photos = projects.length
     ? projects.map(project => `<li class="project-photo">
         <a href="${hrefFor(project.path)}">${escapeHtml(project.title || project.slug || '未命名项目')}</a>
+        ${project.techStack?.length ? `<p class="project-photo__stack">${escapeHtml(project.techStack.join(' · '))}</p>` : ''}
       </li>`).join('')
     : '<li class="scrapbook-empty">项目整理中</li>';
 
-  return `<section class="scrapbook-card scrapbook-project-photos" aria-labelledby="projects-title">
+  return `<section class="scrapbook-card scrapbook-project-photos" data-grid-area="projects" aria-labelledby="projects-title">
     <h2 id="projects-title">精选项目</h2>
     <ul>${photos}</ul>
     <a class="scrapbook-more-link" href="${hrefFor('projects/')}">查看项目页</a>
   </section>`;
 }
 
+function renderVisitorCard(model) {
+  const visitor = model.space?.visitor || {};
+  const enabled = visitor.status === 'enabled' && Boolean(visitor.href);
+  return `<section class="scrapbook-card scrapbook-visitor" data-grid-area="visitor" aria-labelledby="home-visitor-title">
+    <h2 id="home-visitor-title">最近访客</h2>
+    <p>${enabled ? '访问服务已启用，可查看真实记录。' : '访问统计未启用'}</p>
+    ${enabled ? `<a href="${hrefFor(visitor.href)}">查看访问统计</a>` : ''}
+  </section>`;
+}
+
+function renderMessageStatus(model) {
+  const comments = model.space?.comments || {};
+  const enabled = comments.status === 'enabled' && Boolean(comments.href);
+  return `<section id="space-message" class="scrapbook-card scrapbook-message" data-grid-area="message" aria-labelledby="home-message-title">
+    <h2 id="home-message-title">留言与今日状态</h2>
+    <p>${escapeHtml(model.status?.text || '持续整理 Pipeline 笔记')}</p>
+    ${enabled
+    ? `<a href="${hrefFor(comments.href)}">打开留言板</a>`
+    : `<p>留言服务暂未配置，可先从<a href="${hrefFor('about/')}">关于我</a>了解联系信息。</p>`}
+  </section>`;
+}
+
 function renderScrapbookGrid(model) {
   return `<div class="scrapbook-grid">
+    ${renderPositioning(model)}
     ${renderPostNotes(model)}
     ${renderCategoryTickets(model)}
     ${renderProjectPhotos(model)}
     ${renderProfile(model)}
+    ${renderVisitorCard(model)}
+    ${renderMessageStatus(model)}
   </div>`;
 }
 
@@ -140,18 +198,26 @@ function renderSpaceDock(space = {}) {
   const tracks = music.tracks || [];
   const visitor = space.visitor || {};
   const visitorEnabled = visitor.status === 'enabled' && Boolean(visitor.href);
-  const commentsEnabled = space.comments?.status === 'enabled';
+  const comments = space.comments || {};
+  const commentsEnabled = comments.status === 'enabled' && Boolean(comments.href);
   const firstTrack = tracks[0];
   const firstTrackSource = typeof firstTrack === 'string' ? firstTrack : firstTrack?.src;
   const trackList = tracks.length
-    ? `<ul>${tracks.map(track => `<li>${escapeHtml(track.title || track.name || track.src || track)}</li>`).join('')}</ul>`
+    ? `<ul data-audio-playlist>${tracks.map(track => {
+      const title = typeof track === 'string' ? track : track.title || track.name || track.src;
+      const source = typeof track === 'string' ? track : track.src;
+      return `<li data-audio-track="" data-track-title="${escapeHtml(title)}" data-track-src="${hrefFor(source)}">${escapeHtml(title)}</li>`;
+    }).join('')}</ul>`
     : '<p>音乐暂未放入</p>';
   const audio = firstTrackSource
-    ? `<audio data-audio preload="none" src="${escapeHtml(firstTrackSource)}"></audio>`
+    ? `<audio data-audio preload="none" src="${hrefFor(firstTrackSource)}"></audio>`
     : '';
   const visitorEntry = visitorEnabled
     ? `<a data-visitor-entry href="${hrefFor(visitor.href)}">查看访问统计</a>`
     : '<button type="button" data-visitor-entry disabled>查看访问统计</button>';
+  const commentsEntry = commentsEnabled
+    ? `<a data-comments-entry href="${hrefFor(comments.href)}">打开留言</a>`
+    : '<button type="button" data-comments-entry disabled>打开留言</button>';
 
   return `<button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
   <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="${visitorEnabled ? 'enabled' : 'disabled'}" data-comments-status="${commentsEnabled ? 'enabled' : 'disabled'}" aria-label="个人空间工具盒" hidden>
@@ -159,9 +225,12 @@ function renderSpaceDock(space = {}) {
       <h2 id="music-title">音乐角</h2>
       ${trackList}
       ${audio}
+      <p data-audio-title>${tracks.length ? escapeHtml(typeof firstTrack === 'string' ? firstTrack : firstTrack.title || firstTrack.name || firstTrack.src) : '暂无曲目'}</p>
+      <button type="button" data-audio-previous ${tracks.length > 1 ? '' : 'disabled'}>上一首</button>
       <button type="button" data-audio-toggle aria-pressed="false" ${tracks.length ? '' : 'disabled'}>${tracks.length ? '播放' : '音乐暂未放入'}</button>
+      <button type="button" data-audio-next ${tracks.length > 1 ? '' : 'disabled'}>下一首</button>
       <label>音量 <input type="range" data-audio-volume min="0" max="1" step="0.05" value="0.7" ${tracks.length ? '' : 'disabled'}></label>
-      <p aria-live="polite">${tracks.length ? '音乐已就绪' : '音乐暂未放入'}</p>
+      <p data-space-status aria-live="polite">${tracks.length ? '音乐已就绪' : '音乐暂未放入'}</p>
     </section>
     <section aria-labelledby="visitor-title">
       <h2 id="visitor-title">访问统计</h2>
@@ -171,9 +240,9 @@ function renderSpaceDock(space = {}) {
     <section aria-labelledby="comments-title">
       <h2 id="comments-title">留言</h2>
       <p>${commentsEnabled ? '留言板已启用' : '留言板暂未启用'}</p>
-      <button type="button" ${commentsEnabled ? '' : 'disabled'}>打开留言</button>
+      ${commentsEntry}
       <button type="button" data-theme-toggle aria-pressed="false">切换深色主题</button>
-      <button type="button" data-scroll-top>返回顶部</button>
+      <button type="button" data-scroll-top hidden>返回顶部</button>
       <button type="button" data-space-close>关闭工具盒</button>
     </section>
   </aside>`;
@@ -189,7 +258,7 @@ function renderHome(model, site) {
   <link rel="stylesheet" href="/css/scrapbook-tokens.css">
   <link rel="stylesheet" href="/css/scrapbook-home.css"></head>
   <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
-  ${renderNavigation(safeSite)}${renderSearchPanel()}<main id="main">${renderHero(safeModel)}${renderScrapbookGrid(safeModel)}</main>
+  ${renderNavigation(safeModel, safeSite)}${renderSearchPanel()}<main id="main">${renderHero(safeModel)}${renderScrapbookGrid(safeModel)}</main>
   ${renderSpaceDock(safeModel.space)}<script src="/js/scrapbook-space.js" defer></script></body></html>`;
 }
 
@@ -200,11 +269,14 @@ module.exports = {
   renderNavigation,
   renderSearchPanel,
   renderHero,
+  renderPositioning,
   renderScrapbookGrid,
   renderProfile,
   renderCategoryTickets,
   renderPostNotes,
   renderProjectPhotos,
+  renderVisitorCard,
+  renderMessageStatus,
   renderSpaceDock,
   renderHome
 };

@@ -5,7 +5,7 @@ menubar:
       theme: '#E8A598'
       icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20blog%20writing%20icon%20soft%20cream%20coral%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
       title: 博客
-      url: /
+      url: /blog/
     - id: wiki
       theme: '#A8C5B0'
       icon: '<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20minimal%20notebook%20study%20icon%20soft%20sage%20green%20cream%20warm%20style%20simple%20flat%20design&image_size=square" width="48" height="48" />'
@@ -72,10 +72,10 @@ footer:
   sitemap:
     - title: 博客
       items:
-        - '[近期发布](/)'
-        - '[分类](/blog/categories/)'
-        - '[标签](/blog/tags/)'
-        - '[归档](/blog/archives/)'
+        - '[近期发布](/blog/)'
+        - '[分类](/categories/)'
+        - '[标签](/tags/)'
+        - '[归档](/archives/)'
     - title: 学习文档
       items:
         - '[Maya学习](/wiki/maya/)'

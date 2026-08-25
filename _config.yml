@@ -1,6 +1,6 @@
-title: 钱钱的博客
-subtitle: 记录学习，分享成长
-description: 个人技术博客，分享学习笔记、项目经验和生活感悟
+title: 钱钱的 Pipeline 手账
+subtitle: Pipeline TD 的流程开发、工具实践与学习记录
+description: 钱钱的 Pipeline TD 技术手账，记录 Maya、Unreal、Deadline、Omniverse 与数据库流程开发。
 keywords: 技术博客,学习笔记,项目展示,前端开发
 author: 钱钱
 avatar: https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd
@@ -49,13 +49,20 @@ index_generator:
   order_by: -date
 
 scrapbook:
+  brand: 钱钱的 Pipeline 手账
+  tagline: 今天也在把麻烦的制作流程，变成顺手的小工具。
   latest_limit: 3
   categories: [Maya, Unreal Engine, Deadline, Omniverse, 数据库]
-  featured_projects: [ue-submit-render-farm, maya-asset-batch-submit]
+  featured_projects:
+    - slug: ue-submit-render-farm
+      tech_stack: [Unreal Engine, Movie Render Pipeline, AWS Deadline]
+    - slug: maya-asset-batch-submit
+      tech_stack: [Python, Maya, AWS Deadline, Alembic, JSON]
   profile:
     name: 钱钱
     role: Pipeline TD
     experience: 3 年流程开发经验
+    direction: Maya、Unreal、Deadline、Omniverse 与数据库流程开发
   status:
     text: 正在学习 Omniverse 与数据库
   music:

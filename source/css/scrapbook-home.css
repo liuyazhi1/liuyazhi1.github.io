@@ -28,7 +28,7 @@ body.scrapbook-home {
   z-index: 5;
   padding: 0.75rem clamp(1rem, 4vw, 3.5rem);
   color: #fffdf8;
-  background: var(--sb-nav);
+  background: var(--sb-nav-surface);
   box-shadow: 0 3px 0 rgb(66 55 75 / 12%);
 }
 
@@ -43,13 +43,31 @@ body.scrapbook-home {
   transform: rotate(-1deg);
 }
 
-.scrapbook-header nav {
+.scrapbook-header__inner {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.35rem clamp(0.7rem, 3vw, 2.6rem);
   max-width: 76rem;
   margin: 0 auto;
+}
+
+.scrapbook-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem clamp(0.45rem, 2vw, 1.35rem);
+}
+
+.scrapbook-brand {
+  flex: 0 0 auto;
+  font-family: STKaiti, KaiTi, "Microsoft YaHei", serif;
+  font-size: 1.08rem;
+}
+
+.scrapbook-nav-toggle {
+  display: none;
 }
 
 .scrapbook-header a {
@@ -65,7 +83,9 @@ body.scrapbook-home {
   text-underline-offset: 0.35rem;
 }
 
-.scrapbook-header [data-search-open] {
+.scrapbook-header [data-search-open],
+.scrapbook-header [data-theme-toggle],
+.scrapbook-nav-toggle {
   min-height: 2.5rem;
   padding: 0.42rem 0.9rem;
   border: 1px solid rgb(255 253 248 / 70%);
@@ -156,6 +176,7 @@ body.scrapbook-home {
   background: var(--sb-pink);
 }
 
+[data-search-status],
 [data-search-results] {
   min-height: 3.5rem;
   margin-top: 1rem;
@@ -163,6 +184,10 @@ body.scrapbook-home {
   border: 1px dashed var(--sb-nav);
   border-radius: 0.65rem;
   background: var(--sb-white);
+}
+
+[data-search-status] {
+  margin-bottom: 0;
 }
 
 [data-search-results] ol {
@@ -224,9 +249,21 @@ body.scrapbook-home {
 }
 
 .scrapbook-hero__eyebrow,
+.scrapbook-hero__tagline,
 .scrapbook-hero__role,
+.scrapbook-hero__direction,
 .scrapbook-hero__status {
   margin: 0.25rem 0;
+}
+
+.scrapbook-hero__tagline {
+  margin: 0.65rem auto 0.35rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+}
+
+.scrapbook-hero__direction {
+  font-size: 0.9rem;
 }
 
 .scrapbook-hero__eyebrow {
@@ -259,9 +296,53 @@ body.scrapbook-home {
 
 .scrapbook-grid {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr) 180px;
+  grid-template-columns: 210px minmax(0, 1fr) 230px;
+  grid-template-areas:
+    "profile positioning projects"
+    "categories posts projects"
+    "visitor posts message";
   gap: clamp(1.3rem, 3.2vw, 2.75rem);
   align-items: start;
+}
+
+[data-grid-area="positioning"] { grid-area: positioning; }
+[data-grid-area="posts"] { grid-area: posts; }
+[data-grid-area="categories"] { grid-area: categories; }
+[data-grid-area="projects"] { grid-area: projects; }
+[data-grid-area="profile"] { grid-area: profile; }
+[data-grid-area="visitor"] { grid-area: visitor; }
+[data-grid-area="message"] { grid-area: message; }
+
+.scrapbook-positioning,
+.scrapbook-visitor,
+.scrapbook-message {
+  padding: 1.1rem;
+  border: 1px solid rgb(143 111 145 / 24%);
+  background: var(--sb-white);
+  box-shadow: var(--sb-shadow);
+}
+
+.scrapbook-positioning {
+  background: color-mix(in srgb, var(--sb-white) 78%, var(--sb-lavender));
+}
+
+.scrapbook-positioning p,
+.scrapbook-visitor p,
+.scrapbook-message p {
+  margin: 0.5rem 0;
+}
+
+.scrapbook-positioning__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 0.85rem;
+  font-weight: 700;
+}
+
+.scrapbook-visitor,
+.scrapbook-message {
+  font-size: 0.86rem;
 }
 
 .scrapbook-card {
@@ -286,8 +367,6 @@ body.scrapbook-home {
 }
 
 .profile-polaroid {
-  grid-column: 1;
-  grid-row: 1 / span 2;
   padding: 1.15rem 1rem 1.65rem;
   border: 1px solid rgb(143 111 145 / 22%);
   background: var(--sb-white);
@@ -332,8 +411,7 @@ body.scrapbook-home {
 }
 
 .scrapbook-categories {
-  grid-column: 3;
-  grid-row: 1 / span 2;
+  min-width: 0;
 }
 
 .scrapbook-categories ul {
@@ -381,8 +459,9 @@ body.scrapbook-home {
 }
 
 .category-ticket__label {
+  color: #5c4964;
   cursor: not-allowed;
-  opacity: 0.68;
+  opacity: 1;
 }
 
 .category-ticket a::after {
@@ -403,8 +482,6 @@ body.scrapbook-home {
 }
 
 .scrapbook-post-notes {
-  grid-column: 2;
-  grid-row: 1;
   padding: 1.4rem clamp(1rem, 3vw, 2rem) 1.6rem;
   border: 1px solid rgb(143 111 145 / 18%);
   background: color-mix(in srgb, var(--sb-white) 88%, var(--sb-pink));
@@ -425,12 +502,43 @@ body.scrapbook-home {
 
 .post-note {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.5rem 1rem;
-  align-items: baseline;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.55rem;
   padding: 0.9rem 1rem;
   box-shadow: 2px 3px 0 rgb(99 74 103 / 9%);
   transform: rotate(-0.45deg);
+}
+
+.post-note__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  font-family: Consolas, "Microsoft YaHei", monospace;
+  font-size: 0.72rem;
+}
+
+.post-note__category {
+  font-weight: 700;
+}
+
+.post-note__excerpt {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.post-note__tags {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.35rem !important;
+}
+
+.post-note__tag {
+  padding: 0.08rem 0.45rem;
+  border: 1px solid rgb(66 55 75 / 28%);
+  border-radius: 999px;
+  font-family: Consolas, "Microsoft YaHei", monospace;
+  font-size: 0.68rem;
 }
 
 .post-note:nth-child(3n + 1) {
@@ -460,8 +568,6 @@ body.scrapbook-home {
 }
 
 .scrapbook-project-photos {
-  grid-column: 2;
-  grid-row: 2;
   padding: 1.4rem clamp(1rem, 3vw, 2rem) 1.6rem;
   border: 0.55rem solid var(--sb-white);
   color: var(--sb-paper-ink);
@@ -476,7 +582,7 @@ body.scrapbook-home {
 
 .scrapbook-project-photos ul {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.85rem;
 }
 
@@ -499,6 +605,13 @@ body.scrapbook-home {
   place-items: end start;
   color: #42374b;
   font-weight: 700;
+}
+
+.project-photo__stack {
+  margin: 0.55rem 0 0;
+  color: #42374b;
+  font-family: Consolas, "Microsoft YaHei", monospace;
+  font-size: 0.72rem;
 }
 
 .scrapbook-more-link {
@@ -577,7 +690,9 @@ body.scrapbook-home {
   font-size: 0.8rem;
 }
 
-.space-dock button {
+.space-dock button,
+.space-dock [data-visitor-entry],
+.space-dock [data-comments-entry] {
   min-height: 2.5rem;
   margin-top: 0.55rem;
   padding: 0.4rem 0.85rem;
@@ -588,6 +703,7 @@ body.scrapbook-home {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .space-dock button:disabled {
@@ -628,30 +744,36 @@ body.scrapbook-home {
 @media (max-width: 1023.98px) {
   .scrapbook-grid {
     grid-template-columns: minmax(11rem, 0.38fr) minmax(0, 1fr);
-  }
-
-  .profile-polaroid {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .scrapbook-categories {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .scrapbook-post-notes {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .scrapbook-project-photos {
-    grid-column: 2;
-    grid-row: 2;
+    grid-template-areas:
+      "positioning positioning"
+      "profile posts"
+      "categories posts"
+      "visitor projects"
+      "message projects";
   }
 }
 
 @media (max-width: 639.98px) {
+  .scrapbook-header__inner {
+    flex-wrap: wrap;
+  }
+
+  .scrapbook-nav-toggle {
+    display: inline-block;
+  }
+
+  .scrapbook-header nav {
+    display: grid;
+    flex-basis: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    padding-top: 0.6rem;
+  }
+
+  .scrapbook-header nav[data-mobile-collapsed="true"] {
+    display: none;
+  }
+
   .scrapbook-home main {
     width: min(100% - 1.25rem, 36rem);
   }
@@ -668,6 +790,7 @@ body.scrapbook-home {
   .scrapbook-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
     gap: 1.5rem;
   }
 
@@ -675,8 +798,15 @@ body.scrapbook-home {
   .scrapbook-categories,
   .scrapbook-post-notes,
   .scrapbook-project-photos {
+    grid-area: auto;
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .scrapbook-positioning,
+  .scrapbook-visitor,
+  .scrapbook-message {
+    grid-area: auto;
   }
 
   .profile-polaroid {

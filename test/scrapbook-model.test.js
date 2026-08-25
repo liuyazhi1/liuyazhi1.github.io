@@ -59,3 +59,63 @@ test('sorts public posts by date and applies the latest-post limit', () => {
 
   assert.deepEqual(model.latestPosts.map(post => post.slug), ['new', 'middle', 'older']);
 });
+
+test('normalizes safe post metadata and verified project tech stacks', () => {
+  const post = {
+    slug: 'maya-tool',
+    title: 'Maya 工具',
+    path: 'maya-tool/',
+    date: new Date('2026-07-23'),
+    excerpt: '<p>批量处理 <strong>资产</strong> &amp; 材质。</p><script>alert(1)</script>',
+    categories: { toArray: () => [{ name: 'Maya' }, { name: 'Pipeline' }] },
+    tags: { toArray: () => ['Python', { name: 'Deadline' }, { name: 'Alembic' }, { name: 'JSON' }] }
+  };
+  const model = buildHomeModel({ posts: [post], categories: [] }, { scrapbook: {
+    featured_projects: [{ slug: 'maya-tool', tech_stack: ['Python', 'Maya API', 'Deadline'] }]
+  }});
+
+  assert.deepEqual(model.latestPosts[0], {
+    slug: 'maya-tool',
+    title: 'Maya 工具',
+    path: 'maya-tool/',
+    date: post.date,
+    excerpt: '批量处理 资产 & 材质。',
+    category: 'Maya',
+    tags: ['Python', 'Deadline', 'Alembic']
+  });
+  assert.deepEqual(model.featuredProjects[0], {
+    slug: 'maya-tool',
+    title: 'Maya 工具',
+    path: 'maya-tool/',
+    techStack: ['Python', 'Maya API', 'Deadline']
+  });
+});
+
+test('keeps malformed numeric entities inert instead of aborting generation', () => {
+  const model = buildHomeModel({
+    posts: [{
+      slug: 'entity-boundary',
+      title: '实体边界',
+      excerpt: '保留 &#999999999; 并继续生成'
+    }],
+    categories: []
+  }, { scrapbook: {} });
+
+  assert.equal(model.latestPosts[0].excerpt, '保留 &#999999999; 并继续生成');
+});
+
+test('preserves configured brand and enabled service destinations', () => {
+  const model = buildHomeModel({ posts: [], categories: [] }, { scrapbook: {
+    brand: '钱钱的 Pipeline 手账',
+    tagline: '今天也在把麻烦的制作流程，变成顺手的小工具。',
+    profile: { direction: 'Maya、Unreal、Deadline、Omniverse 与数据库流程开发' },
+    visitor: { enabled: true, href: '/visitors/' },
+    comments: { enabled: true, href: '/comments/' }
+  }});
+
+  assert.equal(model.brand, '钱钱的 Pipeline 手账');
+  assert.match(model.tagline, /顺手的小工具/);
+  assert.match(model.profile.direction, /Omniverse/);
+  assert.deepEqual(model.space.visitor, { status: 'enabled', href: '/visitors/' });
+  assert.deepEqual(model.space.comments, { status: 'enabled', href: '/comments/' });
+});
