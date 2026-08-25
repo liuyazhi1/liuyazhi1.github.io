@@ -1,6 +1,7 @@
 :root {
   --sb-nav: #8f6f91;
   --sb-ink: #42374b;
+  --sb-paper-ink: #42374b;
   --sb-paper: #f3ecf2;
   --sb-lavender: #d7c7e7;
   --sb-pink: #f4cada;
@@ -37,7 +38,7 @@
   padding: 0.65rem 0.9rem;
   border: 2px solid var(--sb-focus);
   border-radius: 0.35rem;
-  color: var(--sb-ink);
+  color: var(--sb-paper-ink);
   background: var(--sb-yellow);
   font-weight: 700;
   transform: translateY(calc(-100% - 1rem));

@@ -201,7 +201,7 @@ body.scrapbook-home {
 }
 
 .profile-polaroid dt {
-  color: var(--sb-nav);
+  color: var(--sb-ink);
   font-family: Consolas, "Microsoft YaHei", monospace;
   font-size: 0.7rem;
   font-weight: 700;
@@ -274,7 +274,7 @@ body.scrapbook-home {
 
 .category-ticket small {
   grid-column: 1 / -1;
-  color: var(--sb-nav);
+  color: var(--sb-ink);
 }
 
 .scrapbook-post-notes {
@@ -292,13 +292,18 @@ body.scrapbook-home {
   gap: 0.9rem;
 }
 
+.post-note,
+.post-note a,
+.post-note time {
+  color: var(--sb-paper-ink);
+}
+
 .post-note {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.5rem 1rem;
   align-items: baseline;
   padding: 0.9rem 1rem;
-  color: var(--sb-ink);
   box-shadow: 2px 3px 0 rgb(99 74 103 / 9%);
   transform: rotate(-0.45deg);
 }
@@ -318,14 +323,12 @@ body.scrapbook-home {
 }
 
 .post-note a {
-  color: var(--sb-ink);
   font-weight: 700;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18rem;
 }
 
 .post-note time {
-  color: var(--sb-ink);
   font-family: Consolas, "Microsoft YaHei", monospace;
   font-size: 0.72rem;
   white-space: nowrap;
@@ -336,6 +339,7 @@ body.scrapbook-home {
   grid-row: 2;
   padding: 1.4rem clamp(1rem, 3vw, 2rem) 1.6rem;
   border: 0.55rem solid var(--sb-white);
+  color: var(--sb-paper-ink);
   background: var(--sb-blue);
   box-shadow: var(--sb-shadow);
   transform: rotate(-0.7deg);
@@ -375,10 +379,14 @@ body.scrapbook-home {
 .scrapbook-more-link {
   display: inline-block;
   margin-top: 1.15rem;
-  color: var(--sb-nav);
+  color: var(--sb-ink);
   font-size: 0.84rem;
   font-weight: 700;
   text-underline-offset: 0.25rem;
+}
+
+.scrapbook-project-photos .scrapbook-more-link {
+  color: var(--sb-paper-ink);
 }
 
 .scrapbook-empty {
@@ -450,7 +458,7 @@ body.scrapbook-home {
   padding: 0.4rem 0.85rem;
   border: 1px solid var(--sb-nav);
   border-radius: 999px;
-  color: var(--sb-ink);
+  color: var(--sb-paper-ink);
   background: var(--sb-pink);
   font: inherit;
   font-weight: 700;
