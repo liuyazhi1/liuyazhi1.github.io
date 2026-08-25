@@ -25,6 +25,8 @@
 }(typeof globalThis === 'undefined' ? this : globalThis, function () {
   'use strict';
 
+  const mountedDocuments = new WeakMap();
+
   function createInitialState(config = {}) {
     return {
       open: false,
@@ -65,6 +67,9 @@
   }
 
   function mountSpaceTools(document, storage) {
+    const existingController = document && mountedDocuments.get(document);
+    if (existingController) return existingController;
+
     const dock = document?.querySelector?.('[data-space-dock]');
     const panel = document?.querySelector?.('[data-space-panel]');
     if (!dock || !panel) return null;
@@ -77,10 +82,13 @@
     const scrollTopButton = document.querySelector('[data-scroll-top]');
     const liveRegion = document.querySelector('[aria-live="polite"]');
     const storedVolume = Number.parseFloat(readStorage(storage, 'scrapbook-volume'));
+    const initialVolume = Number.isFinite(storedVolume)
+      ? Math.max(0, Math.min(1, storedVolume))
+      : undefined;
     const audioSource = audio && (audio.currentSrc || audio.src || audio.getAttribute?.('src'));
     let state = createInitialState({
       tracks: audioSource ? [{ src: audioSource }] : [],
-      volume: Number.isFinite(storedVolume) ? storedVolume : undefined,
+      volume: initialVolume,
       visitorStatus: panel.dataset?.visitorStatus,
       commentsStatus: panel.dataset?.commentsStatus
     });
@@ -177,18 +185,29 @@
       announce(theme === 'dark' ? '已切换为深色主题' : '已切换为浅色主题');
     });
     on(scrollTopButton, 'click', () => {
-      document.defaultView?.scrollTo?.({ top: 0, behavior: 'smooth' });
+      const reducedMotion = document.defaultView
+        ?.matchMedia?.('(prefers-reduced-motion: reduce)')
+        ?.matches;
+      document.defaultView?.scrollTo?.({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
     });
 
     render();
     announce(state.musicStatus === 'missing' ? '音乐暂未放入' : '音乐已就绪');
 
-    return {
+    let destroyed = false;
+    const controller = {
       getState: () => ({ ...state }),
       destroy() {
+        if (destroyed) return;
+        destroyed = true;
         listeners.splice(0).forEach(remove => remove());
+        if (mountedDocuments.get(document) === controller) {
+          mountedDocuments.delete(document);
+        }
       }
     };
+    mountedDocuments.set(document, controller);
+    return controller;
   }
 
   return { createInitialState, reduceSpaceState, mountSpaceTools };

@@ -16,11 +16,12 @@ class FakeElement {
   }
 
   addEventListener(type, listener) {
-    this.listeners[type] = listener;
+    this.listeners[type] ||= [];
+    this.listeners[type].push(listener);
   }
 
   removeEventListener(type, listener) {
-    if (this.listeners[type] === listener) delete this.listeners[type];
+    this.listeners[type] = (this.listeners[type] || []).filter(candidate => candidate !== listener);
   }
 
   setAttribute(name, value) {
@@ -32,24 +33,32 @@ class FakeElement {
   }
 
   dispatch(type, event = {}) {
-    this.listeners[type]?.({ target: this, ...event });
+    (this.listeners[type] || []).slice().forEach(listener => listener({ target: this, ...event }));
   }
 }
 
-function createDomFixture() {
+function createDomFixture({ reducedMotion = false } = {}) {
   let playCalls = 0;
   let pauseCalls = 0;
-  let scrollCalls = 0;
+  const scrollOptions = [];
+  let audioVolume = 1;
+  const audio = new FakeElement({
+    src: '/music/a.mp3',
+    play() { playCalls += 1; return Promise.resolve(); },
+    pause() { pauseCalls += 1; }
+  });
+  Object.defineProperty(audio, 'volume', {
+    get() { return audioVolume; },
+    set(value) {
+      if (value < 0 || value > 1) throw new RangeError('volume must be between 0 and 1');
+      audioVolume = value;
+    }
+  });
   const elements = {
     '[data-space-dock]': new FakeElement(),
     '[data-space-panel]': new FakeElement({ hidden: true, dataset: { visitorStatus: 'disabled', commentsStatus: 'disabled' } }),
     '[data-space-close]': new FakeElement(),
-    '[data-audio]': new FakeElement({
-      src: '/music/a.mp3',
-      volume: 1,
-      play() { playCalls += 1; return Promise.resolve(); },
-      pause() { pauseCalls += 1; }
-    }),
+    '[data-audio]': audio,
     '[data-audio-toggle]': new FakeElement({ disabled: false }),
     '[data-audio-volume]': new FakeElement({ value: '0.7' }),
     '[data-theme-toggle]': new FakeElement(),
@@ -59,14 +68,25 @@ function createDomFixture() {
   const documentElement = new FakeElement({ dataset: {} });
   const document = {
     documentElement,
-    defaultView: { scrollTo() { scrollCalls += 1; } },
+    defaultView: {
+      matchMedia(query) {
+        assert.equal(query, '(prefers-reduced-motion: reduce)');
+        return { matches: reducedMotion };
+      },
+      scrollTo(options) { scrollOptions.push(options); }
+    },
     listeners: {},
     querySelector(selector) { return elements[selector] || null; },
-    addEventListener(type, listener) { this.listeners[type] = listener; },
-    removeEventListener(type, listener) {
-      if (this.listeners[type] === listener) delete this.listeners[type];
+    addEventListener(type, listener) {
+      this.listeners[type] ||= [];
+      this.listeners[type].push(listener);
     },
-    dispatch(type, event = {}) { this.listeners[type]?.(event); }
+    removeEventListener(type, listener) {
+      this.listeners[type] = (this.listeners[type] || []).filter(candidate => candidate !== listener);
+    },
+    dispatch(type, event = {}) {
+      (this.listeners[type] || []).slice().forEach(listener => listener(event));
+    }
   };
 
   return {
@@ -75,7 +95,7 @@ function createDomFixture() {
     calls: {
       get play() { return playCalls; },
       get pause() { return pauseCalls; },
-      get scroll() { return scrollCalls; }
+      get scrollOptions() { return scrollOptions.slice(); }
     }
   };
 }
@@ -148,6 +168,48 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
   mounted.destroy();
 });
 
+test('clamps an out-of-range stored volume before assigning media volume', () => {
+  const fixture = createDomFixture();
+  const storage = {
+    getItem(key) { return key === 'scrapbook-volume' ? '2' : null; },
+    setItem() {}
+  };
+
+  const mounted = mountSpaceTools(fixture.document, storage);
+  assert.equal(fixture.elements['[data-audio]'].volume, 1);
+  assert.equal(mounted.getState().volume, 1);
+  mounted.destroy();
+});
+
+test('uses non-smooth scrolling when reduced motion is requested', () => {
+  const fixture = createDomFixture({ reducedMotion: true });
+  const mounted = mountSpaceTools(fixture.document, null);
+
+  fixture.elements['[data-scroll-top]'].dispatch('click');
+  assert.deepEqual(fixture.calls.scrollOptions, [{ top: 0, behavior: 'auto' }]);
+  mounted.destroy();
+});
+
+test('returns the existing controller instead of binding duplicate listeners', async () => {
+  const fixture = createDomFixture();
+  const values = new Map();
+  const storage = {
+    getItem(key) { return values.get(key) ?? null; },
+    setItem(key, value) { values.set(key, value); }
+  };
+
+  const first = mountSpaceTools(fixture.document, storage);
+  const second = mountSpaceTools(fixture.document, storage);
+  assert.equal(second, first);
+
+  fixture.elements['[data-theme-toggle]'].dispatch('click');
+  assert.equal(fixture.document.documentElement.dataset.theme, 'dark');
+  fixture.elements['[data-audio-toggle]'].dispatch('click');
+  await Promise.resolve();
+  assert.equal(fixture.calls.play, 1);
+  first.destroy();
+});
+
 test('renders the complete dock protocol and honest missing states', () => {
   const html = renderSpaceDock({
     music: { tracks: [] },
@@ -162,6 +224,16 @@ test('renders the complete dock protocol and honest missing states', () => {
   assert.match(html, /data-audio-toggle[^>]*disabled/);
   assert.match(html, /音乐暂未放入/);
   assert.match(html, /访问统计未启用/);
+  assert.match(html, /data-visitor-entry[^>]*disabled/);
   assert.match(html, /留言板暂未启用/);
   assert.doesNotMatch(html, /autoplay/i);
+});
+
+test('renders a real visitor link only when visitor service is available', () => {
+  const html = renderSpaceDock({
+    visitor: { status: 'enabled', href: '/visitors/' }
+  });
+
+  assert.match(html, /<a[^>]*data-visitor-entry[^>]*href="\/visitors\/"[^>]*>查看访问统计<\/a>/);
+  assert.doesNotMatch(html, /data-visitor-entry[^>]*disabled/);
 });

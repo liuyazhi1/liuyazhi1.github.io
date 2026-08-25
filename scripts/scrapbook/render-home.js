@@ -118,7 +118,8 @@ function renderScrapbookGrid(model) {
 function renderSpaceDock(space = {}) {
   const music = space.music || {};
   const tracks = music.tracks || [];
-  const visitorEnabled = space.visitor?.status === 'enabled';
+  const visitor = space.visitor || {};
+  const visitorEnabled = visitor.status === 'enabled' && Boolean(visitor.href);
   const commentsEnabled = space.comments?.status === 'enabled';
   const firstTrack = tracks[0];
   const firstTrackSource = typeof firstTrack === 'string' ? firstTrack : firstTrack?.src;
@@ -128,6 +129,9 @@ function renderSpaceDock(space = {}) {
   const audio = firstTrackSource
     ? `<audio data-audio preload="none" src="${escapeHtml(firstTrackSource)}"></audio>`
     : '';
+  const visitorEntry = visitorEnabled
+    ? `<a data-visitor-entry href="${hrefFor(visitor.href)}">查看访问统计</a>`
+    : '<button type="button" data-visitor-entry disabled>查看访问统计</button>';
 
   return `<button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
   <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="${visitorEnabled ? 'enabled' : 'disabled'}" data-comments-status="${commentsEnabled ? 'enabled' : 'disabled'}" aria-label="个人空间工具盒" hidden>
@@ -142,6 +146,7 @@ function renderSpaceDock(space = {}) {
     <section aria-labelledby="visitor-title">
       <h2 id="visitor-title">访问统计</h2>
       <p>${visitorEnabled ? '访问统计已启用' : '访问统计未启用'}</p>
+      ${visitorEntry}
     </section>
     <section aria-labelledby="comments-title">
       <h2 id="comments-title">留言</h2>
