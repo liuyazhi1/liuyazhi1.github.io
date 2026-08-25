@@ -86,4 +86,4 @@
 - [x] 构建并启动本地 Hexo server。
 - [x] 运行 Playwright QA，只有实际断言通过才写 PASS。
 - [x] 运行 `npm run verify`、`git diff --check` 与最终自审。
-- [ ] 写 finding→文件→测试/QA 映射报告并提交。
+- [x] 写 finding→文件→测试/QA 映射报告并提交。
