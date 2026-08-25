@@ -32,43 +32,112 @@ async function openHome(browser, options = {}) {
 
 async function keyboardQa(browser) {
   const { context, page } = await openHome(browser);
-  const result = {};
+  const result = { focusTrace: [] };
+  const describeFocus = async (event, target = null) => {
+    const entry = await page.evaluate(({ eventName, targetSelector }) => {
+      const element = document.activeElement;
+      const tag = element?.tagName?.toLowerCase() || null;
+      const implicitRole = tag === 'a' && element.hasAttribute('href')
+        ? 'link'
+        : tag === 'button'
+          ? 'button'
+          : tag === 'input' && element.type === 'search'
+            ? 'searchbox'
+            : tag === 'input'
+              ? 'input'
+              : null;
+      const text = (element?.getAttribute?.('aria-label') || element?.textContent || element?.value || '')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .slice(0, 160);
+      return {
+        event: eventName,
+        path: location.pathname,
+        tag,
+        role: element?.getAttribute?.('role') || implicitRole,
+        ariaLabel: element?.getAttribute?.('aria-label'),
+        text,
+        href: element?.getAttribute?.('href'),
+        id: element?.id || null,
+        dataControl: [
+          'search-open',
+          'search-input',
+          'space-dock',
+          'audio-toggle',
+          'theme-toggle',
+          'scroll-top',
+          'space-close'
+        ].find(name => element?.hasAttribute?.(`data-${name}`)) || null,
+        disabled: Boolean(element?.disabled),
+        focusVisible: Boolean(element?.matches?.(':focus-visible')),
+        matchesTarget: targetSelector ? Boolean(element?.matches?.(targetSelector)) : null
+      };
+    }, { eventName: event, targetSelector: target });
+    result.focusTrace.push(entry);
+    return entry;
+  };
+  const tabUntil = async (selector, { shift = false, max = 80, label = selector } = {}) => {
+    for (let index = 1; index <= max; index += 1) {
+      await page.keyboard.press(shift ? 'Shift+Tab' : 'Tab');
+      const entry = await describeFocus(`${shift ? 'Shift+Tab' : 'Tab'} ${label} ${index}`, selector);
+      if (entry.matchesTarget) return entry;
+    }
+    throw new Error(`Keyboard traversal did not reach ${label}`);
+  };
 
-  await page.keyboard.press('Tab');
-  const skipLink = page.getByRole('link', { name: '跳到主要内容' });
-  assert.equal(await skipLink.evaluate(element => element === document.activeElement), true);
-  result.skipFocusedFirst = true;
-  await skipLink.press('Enter');
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(650);
+  const initial = await describeFocus('reload start');
+  assert.equal(initial.tag, 'body');
+
+  const skip = await tabUntil('.skip-link', { label: 'skip link' });
+  assert.equal(skip.role, 'link');
+  result.skipFocusedFirst = result.focusTrace.filter(entry => entry.event.startsWith('Tab')).length === 1;
+  assert.equal(result.skipFocusedFirst, true);
+  await page.keyboard.press('Enter');
   await page.waitForFunction(() => location.hash === '#main');
+  const afterSkip = await describeFocus('Enter skip link');
   result.skipTarget = await page.evaluate(() => location.hash);
 
-  const searchButton = page.getByRole('button', { name: '搜索' });
-  await searchButton.press('Enter');
-  const searchInput = page.getByLabel('关键词');
-  await searchInput.waitFor({ state: 'visible' });
-  assert.equal(await searchInput.evaluate(element => element === document.activeElement), true);
+  await tabUntil('[data-search-open]', {
+    shift: afterSkip.id === 'main',
+    label: 'search button'
+  });
+  await page.keyboard.press('Enter');
+  const searchOpened = await describeFocus('Enter search button', '[data-search-input]');
+  assert.equal(searchOpened.matchesTarget, true);
+  assert.equal(await page.locator('[data-search-panel]').isVisible(), true);
   result.searchOpenedWithEnter = true;
-  await searchInput.press('Escape');
-  assert.equal(await searchButton.evaluate(element => element === document.activeElement), true);
+  await page.keyboard.press('Escape');
+  const searchEscaped = await describeFocus('Escape search panel', '[data-search-open]');
+  assert.equal(searchEscaped.matchesTarget, true);
   assert.equal(await page.locator('[data-search-panel]').isHidden(), true);
   result.searchEscapeReturnedFocus = true;
 
-  const mayaTicket = page.getByRole('link', { name: 'Maya', exact: true });
+  await tabUntil('a[href="/categories/Maya/"]', { label: 'Maya ready category' });
   await Promise.all([
     page.waitForURL('**/categories/Maya/', { waitUntil: 'domcontentloaded' }),
-    mayaTicket.press('Enter')
+    page.keyboard.press('Enter')
   ]);
+  await describeFocus('Enter Maya ready category');
   result.categoryEnterPath = new URL(page.url()).pathname;
 
-  await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+  await tabUntil('a[href="/"]', { label: 'category page home link' });
+  await Promise.all([
+    page.waitForURL(url => url.pathname === '/', { waitUntil: 'domcontentloaded' }),
+    page.keyboard.press('Enter')
+  ]);
   await page.waitForTimeout(650);
-  const dock = page.getByRole('button', { name: '打开空间工具盒' });
-  await dock.press('Space');
+  await describeFocus('Enter category page home link');
+
+  await tabUntil('[data-space-dock]', { label: 'space dock' });
+  await page.keyboard.press('Space');
+  const toolboxOpened = await describeFocus('Space space dock', '[data-space-dock]');
+  assert.equal(toolboxOpened.matchesTarget, true);
   assert.equal(await page.locator('[data-space-panel]').isVisible(), true);
-  assert.equal(await dock.getAttribute('aria-expanded'), 'true');
+  assert.equal(await page.locator('[data-space-dock]').getAttribute('aria-expanded'), 'true');
   result.toolboxOpenedWithSpace = true;
 
-  const audioButton = page.locator('[data-audio-toggle]');
   const readAudioState = () => page.evaluate(() => {
     const audio = document.querySelector('[data-audio]');
     return {
@@ -78,33 +147,42 @@ async function keyboardQa(browser) {
     };
   });
   const audioBefore = await readAudioState();
-  assert.equal(await audioButton.isDisabled(), true);
-  await page.keyboard.press('Tab');
-  const disabledMusicSkipped = await page.evaluate(() => document.activeElement !== document.querySelector('[data-audio-toggle]'));
+  assert.equal(await page.locator('[data-audio-toggle]').isDisabled(), true);
+  const panelTraceStart = result.focusTrace.length;
+  await tabUntil('[data-theme-toggle]', { label: 'theme button' });
+  const panelTabTrace = result.focusTrace.slice(panelTraceStart);
+  const disabledMusicSkipped = panelTabTrace.every(entry => entry.dataControl !== 'audio-toggle');
   assert.equal(disabledMusicSkipped, true);
   const audioAfter = await readAudioState();
   assert.deepEqual(audioAfter, audioBefore);
   result.missingMusicKeyboardAttempt = { disabled: true, disabledMusicSkipped, ...audioAfter };
 
-  const themeButton = page.locator('[data-theme-toggle]');
   const themeBefore = await page.locator('html').getAttribute('data-theme');
-  await themeButton.press('Enter');
+  await page.keyboard.press('Enter');
+  await describeFocus('Enter theme button', '[data-theme-toggle]');
   const themeAfter = await page.locator('html').getAttribute('data-theme');
   assert.notEqual(themeAfter, themeBefore);
   result.themeChangedWithEnter = { before: themeBefore, after: themeAfter };
 
-  await page.keyboard.press('End');
-  await page.waitForTimeout(150);
-  const scrollBefore = await page.evaluate(() => scrollY);
+  await tabUntil('[data-scroll-top]', { label: 'return top button' });
+  let scrollBefore = await page.evaluate(() => scrollY);
+  if (scrollBefore === 0) {
+    await page.keyboard.press('End');
+    await page.waitForTimeout(150);
+    scrollBefore = await page.evaluate(() => scrollY);
+    await describeFocus('End before return top');
+  }
   assert.ok(scrollBefore > 0);
-  await page.locator('[data-scroll-top]').press('Enter');
+  await page.keyboard.press('Enter');
   await page.waitForFunction(() => scrollY === 0);
+  await describeFocus('Enter return top button', '[data-scroll-top]');
   result.returnTopWithEnter = { before: scrollBefore, after: await page.evaluate(() => scrollY) };
 
-  await page.getByRole('button', { name: '关闭工具盒' }).press('Escape');
+  await page.keyboard.press('Escape');
+  const toolboxEscaped = await describeFocus('Escape space panel', '[data-space-dock]');
+  assert.equal(toolboxEscaped.matchesTarget, true);
   assert.equal(await page.locator('[data-space-panel]').isHidden(), true);
-  assert.equal(await dock.evaluate(element => element === document.activeElement), true);
-  const dockFocus = await dock.evaluate(element => {
+  const dockFocus = await page.locator('[data-space-dock]').evaluate(element => {
     const style = getComputedStyle(element);
     return {
       focusVisible: element.matches(':focus-visible'),
@@ -115,6 +193,20 @@ async function keyboardQa(browser) {
   assert.equal(dockFocus.focusVisible, true);
   assert.notEqual(dockFocus.outlineStyle, 'none');
   result.toolboxEscapeReturnedFocus = dockFocus;
+  result.focusOrder = result.focusTrace
+    .filter(entry => entry.event.startsWith('Tab') || entry.event.startsWith('Shift+Tab'))
+    .map(({ event, path, tag, role, ariaLabel, text, href, dataControl, disabled, focusVisible }) => ({
+      event,
+      path,
+      tag,
+      role,
+      ariaLabel,
+      text,
+      href,
+      dataControl,
+      disabled,
+      focusVisible
+    }));
 
   await context.close();
   return result;
@@ -169,7 +261,7 @@ async function viewportQa(browser, viewport) {
   });
   assert.equal(closedOverlap, 0);
 
-  await page.getByRole('button', { name: '打开文章工具盒' }).press('Enter');
+  await page.getByRole('button', { name: '打开文章工具盒' }).click();
   const opened = await page.evaluate(() => {
     const panel = document.querySelector('[data-space-panel]');
     const rect = panel.getBoundingClientRect();
@@ -204,8 +296,8 @@ async function stateQa(browser) {
 
   {
     const { context, page } = await openHome(browser, { viewport: { width: 390, height: 844 } });
-    await page.getByRole('button', { name: '打开空间工具盒' }).press('Space');
-    await page.locator('[data-theme-toggle]').press('Enter');
+    await page.getByRole('button', { name: '打开空间工具盒' }).click();
+    await page.locator('[data-theme-toggle]').click();
     result.dark = await page.evaluate(() => ({
       theme: document.documentElement.dataset.theme,
       colorScheme: getComputedStyle(document.documentElement).colorScheme,
@@ -214,6 +306,7 @@ async function stateQa(browser) {
     }));
     assert.equal(result.dark.theme, 'dark');
     assert.equal(result.dark.colorScheme, 'dark');
+    await page.evaluate(() => scrollTo({ top: 0, behavior: 'auto' }));
     await page.screenshot({ path: screenshotPath('theme-dark-390x844.png') });
     await context.close();
   }
@@ -224,7 +317,7 @@ async function stateQa(browser) {
       reducedMotion: 'reduce'
     });
     await page.locator('.scrapbook-hero').hover();
-    await page.getByRole('button', { name: '搜索' }).focus();
+    await page.getByRole('button', { name: '搜索' }).click();
     result.reducedMotion = await page.evaluate(() => {
       const hero = getComputedStyle(document.querySelector('.scrapbook-hero'));
       const hovered = getComputedStyle(document.querySelector('.scrapbook-hero'));
@@ -244,7 +337,7 @@ async function stateQa(browser) {
     assert.equal(result.reducedMotion.scrollBehavior, 'auto');
     await page.screenshot({ path: screenshotPath('reduced-motion-390x844.png') });
 
-    await page.getByRole('button', { name: '打开空间工具盒' }).press('Space');
+    await page.getByRole('button', { name: '打开空间工具盒' }).click();
     await page.evaluate(() => {
       const nativeScrollTo = window.scrollTo.bind(window);
       window.__qaScrollCalls = [];
@@ -254,7 +347,7 @@ async function stateQa(browser) {
       };
     });
     await page.keyboard.press('End');
-    await page.locator('[data-scroll-top]').press('Enter');
+    await page.locator('[data-scroll-top]').click();
     result.reducedMotion.returnTop = await page.evaluate(() => window.__qaScrollCalls.at(-1));
     assert.equal(result.reducedMotion.returnTop.behavior, 'auto');
     await context.close();
@@ -270,9 +363,9 @@ async function stateQa(browser) {
     }));
     await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(650);
-    await page.getByRole('button', { name: '搜索' }).press('Enter');
+    await page.getByRole('button', { name: '搜索' }).click();
     await page.getByLabel('关键词').fill('Maya');
-    await page.getByRole('button', { name: '查找' }).press('Enter');
+    await page.getByRole('button', { name: '查找' }).click();
     const note = page.locator('[data-search-results]');
     await assert.doesNotReject(() => note.waitFor({ state: 'visible' }));
     await page.waitForFunction(() => document.querySelector('[data-search-results]').textContent.includes('暂不可用'));
@@ -284,8 +377,10 @@ async function stateQa(browser) {
 
   {
     const { context, page } = await openHome(browser, { viewport: { width: 390, height: 844 } });
-    await page.getByRole('button', { name: '打开空间工具盒' }).press('Space');
-    result.disabledServices = await page.locator('[data-space-panel]').evaluate(panel => ({
+    await page.getByRole('button', { name: '打开空间工具盒' }).click();
+    const spacePanel = page.locator('[data-space-panel]');
+    assert.equal(await spacePanel.isVisible(), true, '空间工具盒应在点击后可见');
+    result.disabledServices = await spacePanel.evaluate(panel => ({
       music: panel.querySelector('[data-audio-toggle]').textContent.trim(),
       musicDisabled: panel.querySelector('[data-audio-toggle]').disabled,
       visitor: panel.querySelector('[data-visitor-entry]').closest('section').textContent.trim(),
@@ -297,8 +392,8 @@ async function stateQa(browser) {
     assert.match(result.disabledServices.visitor, /访问统计未启用/);
     assert.match(result.disabledServices.comments, /留言板暂未启用/);
     assert.equal(result.disabledServices.autoplay, 0);
-    await page.locator('[data-space-panel]').scrollIntoViewIfNeeded();
-    await page.screenshot({ path: screenshotPath('disabled-services-390x844.png') });
+    await page.waitForTimeout(850);
+    await spacePanel.screenshot({ path: screenshotPath('disabled-services-390x844.png') });
     await context.close();
   }
 
@@ -369,6 +464,7 @@ if (require.main === module) {
         'utf8'
       );
       console.log(`PASS scrapbook QA: ${evidence.viewports.length} viewports, keyboard, reduced-motion and fallbacks`);
+      console.log(`PASS keyboard traversal: ${evidence.keyboard.focusOrder.length} Tab transitions / ${evidence.keyboard.focusTrace.length} total focus events`);
       console.log(`Evidence: ${evidenceDir}`);
     } finally {
       await browser.close();

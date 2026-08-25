@@ -31,16 +31,17 @@
 
 ## 原生键盘与焦点
 
-以下全部使用 Playwright 原生 `locator.press()` / `page.keyboard.press()` 完成，而非点击替代。
+页面 reload 后从 `document.body` 开始，以下全程只用 `page.keyboard.press('Tab')`（以及当前焦点上的 Enter/Space/Escape）完成；没有用 `locator.focus()` 或 `locator.press()` 跳到目标。完整记录见 [qa-results.json 的 `keyboard.focusTrace` / `focusOrder`](screenshots/qa-results.json)：53 个焦点事件、43 次 Tab 转移，每步均保存 path、tag、role、aria-label、text、href、disabled 与 `focus-visible`。
 
 - [x] PASS — `Tab` 首先聚焦 skip link；`Enter` 激活后 URL hash 为 `#main`。
 - [x] PASS — “搜索”按 `Enter` 打开 panel 且 input 自动获焦；input 按 `Escape` 关闭，焦点归还“搜索”。
 - [x] PASS — Maya ready 票根按 `Enter` 导航到 `/categories/Maya/`。
 - [x] PASS — dock 按 `Space` 展开工具盒；disabled 音乐按钮被 Tab 顺序跳过，音频不存在/保持 paused 且无 autoplay。
 - [x] PASS — 主题按钮按 `Enter` 从 light 切到 dark。
-- [x] PASS — `End` 后页面 `scrollY=734`；“返回顶部”按 `Enter` 后 `scrollY=0`。
+- [x] PASS — Tab 实际聚焦“返回顶部”时页面 `scrollY>0`（本次 trace 为 12）；按 `Enter` 后 `scrollY=0`。
 - [x] PASS — 工具盒内按 `Escape` 关闭 panel，焦点归还 dock；`:focus-visible=true`，轮廓为 3px solid。
 - [x] PASS — Task 4 自动测试同步断言 dock 的 `focus()` 确实被调用。
+- [x] PASS — trace 完整覆盖：首页 skip → 正文链接/ready 分类/项目/dock → 环回主导航/search；搜索关闭后继续到 Maya；分类页 Tab 到主页链接返回；再次从 body 遍历至 dock → theme → top。learning 分类与 disabled 音乐/访问/留言控件均未进入焦点顺序。
 
 ## 视觉与降级状态
 
@@ -69,3 +70,5 @@ $env:SCRAPBOOK_BASE_URL='http://127.0.0.1:44120'
 ```
 
 结果：`PASS scrapbook QA: 5 viewports, keyboard, reduced-motion and fallbacks`。
+
+键盘结果：`PASS keyboard traversal: 43 Tab transitions / 53 total focus events`。
