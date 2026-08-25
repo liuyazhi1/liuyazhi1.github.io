@@ -1,0 +1,298 @@
+{
+  "generatedAt": "2026-08-25T08:44:56.358Z",
+  "baseUrl": "http://127.0.0.1:44120",
+  "browser": {
+    "name": "playwright-chromium",
+    "version": "151.0.4129.78",
+    "executablePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  },
+  "keyPaths": [
+    {
+      "pathname": "/",
+      "status": 200,
+      "bodyClass": "scrapbook-home",
+      "layout": null,
+      "article": false,
+      "overflow": 0
+    },
+    {
+      "pathname": "/blog/",
+      "status": 200,
+      "bodyClass": "",
+      "layout": "undefined",
+      "article": false,
+      "overflow": 0
+    },
+    {
+      "pathname": "/projects/",
+      "status": 200,
+      "bodyClass": "",
+      "layout": "page",
+      "article": true,
+      "overflow": 0
+    },
+    {
+      "pathname": "/2026/07/24/ue-submit-render-farm/",
+      "status": 200,
+      "bodyClass": "",
+      "layout": "post",
+      "article": true,
+      "overflow": 0
+    },
+    {
+      "pathname": "/2026/07/23/maya-asset-batch-submit/",
+      "status": 200,
+      "bodyClass": "",
+      "layout": "post",
+      "article": true,
+      "overflow": 0
+    }
+  ],
+  "keyboard": {
+    "skipFocusedFirst": true,
+    "skipTarget": "#main",
+    "searchOpenedWithEnter": true,
+    "searchEscapeReturnedFocus": true,
+    "categoryEnterPath": "/categories/Maya/",
+    "toolboxOpenedWithSpace": true,
+    "missingMusicKeyboardAttempt": {
+      "disabled": true,
+      "disabledMusicSkipped": true,
+      "exists": false,
+      "paused": true,
+      "autoplay": false
+    },
+    "themeChangedWithEnter": {
+      "before": "light",
+      "after": "dark"
+    },
+    "returnTopWithEnter": {
+      "before": 731,
+      "after": 0
+    },
+    "toolboxEscapeReturnedFocus": {
+      "focusVisible": true,
+      "outlineStyle": "solid",
+      "outlineWidth": "3px"
+    }
+  },
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshot": "home-1440x900.png",
+      "home": {
+        "overflow": 0,
+        "tapeClear": true,
+        "domOrder": [
+          "最新笔记",
+          "学习分类",
+          "精选项目",
+          "个人档案"
+        ],
+        "readyTickets": [
+          {
+            "href": "/categories/Maya/",
+            "height": 63
+          },
+          {
+            "href": "/categories/Unreal-Engine/",
+            "height": 63
+          }
+        ],
+        "learningHasLinks": false,
+        "autoplayCount": 0
+      },
+      "article": {
+        "closedOverlap": 0,
+        "opened": {
+          "hidden": false,
+          "overlap": 0,
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "screenshot": "home-1024x768.png",
+      "home": {
+        "overflow": 0,
+        "tapeClear": true,
+        "domOrder": [
+          "最新笔记",
+          "学习分类",
+          "精选项目",
+          "个人档案"
+        ],
+        "readyTickets": [
+          {
+            "href": "/categories/Maya/",
+            "height": 63
+          },
+          {
+            "href": "/categories/Unreal-Engine/",
+            "height": 63
+          }
+        ],
+        "learningHasLinks": false,
+        "autoplayCount": 0
+      },
+      "article": {
+        "closedOverlap": 0,
+        "opened": {
+          "hidden": false,
+          "overlap": 0,
+          "position": "static"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "screenshot": "home-768x1024.png",
+      "home": {
+        "overflow": 0,
+        "tapeClear": true,
+        "domOrder": [
+          "最新笔记",
+          "学习分类",
+          "精选项目",
+          "个人档案"
+        ],
+        "readyTickets": [
+          {
+            "href": "/categories/Maya/",
+            "height": 63
+          },
+          {
+            "href": "/categories/Unreal-Engine/",
+            "height": 63
+          }
+        ],
+        "learningHasLinks": false,
+        "autoplayCount": 0
+      },
+      "article": {
+        "closedOverlap": 0,
+        "opened": {
+          "hidden": false,
+          "overlap": 0,
+          "position": "static"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "home-390x844.png",
+      "home": {
+        "overflow": 0,
+        "tapeClear": true,
+        "domOrder": [
+          "最新笔记",
+          "学习分类",
+          "精选项目",
+          "个人档案"
+        ],
+        "readyTickets": [
+          {
+            "href": "/categories/Maya/",
+            "height": 63
+          },
+          {
+            "href": "/categories/Unreal-Engine/",
+            "height": 63
+          }
+        ],
+        "learningHasLinks": false,
+        "autoplayCount": 0
+      },
+      "article": {
+        "closedOverlap": 0,
+        "opened": {
+          "hidden": false,
+          "overlap": 0,
+          "position": "static"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "screenshot": "home-320x568.png",
+      "home": {
+        "overflow": 0,
+        "tapeClear": true,
+        "domOrder": [
+          "最新笔记",
+          "学习分类",
+          "精选项目",
+          "个人档案"
+        ],
+        "readyTickets": [
+          {
+            "href": "/categories/Maya/",
+            "height": 63
+          },
+          {
+            "href": "/categories/Unreal-Engine/",
+            "height": 63
+          }
+        ],
+        "learningHasLinks": false,
+        "autoplayCount": 0
+      },
+      "article": {
+        "closedOverlap": 0,
+        "opened": {
+          "hidden": false,
+          "overlap": 0,
+          "position": "static"
+        }
+      }
+    }
+  ],
+  "states": {
+    "light": {
+      "theme": "light",
+      "paper": "rgb(243, 236, 242)",
+      "ink": "rgb(66, 55, 75)"
+    },
+    "dark": {
+      "theme": "dark",
+      "colorScheme": "dark",
+      "paper": "rgb(46, 39, 52)",
+      "ink": "rgb(245, 237, 246)"
+    },
+    "reducedMotion": {
+      "mediaMatches": true,
+      "entryAnimationDuration": "1e-05s",
+      "hoverTransitionDuration": "1e-05s",
+      "focusTransitionDuration": "1e-05s",
+      "scrollBehavior": "auto",
+      "returnTop": {
+        "top": 0,
+        "behavior": "auto"
+      }
+    },
+    "searchFailure": "搜索索引暂不可用，请浏览技术分类",
+    "disabledServices": {
+      "music": "音乐暂未放入",
+      "musicDisabled": true,
+      "visitor": "访问统计\n      访问统计未启用\n      查看访问统计",
+      "comments": "留言\n      留言板暂未启用\n      打开留言\n      切换深色主题\n      返回顶部\n      关闭工具盒",
+      "autoplay": 0
+    }
+  }
+}
