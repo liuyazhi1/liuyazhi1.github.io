@@ -41,7 +41,7 @@ function renderHero(model) {
 function renderProfile(model) {
   const profile = model.profile || {};
 
-  return `<section class="scrapbook-card scrapbook-profile" aria-labelledby="profile-title">
+  return `<section class="scrapbook-card scrapbook-profile profile-polaroid" aria-labelledby="profile-title">
     <h2 id="profile-title">个人档案</h2>
     <dl>
       <div><dt>身份</dt><dd>${escapeHtml(profile.role || '未填写')}</dd></div>
@@ -53,7 +53,7 @@ function renderProfile(model) {
 function renderCategoryTickets(model) {
   const categories = model.categories || [];
   const tickets = categories.length
-    ? categories.map(category => `<li class="scrapbook-category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
+    ? categories.map(category => `<li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
         <a href="${hrefFor(`categories/${category.name}/`)}">${escapeHtml(category.name)}</a>
         <span>${escapeHtml(category.count)} 篇</span>
         <small>${category.status === 'ready' ? '已有笔记' : '学习中'}</small>
@@ -78,7 +78,7 @@ function formatDate(value) {
 function renderPostNotes(model) {
   const posts = model.latestPosts || [];
   const notes = posts.length
-    ? posts.map(post => `<li>
+    ? posts.map(post => `<li class="post-note">
         <a href="${hrefFor(post.path)}">${escapeHtml(post.title || '未命名文章')}</a>
         <time datetime="${escapeHtml(formatDate(post.date))}">${escapeHtml(formatDate(post.date))}</time>
       </li>`).join('')
@@ -94,7 +94,7 @@ function renderPostNotes(model) {
 function renderProjectPhotos(model) {
   const projects = model.featuredProjects || [];
   const photos = projects.length
-    ? projects.map(project => `<li>
+    ? projects.map(project => `<li class="project-photo">
         <a href="${hrefFor(project.path)}">${escapeHtml(project.title || project.slug || '未命名项目')}</a>
       </li>`).join('')
     : '<li class="scrapbook-empty">精选项目正在整理</li>';
@@ -124,7 +124,7 @@ function renderSpaceDock(space = {}) {
     ? `<ul>${tracks.map(track => `<li>${escapeHtml(track.title || track.name || track)}</li>`).join('')}</ul>`
     : '<p>音乐播放列表暂未配置</p>';
 
-  return `<aside class="scrapbook-space-dock" aria-label="个人空间">
+  return `<aside class="scrapbook-space-dock space-dock" aria-label="个人空间">
     <section aria-labelledby="music-title">
       <h2 id="music-title">音乐角</h2>
       ${trackList}

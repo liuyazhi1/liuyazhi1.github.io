@@ -18,6 +18,11 @@ test('renders semantic scrapbook homepage and escapes content', () => {
   assert.match(html, /href="\/maya\/"/);
   assert.doesNotMatch(html, /<script>alert/);
   assert.match(html, /访问统计未启用/);
+  assert.match(html, /href="\/css\/scrapbook-tokens\.css"/);
+  assert.match(html, /href="\/css\/scrapbook-home\.css"/);
+  assert.match(html, /class="[^"]*profile-polaroid/);
+  assert.match(html, /class="[^"]*category-ticket/);
+  assert.match(html, /class="[^"]*space-dock/);
 });
 
 test('encodes unsafe paths before rendering href attributes', () => {
