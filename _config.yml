@@ -44,9 +44,26 @@ highlight:
   hljs: false
 
 index_generator:
-  path: ''
+  path: blog
   per_page: 10
   order_by: -date
+
+scrapbook:
+  latest_limit: 3
+  categories: [Maya, Unreal Engine, Deadline, Omniverse, 数据库]
+  featured_projects: [ue-submit-render-farm, maya-asset-batch-submit]
+  profile:
+    name: 钱钱
+    role: Pipeline TD
+    experience: 3 年流程开发经验
+  status:
+    text: 正在学习 Omniverse 与数据库
+  music:
+    tracks: []
+  visitor:
+    enabled: false
+  comments:
+    enabled: false
 
 default_category: uncategorized
 category_map:
