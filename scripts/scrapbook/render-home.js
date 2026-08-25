@@ -6,15 +6,21 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({
   '"': '&quot;'
 }[char]));
 
-const urlFor = path => '/' + String(path || '').replace(/^\/+/, '');
+const urlFor = path => '/' + String(path ?? '')
+  .replace(/^\/+/, '')
+  .split('/')
+  .map(segment => encodeURIComponent(segment))
+  .join('/');
+
+const hrefFor = path => escapeHtml(urlFor(path));
 
 function renderNavigation() {
   return `<header class="scrapbook-header">
     <nav aria-label="主导航">
-      <a href="${urlFor('')}">首页</a>
-      <a href="${urlFor('blog/')}">博客</a>
-      <a href="${urlFor('projects/')}">项目</a>
-      <a href="${urlFor('about/')}">关于</a>
+      <a href="${hrefFor('')}">首页</a>
+      <a href="${hrefFor('blog/')}">博客</a>
+      <a href="${hrefFor('projects/')}">项目</a>
+      <a href="${hrefFor('about/')}">关于</a>
     </nav>
   </header>`;
 }
@@ -48,7 +54,7 @@ function renderCategoryTickets(model) {
   const categories = model.categories || [];
   const tickets = categories.length
     ? categories.map(category => `<li class="scrapbook-category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
-        <a href="${urlFor(`categories/${category.name}/`)}">${escapeHtml(category.name)}</a>
+        <a href="${hrefFor(`categories/${category.name}/`)}">${escapeHtml(category.name)}</a>
         <span>${escapeHtml(category.count)} 篇</span>
         <small>${category.status === 'ready' ? '已有笔记' : '学习中'}</small>
       </li>`).join('')
@@ -73,7 +79,7 @@ function renderPostNotes(model) {
   const posts = model.latestPosts || [];
   const notes = posts.length
     ? posts.map(post => `<li>
-        <a href="${urlFor(post.path)}">${escapeHtml(post.title || '未命名文章')}</a>
+        <a href="${hrefFor(post.path)}">${escapeHtml(post.title || '未命名文章')}</a>
         <time datetime="${escapeHtml(formatDate(post.date))}">${escapeHtml(formatDate(post.date))}</time>
       </li>`).join('')
     : '<li class="scrapbook-empty">还没有公开文章</li>';
@@ -81,7 +87,7 @@ function renderPostNotes(model) {
   return `<section class="scrapbook-card scrapbook-post-notes" aria-labelledby="posts-title">
     <h2 id="posts-title">最新笔记</h2>
     <ol>${notes}</ol>
-    <a class="scrapbook-more-link" href="${urlFor('blog/')}">查看全部文章</a>
+    <a class="scrapbook-more-link" href="${hrefFor('blog/')}">查看全部文章</a>
   </section>`;
 }
 
@@ -89,14 +95,14 @@ function renderProjectPhotos(model) {
   const projects = model.featuredProjects || [];
   const photos = projects.length
     ? projects.map(project => `<li>
-        <a href="${urlFor(project.path)}">${escapeHtml(project.title || project.slug || '未命名项目')}</a>
+        <a href="${hrefFor(project.path)}">${escapeHtml(project.title || project.slug || '未命名项目')}</a>
       </li>`).join('')
     : '<li class="scrapbook-empty">精选项目正在整理</li>';
 
   return `<section class="scrapbook-card scrapbook-project-photos" aria-labelledby="projects-title">
     <h2 id="projects-title">精选项目</h2>
     <ul>${photos}</ul>
-    <a class="scrapbook-more-link" href="${urlFor('projects/')}">查看项目页</a>
+    <a class="scrapbook-more-link" href="${hrefFor('projects/')}">查看项目页</a>
   </section>`;
 }
 
@@ -153,6 +159,7 @@ function renderHome(model, site) {
 module.exports = {
   escapeHtml,
   urlFor,
+  hrefFor,
   renderNavigation,
   renderHero,
   renderScrapbookGrid,
