@@ -1,0 +1,195 @@
+(function (root, factory) {
+  const api = factory();
+
+  if (typeof module === 'object' && module.exports) {
+    module.exports = api;
+    return;
+  }
+
+  root.ScrapbookSpace = api;
+  const mount = () => {
+    let storage = null;
+    try {
+      storage = root.localStorage;
+    } catch {
+      // Storage can be unavailable in privacy-restricted browser contexts.
+    }
+    api.mountSpaceTools(root.document, storage);
+  };
+
+  if (root.document?.readyState === 'loading') {
+    root.document.addEventListener('DOMContentLoaded', mount, { once: true });
+  } else if (root.document) {
+    mount();
+  }
+}(typeof globalThis === 'undefined' ? this : globalThis, function () {
+  'use strict';
+
+  function createInitialState(config = {}) {
+    return {
+      open: false,
+      playing: false,
+      trackIndex: 0,
+      volume: Number.isFinite(config.volume) ? config.volume : 0.7,
+      musicStatus: config.tracks?.length ? 'ready' : 'missing',
+      visitorStatus: config.visitorStatus || 'disabled',
+      commentsStatus: config.commentsStatus || 'disabled'
+    };
+  }
+
+  function reduceSpaceState(state, event) {
+    if (event.type === 'OPEN_PANEL') return { ...state, open: true };
+    if (event.type === 'CLOSE_PANEL') return { ...state, open: false };
+    if (event.type === 'PLAY' && state.musicStatus === 'ready') return { ...state, playing: true };
+    if (event.type === 'PAUSE') return { ...state, playing: false };
+    if (event.type === 'SET_VOLUME') {
+      return { ...state, volume: Math.max(0, Math.min(1, event.value)) };
+    }
+    return state;
+  }
+
+  function readStorage(storage, key) {
+    try {
+      return storage?.getItem(key) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeStorage(storage, key, value) {
+    try {
+      storage?.setItem(key, value);
+    } catch {
+      // The UI remains usable when storage is unavailable or full.
+    }
+  }
+
+  function mountSpaceTools(document, storage) {
+    const dock = document?.querySelector?.('[data-space-dock]');
+    const panel = document?.querySelector?.('[data-space-panel]');
+    if (!dock || !panel) return null;
+
+    const closeButton = document.querySelector('[data-space-close]');
+    const audio = document.querySelector('[data-audio]');
+    const audioButton = document.querySelector('[data-audio-toggle]');
+    const volumeInput = document.querySelector('[data-audio-volume]');
+    const themeButton = document.querySelector('[data-theme-toggle]');
+    const scrollTopButton = document.querySelector('[data-scroll-top]');
+    const liveRegion = document.querySelector('[aria-live="polite"]');
+    const storedVolume = Number.parseFloat(readStorage(storage, 'scrapbook-volume'));
+    const audioSource = audio && (audio.currentSrc || audio.src || audio.getAttribute?.('src'));
+    let state = createInitialState({
+      tracks: audioSource ? [{ src: audioSource }] : [],
+      volume: Number.isFinite(storedVolume) ? storedVolume : undefined,
+      visitorStatus: panel.dataset?.visitorStatus,
+      commentsStatus: panel.dataset?.commentsStatus
+    });
+    const listeners = [];
+
+    const announce = message => {
+      if (liveRegion) liveRegion.textContent = message;
+    };
+
+    const render = () => {
+      panel.hidden = !state.open;
+      dock.setAttribute('aria-expanded', String(state.open));
+      audioButton?.setAttribute('aria-pressed', String(state.playing));
+      if (audioButton) {
+        audioButton.disabled = state.musicStatus !== 'ready';
+        audioButton.textContent = state.musicStatus === 'missing'
+          ? '音乐暂未放入'
+          : state.playing ? '暂停' : '播放';
+      }
+      if (audio) audio.volume = state.volume;
+      if (volumeInput) volumeInput.value = String(state.volume);
+    };
+
+    const dispatch = event => {
+      state = reduceSpaceState(state, event);
+      render();
+    };
+
+    const on = (target, type, listener) => {
+      if (!target?.addEventListener) return;
+      target.addEventListener(type, listener);
+      listeners.push(() => target.removeEventListener?.(type, listener));
+    };
+
+    const closePanel = () => {
+      dispatch({ type: 'CLOSE_PANEL' });
+      dock.focus?.();
+    };
+
+    const storedTheme = readStorage(storage, 'scrapbook-theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      document.documentElement.dataset.theme = storedTheme;
+    }
+    const currentTheme = () => document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    themeButton?.setAttribute('aria-pressed', String(currentTheme() === 'dark'));
+
+    on(dock, 'click', () => {
+      dispatch({ type: state.open ? 'CLOSE_PANEL' : 'OPEN_PANEL' });
+    });
+    on(closeButton, 'click', closePanel);
+    on(document, 'keydown', event => {
+      if (event.key === 'Escape' && state.open) closePanel();
+    });
+    on(audioButton, 'click', () => {
+      if (state.musicStatus !== 'ready' || !audio) return;
+      if (state.playing) {
+        audio.pause();
+        dispatch({ type: 'PAUSE' });
+        announce('音乐已暂停');
+        return;
+      }
+
+      dispatch({ type: 'PLAY' });
+      try {
+        const playResult = audio.play();
+        if (playResult?.catch) {
+          playResult.catch(() => {
+            dispatch({ type: 'PAUSE' });
+            announce('音乐无法播放');
+          });
+        }
+        announce('音乐正在播放');
+      } catch {
+        dispatch({ type: 'PAUSE' });
+        announce('音乐无法播放');
+      }
+    });
+    on(audio, 'ended', () => {
+      dispatch({ type: 'PAUSE' });
+      announce('音乐播放结束');
+    });
+    on(volumeInput, 'input', event => {
+      const volume = Number.parseFloat(event.target.value);
+      if (!Number.isFinite(volume)) return;
+      dispatch({ type: 'SET_VOLUME', value: volume });
+      writeStorage(storage, 'scrapbook-volume', String(state.volume));
+      announce(`音量 ${Math.round(state.volume * 100)}%`);
+    });
+    on(themeButton, 'click', () => {
+      const theme = currentTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = theme;
+      themeButton.setAttribute('aria-pressed', String(theme === 'dark'));
+      writeStorage(storage, 'scrapbook-theme', theme);
+      announce(theme === 'dark' ? '已切换为深色主题' : '已切换为浅色主题');
+    });
+    on(scrollTopButton, 'click', () => {
+      document.defaultView?.scrollTo?.({ top: 0, behavior: 'smooth' });
+    });
+
+    render();
+    announce(state.musicStatus === 'missing' ? '音乐暂未放入' : '音乐已就绪');
+
+    return {
+      getState: () => ({ ...state }),
+      destroy() {
+        listeners.splice(0).forEach(remove => remove());
+      }
+    };
+  }
+
+  return { createInitialState, reduceSpaceState, mountSpaceTools };
+}));

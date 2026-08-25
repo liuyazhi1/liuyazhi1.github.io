@@ -120,15 +120,24 @@ function renderSpaceDock(space = {}) {
   const tracks = music.tracks || [];
   const visitorEnabled = space.visitor?.status === 'enabled';
   const commentsEnabled = space.comments?.status === 'enabled';
+  const firstTrack = tracks[0];
+  const firstTrackSource = typeof firstTrack === 'string' ? firstTrack : firstTrack?.src;
   const trackList = tracks.length
-    ? `<ul>${tracks.map(track => `<li>${escapeHtml(track.title || track.name || track)}</li>`).join('')}</ul>`
-    : '<p>音乐播放列表暂未配置</p>';
+    ? `<ul>${tracks.map(track => `<li>${escapeHtml(track.title || track.name || track.src || track)}</li>`).join('')}</ul>`
+    : '<p>音乐暂未放入</p>';
+  const audio = firstTrackSource
+    ? `<audio data-audio preload="none" src="${escapeHtml(firstTrackSource)}"></audio>`
+    : '';
 
-  return `<aside class="scrapbook-space-dock space-dock" aria-label="个人空间">
+  return `<button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
+  <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="${visitorEnabled ? 'enabled' : 'disabled'}" data-comments-status="${commentsEnabled ? 'enabled' : 'disabled'}" aria-label="个人空间工具盒" hidden>
     <section aria-labelledby="music-title">
       <h2 id="music-title">音乐角</h2>
       ${trackList}
-      <button type="button" aria-label="播放或暂停音乐">播放</button>
+      ${audio}
+      <button type="button" data-audio-toggle aria-pressed="false" ${tracks.length ? '' : 'disabled'}>${tracks.length ? '播放' : '音乐暂未放入'}</button>
+      <label>音量 <input type="range" data-audio-volume min="0" max="1" step="0.05" value="0.7" ${tracks.length ? '' : 'disabled'}></label>
+      <p aria-live="polite">${tracks.length ? '音乐已就绪' : '音乐暂未放入'}</p>
     </section>
     <section aria-labelledby="visitor-title">
       <h2 id="visitor-title">访问统计</h2>
@@ -136,8 +145,11 @@ function renderSpaceDock(space = {}) {
     </section>
     <section aria-labelledby="comments-title">
       <h2 id="comments-title">留言</h2>
-      <p>${commentsEnabled ? '评论服务已启用' : '评论未启用'}</p>
+      <p>${commentsEnabled ? '留言板已启用' : '留言板暂未启用'}</p>
       <button type="button" ${commentsEnabled ? '' : 'disabled'}>打开留言</button>
+      <button type="button" data-theme-toggle aria-pressed="false">切换深色主题</button>
+      <button type="button" data-scroll-top>返回顶部</button>
+      <button type="button" data-space-close>关闭工具盒</button>
     </section>
   </aside>`;
 }
