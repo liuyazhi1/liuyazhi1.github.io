@@ -41,6 +41,10 @@ class FakeElement {
     return child;
   }
 
+  focus() {
+    this.focused = true;
+  }
+
   dispatch(type, event = {}) {
     (this.listeners[type] || []).slice().forEach(listener => listener({ target: this, ...event }));
   }
@@ -173,6 +177,7 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
   fixture.document.dispatch('keydown', { key: 'Escape' });
   assert.equal(fixture.elements['[data-space-panel]'].hidden, true);
   assert.equal(fixture.elements['[data-space-dock]'].getAttribute('aria-expanded'), 'false');
+  assert.equal(fixture.elements['[data-space-dock]'].focused, true);
 
   mounted.destroy();
 });

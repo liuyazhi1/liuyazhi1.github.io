@@ -169,6 +169,23 @@
   opacity: 0.58;
 }
 
+@media (max-width: 1199.98px) {
+  .l_body.content[layout="post"] .scrapbook-article-tools-toggle,
+  .l_body.content[layout="post"] .scrapbook-article-tools {
+    position: static;
+    width: min(100% - 2rem, 48rem);
+    margin: 1rem auto;
+  }
+
+  .l_body.content[layout="post"] .scrapbook-article-tools-toggle {
+    display: block;
+  }
+
+  .l_body.content[layout="post"] .scrapbook-article-tools {
+    max-height: none;
+  }
+}
+
 @media (max-width: 667px) {
   .l_body.content[layout="post"] {
     display: block;

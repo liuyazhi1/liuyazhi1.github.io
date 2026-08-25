@@ -128,10 +128,10 @@ function renderProjectPhotos(model) {
 
 function renderScrapbookGrid(model) {
   return `<div class="scrapbook-grid">
-    ${renderProfile(model)}
-    ${renderCategoryTickets(model)}
     ${renderPostNotes(model)}
+    ${renderCategoryTickets(model)}
     ${renderProjectPhotos(model)}
+    ${renderProfile(model)}
   </div>`;
 }
 

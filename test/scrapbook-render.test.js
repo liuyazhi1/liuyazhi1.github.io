@@ -25,7 +25,7 @@ test('renders semantic scrapbook homepage and escapes content', () => {
     status: { text: '学习中' },
     categories: [{ name: 'Maya', count: 1, status: 'ready' }],
     latestPosts: [{ title: '<script>alert(1)</script>', path: 'maya/', date: new Date('2026-07-23') }],
-    featuredProjects: [],
+    featuredProjects: [{ title: 'Maya 资产工具', path: 'projects/maya-asset-tool/' }],
     space: { music: { tracks: [] }, visitor: { status: 'disabled' }, comments: { status: 'disabled' } }
   }, { title: '钱钱的博客', root: '/' });
 
@@ -39,7 +39,25 @@ test('renders semantic scrapbook homepage and escapes content', () => {
   assert.match(html, /href="\/css\/scrapbook-home\.css"/);
   assert.match(html, /class="[^"]*profile-polaroid/);
   assert.match(html, /class="[^"]*category-ticket/);
+  assert.match(html, /<li class="project-photo">\s*<a href="\/projects\/maya-asset-tool\/">Maya 资产工具<\/a>/);
   assert.match(html, /class="[^"]*space-dock/);
+  assert.ok(
+    html.indexOf('scrapbook-post-notes') < html.indexOf('scrapbook-categories')
+      && html.indexOf('scrapbook-categories') < html.indexOf('scrapbook-project-photos')
+      && html.indexOf('scrapbook-project-photos') < html.indexOf('profile-polaroid'),
+    'mobile DOM order keeps articles, categories, projects, then profile'
+  );
+});
+
+test('keeps note and project fixtures attached to their visual CSS contracts', () => {
+  const homeCss = readFileSync(join(__dirname, '../source/css/scrapbook-home.css'), 'utf8');
+  const articleCss = readFileSync(join(__dirname, '../source/css/scrapbook-article.css'), 'utf8');
+
+  assert.match(homeCss, /\.post-note\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto;/s);
+  assert.match(homeCss, /\.post-note:nth-child\(3n \+ 2\)\s*\{[^}]*background:\s*var\(--sb-pink\);/s);
+  assert.match(homeCss, /\.project-photo\s*\{[^}]*min-height:\s*6\.5rem;[^}]*border:\s*0\.4rem solid var\(--sb-white\);/s);
+  assert.match(homeCss, /\.project-photo a\s*\{[^}]*display:\s*grid;[^}]*min-height:\s*4\.8rem;/s);
+  assert.match(articleCss, /@media \(max-width:\s*1199\.98px\)\s*\{[\s\S]*?\.scrapbook-article-tools-toggle,[\s\S]*?\.scrapbook-article-tools\s*\{[^}]*position:\s*static;/s);
 });
 
 test('encodes unsafe paths before rendering href attributes', () => {
