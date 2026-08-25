@@ -7,7 +7,8 @@
   }
 
   root.ScrapbookSpace = api;
-  let controller = null;
+  let spaceController = null;
+  let searchController = null;
   const mount = () => {
     let storage = null;
     try {
@@ -15,9 +16,11 @@
     } catch {
       // Storage can be unavailable in privacy-restricted browser contexts.
     }
-    controller?.destroy();
+    spaceController?.destroy();
+    searchController?.destroy();
     api.mountArticleTools(root.document);
-    controller = api.mountSpaceTools(root.document, storage);
+    spaceController = api.mountSpaceTools(root.document, storage);
+    searchController = api.mountSearch(root.document);
   };
 
   if (root.document?.readyState === 'loading') {
@@ -30,6 +33,150 @@
   'use strict';
 
   const mountedDocuments = new WeakMap();
+  const mountedSearchDocuments = new WeakMap();
+
+  function filterSearchEntries(entries, query, limit = 8) {
+    const needle = String(query ?? '').trim().toLocaleLowerCase();
+    if (!needle || !Array.isArray(entries)) return [];
+
+    return entries.filter(entry => {
+      const title = String(entry?.title ?? '').toLocaleLowerCase();
+      const content = String(entry?.content ?? '').toLocaleLowerCase();
+      return title.includes(needle) || content.includes(needle);
+    }).slice(0, limit);
+  }
+
+  function localSearchPath(path) {
+    const value = String(path ?? '').trim().replace(/^\/+/, '');
+    return `/${value}`;
+  }
+
+  function mountSearch(document, fetchImpl) {
+    const existingController = document && mountedSearchDocuments.get(document);
+    if (existingController) return existingController;
+
+    const openButton = document?.querySelector?.('[data-search-open]');
+    const panel = document?.querySelector?.('[data-search-panel]');
+    const form = document?.querySelector?.('[data-search-form]');
+    const input = document?.querySelector?.('[data-search-input]');
+    const results = document?.querySelector?.('[data-search-results]');
+    const closeButton = document?.querySelector?.('[data-search-close]');
+    if (!openButton || !panel || !form || !input || !results || !closeButton) return null;
+
+    const request = fetchImpl || document.defaultView?.fetch?.bind(document.defaultView);
+    const listeners = [];
+    let indexEntries = null;
+    let indexPromise = null;
+    let indexFailed = false;
+
+    const on = (target, type, listener) => {
+      if (!target?.addEventListener) return;
+      target.addEventListener(type, listener);
+      listeners.push(() => target.removeEventListener?.(type, listener));
+    };
+
+    const showIndexFailure = () => {
+      indexFailed = true;
+      results.textContent = '搜索索引暂不可用，请浏览技术分类';
+    };
+
+    const loadIndex = () => {
+      if (indexEntries) return Promise.resolve(indexEntries);
+      if (indexPromise) return indexPromise;
+      if (typeof request !== 'function') {
+        showIndexFailure();
+        return Promise.resolve(null);
+      }
+
+      results.textContent = '正在加载搜索索引…';
+      try {
+        indexPromise = Promise.resolve(request('/search.json'))
+          .then(response => {
+            if (!response || response.ok === false || typeof response.json !== 'function') {
+              throw new Error('invalid search response');
+            }
+            return response.json();
+          })
+          .then(entries => {
+            if (!Array.isArray(entries)) throw new Error('invalid search index');
+            indexEntries = entries;
+            indexFailed = false;
+            results.textContent = '输入关键词，按标题与正文查找笔记';
+            return entries;
+          })
+          .catch(() => {
+            showIndexFailure();
+            return null;
+          });
+      } catch {
+        showIndexFailure();
+        indexPromise = Promise.resolve(null);
+      }
+      return indexPromise;
+    };
+
+    const renderMatches = matches => {
+      results.textContent = '';
+      if (!matches.length) {
+        results.textContent = '没有找到匹配笔记';
+        return;
+      }
+
+      const list = document.createElement('ol');
+      matches.forEach(entry => {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = localSearchPath(entry.path);
+        link.textContent = String(entry.title || '未命名文章');
+        item.appendChild(link);
+        list.appendChild(item);
+      });
+      results.appendChild(list);
+    };
+
+    const closePanel = () => {
+      panel.hidden = true;
+      openButton.setAttribute('aria-expanded', 'false');
+      openButton.focus?.();
+    };
+
+    on(openButton, 'click', () => {
+      panel.hidden = false;
+      openButton.setAttribute('aria-expanded', 'true');
+      input.focus?.();
+      loadIndex();
+    });
+    on(closeButton, 'click', closePanel);
+    on(form, 'submit', async event => {
+      event.preventDefault();
+      const query = String(input.value ?? '').trim();
+      if (!query) {
+        if (!indexFailed) results.textContent = '请输入关键词后搜索';
+        return;
+      }
+
+      const entries = indexEntries || await loadIndex();
+      if (!entries) return;
+      renderMatches(filterSearchEntries(entries, query));
+    });
+    on(document, 'keydown', event => {
+      if (event.key === 'Escape' && !panel.hidden) closePanel();
+    });
+
+    let destroyed = false;
+    const controller = {
+      destroy() {
+        if (destroyed) return;
+        destroyed = true;
+        listeners.splice(0).forEach(remove => remove());
+        if (mountedSearchDocuments.get(document) === controller) {
+          mountedSearchDocuments.delete(document);
+        }
+      }
+    };
+    mountedSearchDocuments.set(document, controller);
+    return controller;
+  }
 
   function createInitialState(config = {}) {
     return {
@@ -314,6 +461,8 @@
   return {
     createInitialState,
     reduceSpaceState,
+    filterSearchEntries,
+    mountSearch,
     shouldMountArticleTools,
     mountArticleTools,
     mountSpaceTools

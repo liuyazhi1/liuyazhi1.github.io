@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 const { renderHome } = require('../scripts/scrapbook/render-home');
+const { filterSearchEntries, mountSearch } = require('../source/js/scrapbook-space');
 
 const relativeLuminance = hex => {
   const channels = hex.match(/[a-f\d]{2}/gi).map(channel => parseInt(channel, 16) / 255);
@@ -55,6 +56,147 @@ test('encodes unsafe paths before rendering href attributes', () => {
   assert.match(html, /href="\/x%22%20onclick%3D%22alert\(1\)"/);
   assert.match(html, /href="\/categories\/x%22%20onclick%3D%22alert\(1\)\//);
   assert.doesNotMatch(html, /href="[^\"]*"\s+onclick=/);
+});
+
+test('renders encoded category links and honest learning states', () => {
+  const html = renderHome({
+    categories: [
+      { name: 'Unreal Engine', count: 1, status: 'ready', path: 'categories/Unreal-Engine/' },
+      { name: '数据库', count: 0, status: 'learning' }
+    ],
+    featuredProjects: [],
+    space: {}
+  }, { title: '分类测试' });
+
+  assert.match(html, /href="\/categories\/Unreal-Engine\/"[^>]*>Unreal Engine<\/a>/);
+  assert.match(html, /href="\/categories\/%E6%95%B0%E6%8D%AE%E5%BA%93\/"[^>]*aria-disabled="true"[^>]*>数据库<\/a>/);
+  assert.doesNotMatch(html, /href=""[^>]*>数据库<\/a>/);
+  assert.match(html, /项目整理中/);
+});
+
+test('renders an accessible local search panel', () => {
+  const html = renderHome({ space: {} }, { title: '搜索测试' });
+
+  assert.match(html, /<button[^>]*type="button"[^>]*data-search-open[^>]*aria-controls="search-panel"/);
+  assert.match(html, /<section[^>]*id="search-panel"[^>]*data-search-panel[^>]*hidden/);
+  assert.match(html, /<input[^>]*type="search"[^>]*data-search-input/);
+  assert.match(html, /data-search-results[^>]*aria-live="polite"/);
+  assert.match(html, /<button[^>]*type="button"[^>]*data-search-close/);
+});
+
+test('filters local search by title and body, caps results, and ignores an empty query', () => {
+  const entries = Array.from({ length: 10 }, (_, index) => ({
+    title: index === 0 ? 'Maya 工具' : `文章 ${index}`,
+    content: `Pipeline Maya 正文 ${index}`,
+    path: `/post-${index}/`
+  }));
+
+  assert.deepEqual(filterSearchEntries(entries, '   '), []);
+  assert.equal(filterSearchEntries(entries, 'maya').length, 8);
+  assert.equal(filterSearchEntries(entries, '工具')[0].title, 'Maya 工具');
+});
+
+test('keeps empty search local and shows the explicit index failure note', async () => {
+  const elements = new Map();
+  const makeElement = properties => ({
+    attributes: {},
+    listeners: {},
+    ...properties,
+    setAttribute(name, value) { this.attributes[name] = String(value); },
+    addEventListener(type, listener) { this.listeners[type] = listener; },
+    removeEventListener(type) { delete this.listeners[type]; },
+    focus() { this.focused = true; },
+    dispatch(type, event = {}) {
+      this.listeners[type]?.({ preventDefault() { event.prevented = true; }, target: this, ...event });
+      return event;
+    }
+  });
+  const open = makeElement({});
+  const panel = makeElement({ hidden: true });
+  const form = makeElement({});
+  const input = makeElement({ value: '' });
+  const results = makeElement({ textContent: '' });
+  const close = makeElement({});
+  elements.set('[data-search-open]', open);
+  elements.set('[data-search-panel]', panel);
+  elements.set('[data-search-form]', form);
+  elements.set('[data-search-input]', input);
+  elements.set('[data-search-results]', results);
+  elements.set('[data-search-close]', close);
+  const document = {
+    listeners: {},
+    querySelector(selector) { return elements.get(selector) || null; },
+    addEventListener(type, listener) { this.listeners[type] = listener; },
+    removeEventListener(type) { delete this.listeners[type]; }
+  };
+  const controller = mountSearch(document, async () => { throw new Error('offline'); });
+
+  open.dispatch('click');
+  const submitEvent = form.dispatch('submit');
+  await new Promise(resolve => setImmediate(resolve));
+
+  assert.equal(submitEvent.prevented, true);
+  assert.equal(panel.hidden, false);
+  assert.equal(results.textContent, '搜索索引暂不可用，请浏览技术分类');
+  document.listeners.keydown({ key: 'Escape' });
+  assert.equal(panel.hidden, true);
+  assert.equal(open.focused, true);
+  controller.destroy();
+});
+
+test('mounts local search once and renders at most eight fetched matches', async () => {
+  const makeElement = properties => ({
+    attributes: {},
+    listeners: {},
+    children: [],
+    textContent: '',
+    ...properties,
+    setAttribute(name, value) { this.attributes[name] = String(value); },
+    addEventListener(type, listener) { this.listeners[type] = listener; },
+    removeEventListener(type) { delete this.listeners[type]; },
+    appendChild(child) { this.children.push(child); return child; },
+    focus() {},
+    dispatch(type, event = {}) {
+      this.listeners[type]?.({ preventDefault() {}, target: this, ...event });
+    }
+  });
+  const elements = {
+    '[data-search-open]': makeElement({}),
+    '[data-search-panel]': makeElement({ hidden: true }),
+    '[data-search-form]': makeElement({}),
+    '[data-search-input]': makeElement({ value: '' }),
+    '[data-search-results]': makeElement({}),
+    '[data-search-close]': makeElement({})
+  };
+  const document = {
+    listeners: {},
+    querySelector(selector) { return elements[selector] || null; },
+    createElement(tagName) { return makeElement({ tagName }); },
+    addEventListener(type, listener) { this.listeners[type] = listener; },
+    removeEventListener(type) { delete this.listeners[type]; }
+  };
+  const entries = Array.from({ length: 10 }, (_, index) => ({
+    title: `Maya ${index}`,
+    content: 'Pipeline',
+    path: `/maya-${index}/`
+  }));
+  const fetchIndex = async path => {
+    assert.equal(path, '/search.json');
+    return { ok: true, async json() { return entries; } };
+  };
+
+  const controller = mountSearch(document, fetchIndex);
+  assert.equal(mountSearch(document, fetchIndex), controller);
+  elements['[data-search-open]'].dispatch('click');
+  await new Promise(resolve => setImmediate(resolve));
+  elements['[data-search-input]'].value = 'maya';
+  elements['[data-search-form]'].dispatch('submit');
+  await new Promise(resolve => setImmediate(resolve));
+
+  const list = elements['[data-search-results]'].children[0];
+  assert.equal(list.children.length, 8);
+  assert.equal(list.children[0].children[0].href, '/maya-0/');
+  controller.destroy();
 });
 
 test('keeps scrapbook surface text readable in the dark theme', () => {

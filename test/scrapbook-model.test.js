@@ -4,8 +4,8 @@ const { buildHomeModel } = require('../scripts/scrapbook/model');
 
 test('builds honest homepage data and keeps configured ordering', () => {
   const locals = {
-    posts: [{ slug: 'maya', title: 'Maya 工具', date: new Date('2026-07-23'), path: 'maya/' }],
-    categories: [{ name: 'Maya', length: 1 }]
+    posts: [{ slug: 'maya', title: 'Maya 工具', date: new Date('2026-07-23'), path: 'maya/', content: '不应进入首页模型' }],
+    categories: [{ name: 'Maya', length: 1, path: 'categories/Maya/' }]
   };
   const config = { scrapbook: {
     categories: ['Maya', 'Unreal', 'Omniverse', '数据库'],
@@ -19,8 +19,26 @@ test('builds honest homepage data and keeps configured ordering', () => {
     ['Maya', 1], ['Unreal', 0], ['Omniverse', 0], ['数据库', 0]
   ]);
   assert.equal(model.categories[1].status, 'learning');
-  assert.equal(model.featuredProjects[0].slug, 'maya');
+  assert.equal(model.categories[0].path, 'categories/Maya/');
+  assert.equal(model.categories[3].path, 'categories/数据库/');
+  assert.deepEqual(model.featuredProjects[0], { slug: 'maya', title: 'Maya 工具', path: 'maya/' });
   assert.equal(model.space.visitor.status, 'disabled');
+});
+
+test('keeps learning categories honest and omits missing featured projects', () => {
+  const model = buildHomeModel({
+    posts: [{ slug: 'real-project', title: '真实项目', indexing: true }],
+    categories: [{ name: 'Maya', length: 0 }]
+  }, { scrapbook: {
+    categories: ['Maya', '数据库'],
+    featured_projects: ['missing-project']
+  }});
+
+  assert.deepEqual(model.categories, [
+    { name: 'Maya', count: 0, status: 'ready', path: 'categories/Maya/' },
+    { name: '数据库', count: 0, status: 'learning', path: 'categories/数据库/' }
+  ]);
+  assert.deepEqual(model.featuredProjects, []);
 });
 
 test('sorts public posts by date and applies the latest-post limit', () => {

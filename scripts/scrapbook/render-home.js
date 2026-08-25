@@ -21,8 +21,22 @@ function renderNavigation() {
       <a href="${hrefFor('blog/')}">博客</a>
       <a href="${hrefFor('projects/')}">项目</a>
       <a href="${hrefFor('about/')}">关于</a>
+      <button type="button" data-search-open aria-controls="search-panel" aria-expanded="false">搜索</button>
     </nav>
   </header>`;
+}
+
+function renderSearchPanel() {
+  return `<section id="search-panel" data-search-panel aria-labelledby="search-title" hidden>
+    <h2 id="search-title">搜索手账</h2>
+    <form data-search-form role="search">
+      <label for="scrapbook-search-input">关键词</label>
+      <input id="scrapbook-search-input" type="search" data-search-input autocomplete="off">
+      <button type="submit">查找</button>
+    </form>
+    <div data-search-results aria-live="polite">输入关键词，按标题与正文查找笔记</div>
+    <button type="button" data-search-close>关闭搜索</button>
+  </section>`;
 }
 
 function renderHero(model) {
@@ -54,7 +68,7 @@ function renderCategoryTickets(model) {
   const categories = model.categories || [];
   const tickets = categories.length
     ? categories.map(category => `<li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
-        <a href="${hrefFor(`categories/${category.name}/`)}">${escapeHtml(category.name)}</a>
+        <a href="${hrefFor(category.path || `categories/${category.name}/`)}"${category.status === 'ready' ? '' : ' aria-disabled="true" tabindex="-1"'}>${escapeHtml(category.name)}</a>
         <span>${escapeHtml(category.count)} 篇</span>
         <small>${category.status === 'ready' ? '已有笔记' : '学习中'}</small>
       </li>`).join('')
@@ -97,7 +111,7 @@ function renderProjectPhotos(model) {
     ? projects.map(project => `<li class="project-photo">
         <a href="${hrefFor(project.path)}">${escapeHtml(project.title || project.slug || '未命名项目')}</a>
       </li>`).join('')
-    : '<li class="scrapbook-empty">精选项目正在整理</li>';
+    : '<li class="scrapbook-empty">项目整理中</li>';
 
   return `<section class="scrapbook-card scrapbook-project-photos" aria-labelledby="projects-title">
     <h2 id="projects-title">精选项目</h2>
@@ -169,7 +183,7 @@ function renderHome(model, site) {
   <link rel="stylesheet" href="/css/scrapbook-tokens.css">
   <link rel="stylesheet" href="/css/scrapbook-home.css"></head>
   <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
-  ${renderNavigation(safeSite)}<main id="main">${renderHero(safeModel)}${renderScrapbookGrid(safeModel)}</main>
+  ${renderNavigation(safeSite)}${renderSearchPanel()}<main id="main">${renderHero(safeModel)}${renderScrapbookGrid(safeModel)}</main>
   ${renderSpaceDock(safeModel.space)}<script src="/js/scrapbook-space.js" defer></script></body></html>`;
 }
 
@@ -178,6 +192,7 @@ module.exports = {
   urlFor,
   hrefFor,
   renderNavigation,
+  renderSearchPanel,
   renderHero,
   renderScrapbookGrid,
   renderProfile,

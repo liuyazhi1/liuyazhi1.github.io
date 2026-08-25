@@ -7,19 +7,19 @@ menu_id: project
 
 # 项目展示
 
-这里展示了我参与开发的一些项目，包括个人作品和开源贡献。
+这里收录可以在本站核对设计背景、流程边界与当前完成度的 Pipeline 实践。相关生产代码与演示目前不对外提供，因此仅保留文章入口与已记录的实现说明。
 
-## 🚀 个人项目
+## 🚀 Pipeline 工具实践
 
-### 1. 个人博客系统
-- **技术栈**: Hexo + Stellar Theme
-- **描述**: 基于 Hexo 搭建的个人技术博客，支持文章管理、分类标签、搜索等功能
-- **链接**: [GitHub](https://github.com/liuyazhi1/liuyazhi1.github.io)
+### 1. UE Movie Render Pipeline 提交面板
+- **技术栈**: Unreal Engine + Movie Render Pipeline + AWS Deadline
+- **描述**: 在 UE 内提供独立提交面板，把 Movie Render Pipeline 渲染封装为 Deadline 命令行作业；文章同时标明尚待补充的参数与界面细节。
+- **项目记录**: [查看实践文章](/2026/07/24/ue-submit-render-farm/)
 
-### 2. Maya 绑定工具集
-- **技术栈**: Python + Maya API
-- **描述**: 用于 Maya 角色绑定的工具集，提高绑定效率
-- **链接**: [GitHub](https://github.com/liuyazhi1/maya-rig-tools)
+### 2. Maya 资产批量提交工具
+- **技术栈**: Python + Maya + AWS Deadline + Alembic + JSON
+- **描述**: 记录资产预处理、模型与材质两阶段提交，以及通过 Alembic 和材质 JSON 还原关联的流程；文章明确列出仍待脚本核验的实现细节。
+- **项目记录**: [查看实践文章](/2026/07/23/maya-asset-batch-submit/)
 
 ## 🏢 工作项目
 
@@ -39,7 +39,3 @@ menu_id: project
 | 编程语言 | Python, C++, MEL |
 | AI 框架 | TensorFlow, PyTorch |
 | 资产管理 | ShotGrid, Ftrack, Perforce |
-
----
-
-> 代码改变世界 🌍
