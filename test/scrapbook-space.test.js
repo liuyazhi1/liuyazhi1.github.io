@@ -3,7 +3,9 @@ const assert = require('node:assert/strict');
 const {
   createInitialState,
   reduceSpaceState,
-  mountSpaceTools
+  mountSpaceTools,
+  shouldMountArticleTools,
+  mountArticleTools
 } = require('../source/js/scrapbook-space');
 const { renderSpaceDock } = require('../scripts/scrapbook/render-home');
 
@@ -30,6 +32,13 @@ class FakeElement {
 
   getAttribute(name) {
     return this.attributes[name] ?? null;
+  }
+
+  appendChild(child) {
+    this.children ||= [];
+    this.children.push(child);
+    child.parentNode = this;
+    return child;
   }
 
   dispatch(type, event = {}) {
@@ -208,6 +217,55 @@ test('returns the existing controller instead of binding duplicate listeners', a
   await Promise.resolve();
   assert.equal(fixture.calls.play, 1);
   first.destroy();
+});
+
+test('mounts article tools only once on post layouts', () => {
+  assert.equal(shouldMountArticleTools('post', false), true);
+  assert.equal(shouldMountArticleTools('post', true), false);
+  assert.equal(shouldMountArticleTools('page', false), false);
+  assert.equal(typeof mountArticleTools, 'function');
+});
+
+test('mounts one accessible article dock using the shared space protocol', () => {
+  const body = new FakeElement();
+  body.setAttribute('layout', 'post');
+  const main = new FakeElement();
+  const toc = new FakeElement({ id: 'data-toc' });
+  const document = {
+    createElement(tagName) { return new FakeElement({ tagName }); },
+    querySelector(selector) {
+      return {
+        '.l_body': body,
+        '.l_main': main,
+        '.widgets .widget-wrapper.toc': toc
+      }[selector] || null;
+    }
+  };
+
+  mountArticleTools(document);
+  mountArticleTools(document);
+
+  assert.equal(body.getAttribute('data-scrapbook-mounted'), 'true');
+  assert.equal(main.children.length, 2);
+  assert.equal(main.children[0].getAttribute('data-space-dock'), '');
+  assert.equal(main.children[0].getAttribute('aria-controls'), 'scrapbook-article-tools');
+  assert.equal(main.children[1].getAttribute('data-space-panel'), '');
+  assert.equal(main.children[1].hidden, true);
+  assert.equal(toc.id, 'data-toc');
+  assert.equal(main.children[1].children[0].children[2].getAttribute('aria-controls'), 'data-toc');
+});
+
+test('does not mount article tools outside post layouts', () => {
+  const body = new FakeElement();
+  body.setAttribute('layout', 'page');
+  const main = new FakeElement();
+  const document = {
+    createElement(tagName) { return new FakeElement({ tagName }); },
+    querySelector(selector) { return selector === '.l_body' ? body : main; }
+  };
+
+  assert.equal(mountArticleTools(document), null);
+  assert.equal(main.children, undefined);
 });
 
 test('renders the complete dock protocol and honest missing states', () => {

@@ -7,6 +7,7 @@
   }
 
   root.ScrapbookSpace = api;
+  let controller = null;
   const mount = () => {
     let storage = null;
     try {
@@ -14,7 +15,9 @@
     } catch {
       // Storage can be unavailable in privacy-restricted browser contexts.
     }
-    api.mountSpaceTools(root.document, storage);
+    controller?.destroy();
+    api.mountArticleTools(root.document);
+    controller = api.mountSpaceTools(root.document, storage);
   };
 
   if (root.document?.readyState === 'loading') {
@@ -22,6 +25,7 @@
   } else if (root.document) {
     mount();
   }
+  root.document?.addEventListener?.('pjax:complete', mount);
 }(typeof globalThis === 'undefined' ? this : globalThis, function () {
   'use strict';
 
@@ -64,6 +68,103 @@
     } catch {
       // The UI remains usable when storage is unavailable or full.
     }
+  }
+
+  function shouldMountArticleTools(layout, mounted) {
+    return layout === 'post' && mounted === false;
+  }
+
+  function setAttributes(element, attributes) {
+    Object.entries(attributes).forEach(([name, value]) => {
+      element.setAttribute(name, value);
+    });
+    return element;
+  }
+
+  function appendChildren(parent, children) {
+    children.forEach(child => parent.appendChild(child));
+    return parent;
+  }
+
+  function createArticleToolButton(document, text, attributes = {}) {
+    const button = setAttributes(document.createElement('button'), {
+      type: 'button',
+      ...attributes
+    });
+    button.textContent = text;
+    return button;
+  }
+
+  function mountArticleTools(document) {
+    const body = document?.querySelector?.('.l_body');
+    const layout = body?.getAttribute?.('layout');
+    const mounted = body?.getAttribute?.('data-scrapbook-mounted') === 'true';
+    if (!shouldMountArticleTools(layout, mounted)) return null;
+
+    const main = document.querySelector('.l_main');
+    if (!main || !document.createElement) return null;
+
+    const dock = createArticleToolButton(document, '打开文章工具盒', {
+      class: 'scrapbook-article-tools-toggle',
+      'data-space-dock': '',
+      'aria-controls': 'scrapbook-article-tools',
+      'aria-expanded': 'false'
+    });
+    const panel = setAttributes(document.createElement('aside'), {
+      id: 'scrapbook-article-tools',
+      class: 'scrapbook-article-tools',
+      'data-space-panel': '',
+      'data-visitor-status': 'disabled',
+      'data-comments-status': 'disabled',
+      'aria-label': '文章工具盒'
+    });
+    panel.hidden = true;
+
+    const section = document.createElement('section');
+    const title = document.createElement('h2');
+    title.textContent = '阅读工具';
+    const musicButton = createArticleToolButton(document, '音乐暂未放入', {
+      'data-audio-toggle': '',
+      'aria-pressed': 'false',
+      disabled: ''
+    });
+    musicButton.disabled = true;
+
+    const toc = document.querySelector('.widgets .widget-wrapper.toc');
+    const tocId = toc?.id || 'scrapbook-article-toc';
+    if (toc && !toc.id) toc.id = tocId;
+    const tocButton = createArticleToolButton(document, '打开目录', {
+      'data-article-toc': '',
+      'aria-controls': tocId
+    });
+    if (!toc) {
+      tocButton.disabled = true;
+      tocButton.setAttribute('disabled', '');
+    } else {
+      tocButton.addEventListener?.('click', () => {
+        body.setAttribute('rightbar', '');
+        toc.setAttribute?.('tabindex', '-1');
+        toc.focus?.({ preventScroll: true });
+      });
+    }
+
+    const scrollTopButton = createArticleToolButton(document, '返回顶部', {
+      'data-scroll-top': ''
+    });
+    const closeButton = createArticleToolButton(document, '关闭工具盒', {
+      'data-space-close': ''
+    });
+    const liveRegion = setAttributes(document.createElement('p'), {
+      'aria-live': 'polite'
+    });
+
+    appendChildren(section, [title, musicButton, tocButton, scrollTopButton, closeButton, liveRegion]);
+    panel.appendChild(section);
+    main.appendChild(dock);
+    main.appendChild(panel);
+    body.setAttribute('data-scrapbook-mounted', 'true');
+
+    return { dock, panel };
   }
 
   function mountSpaceTools(document, storage) {
@@ -210,5 +311,11 @@
     return controller;
   }
 
-  return { createInitialState, reduceSpaceState, mountSpaceTools };
+  return {
+    createInitialState,
+    reduceSpaceState,
+    shouldMountArticleTools,
+    mountArticleTools,
+    mountSpaceTools
+  };
 }));

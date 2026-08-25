@@ -111,7 +111,10 @@ comments:
 
 inject:
   head:
-    - '<link rel="stylesheet" href="/css/custom.css">'
+    - '<link rel="stylesheet" href="/css/scrapbook-tokens.css">'
+    - '<link rel="stylesheet" href="/css/scrapbook-article.css">'
+  script:
+    - '<script src="/js/scrapbook-space.js" defer></script>'
 
 style:
   prefers_theme: light
