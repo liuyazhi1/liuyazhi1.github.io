@@ -27,7 +27,7 @@ function renderNavigation() {
 }
 
 function renderSearchPanel() {
-  return `<section id="search-panel" data-search-panel aria-labelledby="search-title" hidden>
+  return `<section id="search-panel" data-search-panel role="dialog" aria-labelledby="search-title" hidden>
     <h2 id="search-title">搜索手账</h2>
     <form data-search-form role="search">
       <label for="scrapbook-search-input">关键词</label>
@@ -67,11 +67,17 @@ function renderProfile(model) {
 function renderCategoryTickets(model) {
   const categories = model.categories || [];
   const tickets = categories.length
-    ? categories.map(category => `<li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
-        <a href="${hrefFor(category.path || `categories/${category.name}/`)}"${category.status === 'ready' ? '' : ' aria-disabled="true" tabindex="-1"'}>${escapeHtml(category.name)}</a>
-        <span>${escapeHtml(category.count)} 篇</span>
+    ? categories.map(category => {
+      const categoryPath = hrefFor(category.path || `categories/${category.name}/`);
+      const label = category.status === 'ready'
+        ? `<a href="${categoryPath}">${escapeHtml(category.name)}</a>`
+        : `<span class="category-ticket__label" aria-disabled="true" data-category-path="${categoryPath}">${escapeHtml(category.name)}</span>`;
+      return `<li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--${escapeHtml(category.status || 'learning')}">
+        ${label}
+        <span class="category-ticket__count">${escapeHtml(category.count)} 篇</span>
         <small>${category.status === 'ready' ? '已有笔记' : '学习中'}</small>
-      </li>`).join('')
+      </li>`;
+    }).join('')
     : '<li class="scrapbook-empty">暂无分类记录</li>';
 
   return `<section class="scrapbook-card scrapbook-categories" aria-labelledby="categories-title">

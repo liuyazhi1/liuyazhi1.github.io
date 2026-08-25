@@ -65,6 +65,125 @@ body.scrapbook-home {
   text-underline-offset: 0.35rem;
 }
 
+.scrapbook-header [data-search-open] {
+  min-height: 2.5rem;
+  padding: 0.42rem 0.9rem;
+  border: 1px solid rgb(255 253 248 / 70%);
+  border-radius: 999px;
+  color: var(--sb-paper-ink);
+  background: var(--sb-pink);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+[data-search-panel] {
+  position: fixed;
+  z-index: 20;
+  top: clamp(4.5rem, 12vh, 7rem);
+  left: 50%;
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100vh - 6rem);
+  padding: clamp(1rem, 4vw, 1.6rem);
+  overflow: auto;
+  border: 2px solid var(--sb-nav);
+  border-radius: 1rem;
+  color: var(--sb-ink);
+  background: color-mix(in srgb, var(--sb-white) 88%, var(--sb-pink));
+  box-shadow: 7px 8px 0 rgb(99 74 103 / 22%);
+  transform: translateX(-50%) rotate(-0.25deg);
+}
+
+[data-search-panel]::before {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--sb-nav);
+  content: "✦ LOCAL SEARCH · 本地手账 ✦";
+  font-family: Consolas, "Microsoft YaHei", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+[data-search-panel] h2 {
+  margin: 0 0 1rem;
+  font-family: STKaiti, KaiTi, "Microsoft YaHei", serif;
+  font-size: clamp(1.45rem, 5vw, 2rem);
+  line-height: 1.2;
+}
+
+[data-search-form] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.45rem 0.6rem;
+  align-items: end;
+}
+
+[data-search-form] label {
+  grid-column: 1 / -1;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+[data-search-input] {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--sb-nav);
+  border-radius: 0.6rem;
+  color: var(--sb-ink);
+  background: var(--sb-white);
+  font: inherit;
+}
+
+[data-search-form] button,
+[data-search-close] {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--sb-nav);
+  border-radius: 999px;
+  color: var(--sb-paper-ink);
+  background: var(--sb-yellow);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+[data-search-close] {
+  margin-top: 1rem;
+  background: var(--sb-pink);
+}
+
+[data-search-results] {
+  min-height: 3.5rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border: 1px dashed var(--sb-nav);
+  border-radius: 0.65rem;
+  background: var(--sb-white);
+}
+
+[data-search-results] ol {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+[data-search-results] a {
+  color: var(--sb-ink);
+  font-weight: 700;
+  text-underline-offset: 0.2rem;
+}
+
+.scrapbook-header [data-search-open]:focus-visible,
+[data-search-panel] :focus-visible {
+  outline: 3px solid var(--sb-focus);
+  outline-offset: 3px;
+}
+
 .scrapbook-home main {
   width: min(76rem, calc(100% - 2rem));
   margin: 0 auto;
@@ -255,9 +374,15 @@ body.scrapbook-home {
   bottom: -0.32rem;
 }
 
-.category-ticket a {
+.category-ticket a,
+.category-ticket__label {
   font-weight: 700;
   text-decoration: none;
+}
+
+.category-ticket__label {
+  cursor: not-allowed;
+  opacity: 0.68;
 }
 
 .category-ticket a::after {
@@ -266,7 +391,7 @@ body.scrapbook-home {
   content: "";
 }
 
-.category-ticket span,
+.category-ticket__count,
 .category-ticket small {
   font-family: Consolas, "Microsoft YaHei", monospace;
   font-size: 0.68rem;
@@ -578,5 +703,37 @@ body.scrapbook-home {
 
   .space-dock > section:last-child {
     border-radius: 0 0 0.9rem 0.9rem;
+  }
+}
+
+@media (max-width: 359.98px) {
+  .scrapbook-header {
+    padding-inline: 0.5rem;
+  }
+
+  .scrapbook-header nav {
+    gap: 0.2rem 0.35rem;
+  }
+
+  .scrapbook-header a,
+  .scrapbook-header [data-search-open] {
+    padding-inline: 0.4rem;
+    letter-spacing: 0.03em;
+  }
+
+  [data-search-panel] {
+    top: 6.25rem;
+    width: calc(100% - 1rem);
+    max-height: calc(100vh - 6.75rem);
+    padding: 0.85rem;
+  }
+
+  [data-search-form] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-search-form] button,
+  [data-search-close] {
+    width: 100%;
   }
 }

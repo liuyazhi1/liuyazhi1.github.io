@@ -58,7 +58,7 @@ test('encodes unsafe paths before rendering href attributes', () => {
   assert.doesNotMatch(html, /href="[^\"]*"\s+onclick=/);
 });
 
-test('renders encoded category links and honest learning states', () => {
+test('renders ready category links and non-interactive learning states', () => {
   const html = renderHome({
     categories: [
       { name: 'Unreal Engine', count: 1, status: 'ready', path: 'categories/Unreal-Engine/' },
@@ -69,8 +69,9 @@ test('renders encoded category links and honest learning states', () => {
   }, { title: '分类测试' });
 
   assert.match(html, /href="\/categories\/Unreal-Engine\/"[^>]*>Unreal Engine<\/a>/);
-  assert.match(html, /href="\/categories\/%E6%95%B0%E6%8D%AE%E5%BA%93\/"[^>]*aria-disabled="true"[^>]*>数据库<\/a>/);
-  assert.doesNotMatch(html, /href=""[^>]*>数据库<\/a>/);
+  assert.match(html, /<span[^>]*aria-disabled="true"[^>]*data-category-path="\/categories\/%E6%95%B0%E6%8D%AE%E5%BA%93\/"[^>]*>数据库<\/span>/);
+  const learningTicket = html.match(/<li class="[^"]*--learning"[\s\S]*?<\/li>/)[0];
+  assert.doesNotMatch(learningTicket, /<a\b|\bhref=/);
   assert.match(html, /项目整理中/);
 });
 
@@ -82,6 +83,15 @@ test('renders an accessible local search panel', () => {
   assert.match(html, /<input[^>]*type="search"[^>]*data-search-input/);
   assert.match(html, /data-search-results[^>]*aria-live="polite"/);
   assert.match(html, /<button[^>]*type="button"[^>]*data-search-close/);
+});
+
+test('styles search controls for theme, focus, constrained width and 320px layouts', () => {
+  const homeCss = readFileSync(join(__dirname, '../source/css/scrapbook-home.css'), 'utf8');
+
+  assert.match(homeCss, /\.scrapbook-header \[data-search-open\]\s*\{[^}]*background:\s*var\(--sb-pink\);/s);
+  assert.match(homeCss, /\[data-search-panel\]\s*\{[^}]*width:\s*min\(36rem, calc\(100% - 2rem\)\);[^}]*background:[^;]*var\(--sb-white\)/s);
+  assert.match(homeCss, /\.scrapbook-header \[data-search-open\]:focus-visible,\s*\[data-search-panel\] :focus-visible\s*\{[^}]*outline:\s*3px solid var\(--sb-focus\);/s);
+  assert.match(homeCss, /@media \(max-width:\s*359\.98px\)\s*\{[\s\S]*?\[data-search-form\]\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\);/s);
 });
 
 test('filters local search by title and body, caps results, and ignores an empty query', () => {
@@ -137,6 +147,7 @@ test('keeps empty search local and shows the explicit index failure note', async
 
   assert.equal(submitEvent.prevented, true);
   assert.equal(panel.hidden, false);
+  assert.equal(input.focused, true);
   assert.equal(results.textContent, '搜索索引暂不可用，请浏览技术分类');
   document.listeners.keydown({ key: 'Escape' });
   assert.equal(panel.hidden, true);
