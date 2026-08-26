@@ -10,6 +10,7 @@
   --sb-yellow: #fff7bd;
   --sb-white: #fffdf8;
   --sb-focus: #684468;
+  --sb-learning-label: #5c4964;
   --sb-shadow: 4px 5px 0 rgb(99 74 103 / 13%);
 }
 
@@ -20,6 +21,7 @@
   --sb-paper: #2e2734;
   --sb-white: #3b3341;
   --sb-focus: #f4cada;
+  --sb-learning-label: #f5edf6;
 }
 
 *,

@@ -459,7 +459,7 @@ body.scrapbook-home {
 }
 
 .category-ticket__label {
-  color: #5c4964;
+  color: var(--sb-learning-label);
   cursor: not-allowed;
   opacity: 1;
 }

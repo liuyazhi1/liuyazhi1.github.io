@@ -351,8 +351,11 @@ test('locks concrete AA contrast fixes for nav, learning labels and code languag
 
   assert.match(tokensCss, /--sb-nav-surface:\s*#79547c;/);
   assert.ok(contrastRatio('#fffdf8', '#79547c') >= 4.5);
-  assert.match(homeCss, /\.category-ticket__label\s*\{[^}]*color:\s*#5c4964;[^}]*opacity:\s*1;/s);
+  assert.match(tokensCss, /:root\s*\{[^}]*--sb-learning-label:\s*#5c4964;/s);
+  assert.match(tokensCss, /:root\[data-theme="dark"\]\s*\{[^}]*--sb-learning-label:\s*#f5edf6;/s);
+  assert.match(homeCss, /\.category-ticket__label\s*\{[^}]*color:\s*var\(--sb-learning-label\);[^}]*opacity:\s*1;/s);
   assert.ok(contrastRatio('#5c4964', '#fffdf8') >= 4.5);
+  assert.ok(contrastRatio('#f5edf6', '#3b3341') >= 4.5);
   assert.match(articleCss, /\.highlight \.code::before\s*\{[^}]*color:\s*#fffafc;[^}]*opacity:\s*1;/s);
   assert.ok(contrastRatio('#fffafc', '#2b2034') >= 4.5);
 });
