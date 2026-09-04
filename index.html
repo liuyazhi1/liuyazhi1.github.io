@@ -1,478 +1,157 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"liuyazhi.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liuyazhi">
-<meta property="og:url" content="http://liuyazhi.com/index.html">
-<meta property="og:site_name" content="liuyazhi">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="刘雅芷">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://liuyazhi.com/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>liuyazhi</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+<!doctype html><html lang="zh-CN" data-theme="light">
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>钱钱的 Pipeline 手账</title>
+  <link rel="stylesheet" href="/css/scrapbook-tokens.css">
+  <link rel="stylesheet" href="/css/scrapbook-home.css"></head>
+  <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="scrapbook-header">
+    <div class="scrapbook-header__inner">
+      <a class="scrapbook-brand" href="/">钱钱的 Pipeline 手账</a>
+      <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
+    <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
+      <a href="/">主页</a>
+      <a href="/blog/">技术日志</a>
+      <a href="/projects/">项目相册</a>
+      <a href="/about/">关于我</a>
+      <a href="#space-message">留言板</a>
+      <button type="button" data-search-open aria-controls="search-panel" aria-expanded="false">搜索</button>
+      <button type="button" data-theme-toggle data-nav-theme aria-pressed="false">切换深色主题</button>
+    </nav>
     </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">liuyazhi</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
+  </header><section id="search-panel" data-search-panel role="dialog" aria-labelledby="search-title" hidden>
+    <h2 id="search-title">搜索手账</h2>
+    <form data-search-form role="search">
+      <label for="scrapbook-search-input">关键词</label>
+      <input id="scrapbook-search-input" type="search" data-search-input autocomplete="off">
+      <button type="submit">查找</button>
+    </form>
+    <p data-search-status aria-live="polite">输入关键词，按标题与正文查找笔记</p>
+    <div data-search-results></div>
+    <button type="button" data-search-close>关闭搜索</button>
+  </section><main id="main"><section class="scrapbook-hero" aria-labelledby="hero-title">
+    <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
+    <p class="scrapbook-hero__eyebrow">Pipeline 手账</p>
+    <h1 id="hero-title">钱钱的 Pipeline 手账</h1>
+    <p class="scrapbook-hero__tagline">今天也在把麻烦的制作流程，变成顺手的小工具。</p>
+    <p class="scrapbook-hero__role">Pipeline TD</p>
+    <p class="scrapbook-hero__direction">Maya、Unreal、Deadline、Omniverse 与数据库流程开发</p>
+    <p class="scrapbook-hero__status">正在学习 Omniverse 与数据库</p>
+  </section><div class="scrapbook-grid">
+    <section class="scrapbook-card scrapbook-positioning" data-grid-area="positioning" aria-labelledby="positioning-title">
+    <h2 id="positioning-title">把流程经验变成可复用工具</h2>
+    <p>今天也在把麻烦的制作流程，变成顺手的小工具。</p>
+    <p>Maya、Unreal、Deadline、Omniverse 与数据库流程开发</p>
+    <div class="scrapbook-positioning__actions">
+      <a href="/blog/">浏览技术日志</a>
+      <a href="/projects/">查看项目相册</a>
     </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://liuyazhi.com/2021/11/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lan.png">
-      <meta itemprop="name" content="刘雅芷">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuyazhi">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-11-30 17:26:58 / 修改时间：17:31:29" itemprop="dateCreated datePublished" datetime="2021-11-30T17:26:58+08:00">2021-11-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Maya%E7%BB%91%E5%AE%9A/" itemprop="url" rel="index"><span itemprop="name">Maya绑定</span></a>
-                </span>
-            </span>
-
-          
-
+  </section>
+    <section class="scrapbook-card scrapbook-post-notes" data-grid-area="posts" aria-labelledby="posts-title">
+    <h2 id="posts-title">最新笔记</h2>
+    <ol><li class="post-note">
+        <div class="post-note__meta">
+          <span class="post-note__category">Unreal Engine</span>
+        <time datetime="2026-07-23">2026-07-23</time>
         </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#关于Maya绑定方面的笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://liuyazhi.com/2021/11/28/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lan.png">
-      <meta itemprop="name" content="刘雅芷">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuyazhi">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/28/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-28 17:12:36" itemprop="dateCreated datePublished" datetime="2021-11-28T17:12:36+08:00">2021-11-28</time>
-            </span>
-
-          
-
+        <a class="post-note__title" href="/2026/07/24/ue-submit-render-farm/">让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践</a>
+        <p class="post-note__excerpt">背景与痛点 我们的过场 / 动画渲染走的是 UE 的 Movie Render Pipeline 插件（Built-In，BETA 1.0）——这是 UE 里用于渲染电影、多媒体的进阶渲染管线。 但问题来了： AWS Deadline（我…</p>
+        <ul class="post-note__tags" aria-label="文章标签"><li class="post-note__tag">Unreal Engine</li><li class="post-note__tag">Pipeline</li><li class="post-note__tag">渲染农场</li></ul>
+      </li><li class="post-note">
+        <div class="post-note__meta">
+          <span class="post-note__category">Maya</span>
+        <time datetime="2026-07-22">2026-07-22</time>
         </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/28/hello-world/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
+        <a class="post-note__title" href="/2026/07/23/maya-asset-batch-submit/">Maya 资产批量自动提交工具：从手动整理到一键分发的实践</a>
+        <p class="post-note__excerpt">背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…</p>
+        <ul class="post-note__tags" aria-label="文章标签"><li class="post-note__tag">Pipeline</li><li class="post-note__tag">Deadline</li><li class="post-note__tag">自动化</li></ul>
+      </li><li class="post-note">
+        <div class="post-note__meta">
+          <span class="post-note__category">未分类</span>
+        <time datetime="2026-07-14">2026-07-14</time>
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="刘雅芷"
-      src="/images/lan.png">
-  <p class="site-author-name" itemprop="name">刘雅芷</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+        <a class="post-note__title" href="/2026/07/14/hello-world/">Hello World</a>
+        <p class="post-note__excerpt">Welcome to Hexo ! This is your very first post. Check documentation for more info. If you get any problems when using H…</p>
         
-          <span class="site-state-item-count">2</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/liuyazhi1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liuyazhi1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">刘雅芷</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
-</html>
+      </li></ol>
+    <a class="scrapbook-more-link" href="/blog/">查看全部文章</a>
+  </section>
+    <section class="scrapbook-card scrapbook-categories" data-grid-area="categories" aria-labelledby="categories-title">
+    <h2 id="categories-title">学习分类</h2>
+    <ul><li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--ready">
+        <a href="/categories/Maya/">Maya</a>
+        <span class="category-ticket__count">1 篇</span>
+        <small>已有笔记</small>
+      </li><li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--ready">
+        <a href="/categories/Unreal-Engine/">Unreal Engine</a>
+        <span class="category-ticket__count">1 篇</span>
+        <small>已有笔记</small>
+      </li><li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--learning">
+        <span class="category-ticket__label" aria-disabled="true" data-category-path="/categories/Deadline/">Deadline</span>
+        <span class="category-ticket__count">0 篇</span>
+        <small>学习中</small>
+      </li><li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--learning">
+        <span class="category-ticket__label" aria-disabled="true" data-category-path="/categories/Omniverse/">Omniverse</span>
+        <span class="category-ticket__count">0 篇</span>
+        <small>学习中</small>
+      </li><li class="scrapbook-category-ticket category-ticket scrapbook-category-ticket--learning">
+        <span class="category-ticket__label" aria-disabled="true" data-category-path="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</span>
+        <span class="category-ticket__count">0 篇</span>
+        <small>学习中</small>
+      </li></ul>
+  </section>
+    <section class="scrapbook-card scrapbook-project-photos" data-grid-area="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">精选项目</h2>
+    <ul><li class="project-photo">
+        <a href="/2026/07/24/ue-submit-render-farm/">让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践</a>
+        <p class="project-photo__stack">Unreal Engine · Movie Render Pipeline · AWS Deadline</p>
+      </li><li class="project-photo">
+        <a href="/2026/07/23/maya-asset-batch-submit/">Maya 资产批量自动提交工具：从手动整理到一键分发的实践</a>
+        <p class="project-photo__stack">Python · Maya · AWS Deadline · Alembic · JSON</p>
+      </li></ul>
+    <a class="scrapbook-more-link" href="/projects/">查看项目页</a>
+  </section>
+    <section class="scrapbook-card scrapbook-profile profile-polaroid" data-grid-area="profile" aria-labelledby="profile-title">
+    <h2 id="profile-title">个人档案</h2>
+    <dl>
+      <div><dt>身份</dt><dd>Pipeline TD</dd></div>
+      <div><dt>经验</dt><dd>3 年流程开发经验</dd></div>
+    </dl>
+  </section>
+    <section class="scrapbook-card scrapbook-visitor" data-grid-area="visitor" aria-labelledby="home-visitor-title">
+    <h2 id="home-visitor-title">最近访客</h2>
+    <p>访问统计未启用</p>
+    
+  </section>
+    <section id="space-message" class="scrapbook-card scrapbook-message" data-grid-area="message" aria-labelledby="home-message-title">
+    <h2 id="home-message-title">留言与今日状态</h2>
+    <p>正在学习 Omniverse 与数据库</p>
+    <p>留言服务暂未配置，可先从<a href="/about/">关于我</a>了解联系信息。</p>
+  </section>
+  </div></main>
+  <button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
+  <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="disabled" data-comments-status="disabled" aria-label="个人空间工具盒" hidden>
+    <section aria-labelledby="music-title">
+      <h2 id="music-title">音乐角</h2>
+      <p>音乐暂未放入</p>
+      
+      <p data-audio-title>暂无曲目</p>
+      <button type="button" data-audio-previous disabled>上一首</button>
+      <button type="button" data-audio-toggle aria-pressed="false" disabled>音乐暂未放入</button>
+      <button type="button" data-audio-next disabled>下一首</button>
+      <label>音量 <input type="range" data-audio-volume min="0" max="1" step="0.05" value="0.7" disabled></label>
+      <p data-space-status aria-live="polite">音乐暂未放入</p>
+    </section>
+    <section aria-labelledby="visitor-title">
+      <h2 id="visitor-title">访问统计</h2>
+      <p>访问统计未启用</p>
+      <button type="button" data-visitor-entry disabled>查看访问统计</button>
+    </section>
+    <section aria-labelledby="comments-title">
+      <h2 id="comments-title">留言</h2>
+      <p>留言板暂未启用</p>
+      <button type="button" data-comments-entry disabled>打开留言</button>
+      <button type="button" data-theme-toggle aria-pressed="false">切换深色主题</button>
+      <button type="button" data-scroll-top hidden>返回顶部</button>
+      <button type="button" data-space-close>关闭工具盒</button>
+    </section>
+  </aside><script src="/js/scrapbook-space.js" defer></script></body></html>

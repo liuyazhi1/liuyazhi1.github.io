@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
   
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,25 +17,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>分类 - 钱钱的 Pipeline 手账</title>
+  <title>Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账</title>
 
   
-    <meta name="description" content="钱钱的 Pipeline TD 技术手账，记录 Maya、Unreal、Deadline、Omniverse 与数据库流程开发。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="https://liuyazhi1.github.io/categories/">
+    <meta name="description" content="背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务  这就带来几个典型痛点：  重复劳动：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maya 资产批量自动提交工具：从手动整理到一键分发的实践">
+<meta property="og:url" content="https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/">
 <meta property="og:site_name" content="钱钱的 Pipeline 手账">
-<meta property="og:description" content="钱钱的 Pipeline TD 技术手账，记录 Maya、Unreal、Deadline、Omniverse 与数据库流程开发。">
+<meta property="og:description" content="背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务  这就带来几个典型痛点：  重复劳动：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd">
+<meta property="article:published_time" content="2026-07-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T09:46:23.409Z">
 <meta property="article:author" content="钱钱">
-<meta property="article:tag" content="技术博客,学习笔记,项目展示,前端开发">
+<meta property="article:tag" content="Pipeline">
+<meta property="article:tag" content="Deadline">
+<meta property="article:tag" content="自动化">
+<meta property="article:tag" content="Maya">
+<meta property="article:tag" content="资产管理">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd">
   
   
   
-  <meta name="keywords" content="技术博客,学习笔记,项目展示,前端开发">
+  <meta name="keywords" content="Pipeline,Deadline,自动化,Maya,资产管理">
 
   <!-- feed -->
   
@@ -47,10 +53,10 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"https://liuyazhi1.github.io","author":{"@type":"Person","name":"钱钱","sameAs":[],"image":"https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd"},"name":"钱钱的 Pipeline 手账","description":"钱钱的 Pipeline TD 技术手账，记录 Maya、Unreal、Deadline、Omniverse 与数据库流程开发。","url":"https://liuyazhi1.github.io"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"钱钱","sameAs":[],"image":"https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd"},"dateCreated":"2026-07-23T00:00:00+08:00","dateModified":"2026-07-23T17:46:23+08:00","datePublished":"2026-07-23T00:00:00+08:00","description":"","headline":"Maya 资产批量自动提交工具：从手动整理到一键分发的实践","mainEntityOfPage":{"@type":"WebPage","@id":"https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"},"publisher":{"@type":"Organization","name":"钱钱","sameAs":[],"image":"https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd","logo":{"@type":"ImageObject","url":"https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd"}},"url":"https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/","keywords":"Pipeline, Deadline, 自动化, Maya, 资产管理","image":[]}</script>
   <link rel="stylesheet" href="/css/scrapbook-tokens.css"><link rel="stylesheet" href="/css/scrapbook-article.css">
 </head>
-<body><div id="l_cover"></div><div class="l_body index" id="start" layout="categories" type="undefined" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<body><div id="l_cover"></div><div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">钱钱的 Pipeline 手账</div><div class="sub cap">Pipeline TD 的流程开发、工具实践与学习记录</div></a></div></header>
@@ -61,57 +67,135 @@
 </div>
 <div class="widgets">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/liuyazhi1" target="_blank" rel="external nofollow noopener noreferrer"><i class="fab fa-github"></i></a><a class="social" href="mailto:2698669434@qq.com" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a></div></footer>
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">钱钱的 Pipeline 手账</div><div class="sub cap">Pipeline TD 的流程开发、工具实践与学习记录</div></a></div></header>
 
 
-  
-  
-  
 
-<div class="navbar top"><div class="navbar-blur"><div class="navbar-container"><nav class="post"><a href="/blog/">近期发布</a><a class="active" href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></nav></div></div></div>
-  <div class='post-list'>
-    <article class='' id='cats'>
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/blog/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Maya/">Maya</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-07-22T16:00:00.000Z">2026-07-23</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-07-23T09:46:23.409Z">2026-07-23</time></span></div></div></div>
+    
+    <div class="bottom only-title">
       
-        <div>
-          <a class="cat" href="/categories/Debug%E8%AE%B0%E5%BD%95/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>Debug记录</span>
-            <span class='badge'>(1)</span>
-          </a>
-        </div>
-      
-        <div>
-          <a class="cat" href="/categories/Maya/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>Maya</span>
-            <span class='badge'>(1)</span>
-          </a>
-        </div>
-      
-        <div>
-          <a class="cat" href="/categories/Unreal-Engine/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>Unreal Engine</span>
-            <span class='badge'>(1)</span>
-          </a>
-        </div>
-      
-        <div>
-          <a class="cat" href="/categories/%E6%97%A5%E5%B8%B8%E9%9A%8F%E7%AC%94/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>日常随笔</span>
-            <span class='badge'>(1)</span>
-          </a>
-        </div>
-      
-    </article>
+      <div class="text-area">
+        <h1 class="text title"><span>Maya 资产批量自动提交工具：从手动整理到一键分发的实践</span></h1>
+        
+      </div>
+    </div>
+    
   </div>
+  </div><article class="md-text content"><h2 id="背景与痛点"><a href="#背景与痛点" class="headerlink" title="背景与痛点"></a>背景与痛点</h2><p>在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：</p>
+<ol>
+<li>手动整理大纲（Outliner）里的节点命名</li>
+<li>手动把贴图归类、摆到正确位置</li>
+<li>因为我们的流程是<strong>模型、材质分开提交</strong>，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务</li>
+</ol>
+<p>这就带来几个典型痛点：</p>
+<ul>
+<li><strong>重复劳动</strong>：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯燥</li>
+<li><strong>容易漏提交</strong>：两个任务分开提，经常会提了模型忘了材质</li>
+<li><strong>命名&#x2F;格式不统一</strong>：人肉整理全靠自觉，资产库越来越乱</li>
+<li><strong>模型材质对不上</strong>：分开提交后，两阶段之间缺乏自动关联，还原时容易错位</li>
+</ul>
+<p>这篇文章分享的工具，就是把上面这一整串”整理 + 双任务提交 + 还原”的动作自动化掉。</p>
+<h2 id="工具整体流程"><a href="#工具整体流程" class="headerlink" title="工具整体流程"></a>工具整体流程</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">选中一批资产</span><br><span class="line">   ↓</span><br><span class="line">【预处理】大纲命名 / 整理贴图 / 按材质分组</span><br><span class="line">   ↓</span><br><span class="line">导出「材质 JSON」（记录材质球与贴图映射关系）</span><br><span class="line">   ↓</span><br><span class="line">后台提交【模型任务】→ Deadline 渲染农场</span><br><span class="line">   ↓</span><br><span class="line">等待 Deadline 的成功通知</span><br><span class="line">   ↓</span><br><span class="line">模型上传完成后，统一输出一份 ABC 缓存</span><br><span class="line">   ↓</span><br><span class="line">提交【材质任务】：ABC 作为参考导入 + import 材质球 + 按 JSON 还原材质</span><br></pre></td></tr></table></figure>
+
+<p>核心思路只有一句话：<strong>模型与材质分离提交，但用 ABC 做几何载体、用材质 JSON 做”关系说明书”，保证两个阶段最终能对上。</strong></p>
+<h2 id="一、预处理阶段"><a href="#一、预处理阶段" class="headerlink" title="一、预处理阶段"></a>一、预处理阶段</h2><blockquote>
+<p>说明：下面三块的具体规则（命名规范长什么样、贴图按什么归类、分组依据是什么）来自实际脚本。脚本目前在另一台机器上，待拿过来后补充真实实现。</p>
+</blockquote>
+<h3 id="1-大纲命名"><a href="#1-大纲命名" class="headerlink" title="1. 大纲命名"></a>1. 大纲命名</h3><p>[待补：命名规范，例如 <code>类型_名称_序号</code> 之类的具体格式，见实际脚本]</p>
+<h3 id="2-整理贴图"><a href="#2-整理贴图" class="headerlink" title="2. 整理贴图"></a>2. 整理贴图</h3><p>[待补：贴图归类规则，例如按通道 BaseColor &#x2F; Normal &#x2F; Roughness 归类，还是按资产分文件夹]</p>
+<h3 id="3-按材质分组"><a href="#3-按材质分组" class="headerlink" title="3. 按材质分组"></a>3. 按材质分组</h3><p>[待补：分组依据——是按 shader（材质球）分，还是按贴图类型分；一组是否对应一次提交]</p>
+<h2 id="二、两阶段提交：模型与材质分离"><a href="#二、两阶段提交：模型与材质分离" class="headerlink" title="二、两阶段提交：模型与材质分离"></a>二、两阶段提交：模型与材质分离</h2><p>这是整个工具最关键、也最巧妙的设计。</p>
+<h3 id="2-1-提交前先导出「材质-JSON」"><a href="#2-1-提交前先导出「材质-JSON」" class="headerlink" title="2.1 提交前先导出「材质 JSON」"></a>2.1 提交前先导出「材质 JSON」</h3><p>在提交模型之前，工具会先把当前资产的材质信息序列化成一个 JSON 文件，把”哪个模型用了哪个材质球、贴图路径是什么、shader 连接怎么连”都记下来。这个 JSON 就是后面材质还原阶段的”说明书”。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：导出材质 JSON 的实现，见脚本]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-后台提交模型任务到-Deadline"><a href="#2-2-后台提交模型任务到-Deadline" class="headerlink" title="2.2 后台提交模型任务到 Deadline"></a>2.2 后台提交模型任务到 Deadline</h3><p>预处理完成后，工具直接把模型任务提交到 <strong>Deadline 渲染农场</strong>，而且是后台提交——艺术家不用干等，可以继续干别的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：Deadline 提交相关代码，见脚本]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-等待-Deadline-的成功通知"><a href="#2-3-等待-Deadline-的成功通知" class="headerlink" title="2.3 等待 Deadline 的成功通知"></a>2.3 等待 Deadline 的成功通知</h3><p>模型任务不是本地同步等结果的。工具会<strong>等待 Deadline 的任务成功通知</strong>（事件 &#x2F; 回调机制），收到”模型任务成功”的信号后，才自动进入材质阶段。这样不需要人工去盯进度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：Deadline 成功通知的监听/回调实现，见脚本]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-模型上传后统一输出-ABC"><a href="#2-4-模型上传后统一输出-ABC" class="headerlink" title="2.4 模型上传后统一输出 ABC"></a>2.4 模型上传后统一输出 ABC</h3><p>模型任务成功后，系统会统一输出一份 <strong>ABC 缓存</strong>。这份 ABC 不带材质，只作为几何载体，供接下来的材质阶段做参考导入。</p>
+<h3 id="2-5-提交材质任务：ABC-参考-材质还原"><a href="#2-5-提交材质任务：ABC-参考-材质还原" class="headerlink" title="2.5 提交材质任务：ABC 参考 + 材质还原"></a>2.5 提交材质任务：ABC 参考 + 材质还原</h3><p>材质阶段做三件事：</p>
+<ol>
+<li>把上一步的 <strong>ABC 作为参考（reference）导入</strong></li>
+<li><strong>import 之前导出的材质球</strong></li>
+<li>根据材质 <strong>JSON</strong> 把贴图路径和 shader 连接<strong>还原</strong>回去</li>
+</ol>
+<p>全部还原正确后，再提交材质任务。至此，同一个资产的两个任务才算都交完，而且模型与材质是严丝合缝对上的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：材质还原 + 提交材质任务，见脚本]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="三、界面与交互"><a href="#三、界面与交互" class="headerlink" title="三、界面与交互"></a>三、界面与交互</h2><p>工具以 <strong>Maya 内的自定义 UI</strong>（面板 &#x2F; 窗口）形式提供给艺术家使用：</p>
+<ul>
+<li>在视口里选中要提交的一批资产</li>
+<li>在面板里点一下按钮</li>
+<li>工具在后台跑完整条流程</li>
+<li>进度和结果实时显示在面板里</li>
+</ul>
+<p>对艺术家来说，复杂的”命名 → 贴图 → 分组 → 双任务提交 → 还原”被收敛成了一个动作。</p>
+<p>[待补：UI 截图 &#x2F; 面板布局描述，可在脚本到位或截图后补充]</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这个工具把”命名—贴图—分组—双任务提交—材质还原”串成了一条自动化链路，解决的核心问题是：<strong>在模型材质必须分离提交的流程下，如何让两阶段自动对齐、不让艺术家做重复手工活。</strong></p>
+<p>后续待补充（脚本到位后）：</p>
+<ul>
+<li><input disabled="" type="checkbox"> 命名规范的具体实现</li>
+<li><input disabled="" type="checkbox"> 贴图整理的具体规则</li>
+<li><input disabled="" type="checkbox"> 按材质分组的具体逻辑</li>
+<li><input disabled="" type="checkbox"> 各阶段（JSON 导出 &#x2F; Deadline 提交 &#x2F; 通知监听 &#x2F; 材质还原）的真实代码</li>
+</ul>
+<hr>
+<blockquote>
+<p>本文为「Maya 工具开发」系列第一篇。下一篇计划写《UE 提交渲染农场》。</p>
+</blockquote>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/&title=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账&summary=背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：
+
+手动整理大纲（Outliner）里的节点命名
+手动把贴图归类、摆到正确位置
+因为我们的流程是模型、材质..."><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账&amp;body=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2026/07/24/ue-submit-render-farm/">让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/07/14/hello-world/">Hello World</a></div></section></div>
+
+
+
+
 
 
 <footer class="page-footer footnote"><hr><div class="sitemap" style="column-count:4;"><div class="sitemap-group"><span class="fs15">博客</span><a href="/blog/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">学习文档</span><a href="/wiki/maya/">Maya学习</a><a href="/wiki/nuke/">Nuke合成</a></div><div class="sitemap-group"><span class="fs15">项目展示</span><a href="/projects/">项目首页</a></div><div class="sitemap-group"><span class="fs15">关于</span><a href="/about/">关于我</a></div></div><div class="text"><p>本站由 <a href="/">钱钱</a> 使用 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right"><div class="widgets">
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/07/24/ue-submit-render-farm/"><span class="title">让 AWS Deadline 跑起 UE 的 Movie Render Pipeline：独立提交面板实践</span></a><a class="item title" href="/2026/07/23/maya-asset-batch-submit/"><span class="title">Maya 资产批量自动提交工具：从手动整理到一键分发的实践</span></a><a class="item title" href="/2026/07/14/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2024/01/03/2024-01-03-daily-thoughts/"><span class="title">技术学习心得</span></a><a class="item title" href="/2024/01/02/2024-01-02-nodejs-debug/"><span class="title">Node.js 内存泄漏排查</span></a></div></widget>
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E7%97%9B%E7%82%B9"><span class="toc-text">背景与痛点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-text">工具整体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%A2%84%E5%A4%84%E7%90%86%E9%98%B6%E6%AE%B5"><span class="toc-text">一、预处理阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%A4%A7%E7%BA%B2%E5%91%BD%E5%90%8D"><span class="toc-text">1. 大纲命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B4%E7%90%86%E8%B4%B4%E5%9B%BE"><span class="toc-text">2. 整理贴图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%8C%89%E6%9D%90%E8%B4%A8%E5%88%86%E7%BB%84"><span class="toc-text">3. 按材质分组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9D%90%E8%B4%A8%E5%88%86%E7%A6%BB"><span class="toc-text">二、两阶段提交：模型与材质分离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%8F%90%E4%BA%A4%E5%89%8D%E5%85%88%E5%AF%BC%E5%87%BA%E3%80%8C%E6%9D%90%E8%B4%A8-JSON%E3%80%8D"><span class="toc-text">2.1 提交前先导出「材质 JSON」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%90%8E%E5%8F%B0%E6%8F%90%E4%BA%A4%E6%A8%A1%E5%9E%8B%E4%BB%BB%E5%8A%A1%E5%88%B0-Deadline"><span class="toc-text">2.2 后台提交模型任务到 Deadline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%AD%89%E5%BE%85-Deadline-%E7%9A%84%E6%88%90%E5%8A%9F%E9%80%9A%E7%9F%A5"><span class="toc-text">2.3 等待 Deadline 的成功通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%BC%A0%E5%90%8E%E7%BB%9F%E4%B8%80%E8%BE%93%E5%87%BA-ABC"><span class="toc-text">2.4 模型上传后统一输出 ABC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%8F%90%E4%BA%A4%E6%9D%90%E8%B4%A8%E4%BB%BB%E5%8A%A1%EF%BC%9AABC-%E5%8F%82%E8%80%83-%E6%9D%90%E8%B4%A8%E8%BF%98%E5%8E%9F"><span class="toc-text">2.5 提交材质任务：ABC 参考 + 材质还原</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%95%8C%E9%9D%A2%E4%B8%8E%E4%BA%A4%E4%BA%92"><span class="toc-text">三、界面与交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
@@ -125,7 +209,7 @@
 
 <script type="text/javascript">
   window.canonical = {"closeEnable":true,"closeText":"关闭提示","originalHost":null,"officialHosts":["localhost"],"encoded":""};
-  window.canonical["param"] = {"permalink":null,"checklink":"/js/plugins/video.js"};
+  window.canonical["param"] = {"permalink":"https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/","checklink":"/js/plugins/video.js"};
   // Fix: Ensure page is at the correct top position on data load
   if (history.scrollRestoration) {
     history.scrollRestoration = 'auto';
