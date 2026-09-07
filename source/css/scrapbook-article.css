@@ -1,4 +1,6 @@
 .l_body.content[layout="post"] {
+  display: block;
+  max-width: 74rem;
   color: var(--sb-ink);
   background-color: var(--sb-paper);
   background-image: radial-gradient(circle, rgb(143 111 145 / 18%) 1px, transparent 1.5px);
@@ -6,20 +8,43 @@
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
+.l_body.content[layout="post"] .l_left,
+.l_body.content[layout="post"] .l_right {
+  display: none;
+}
+
+.l_body.content[layout="post"][leftbar] .l_left,
+.l_body.content[layout="post"][rightbar] .l_right {
+  display: block;
+  position: fixed;
+  top: 2rem;
+  max-height: calc(100vh - 8rem);
+  overflow: auto;
+  transform: none;
+  z-index: 10;
+  background: var(--sb-white);
+}
+
+.l_body.content[layout="post"][rightbar] .l_right {
+  right: 1rem;
+}
+
 .l_body.content[layout="post"] .l_main {
-  width: min(100%, 54rem);
+  width: min(100%, 70rem);
+  max-width: 70rem;
+  margin-inline: auto;
   min-width: 0;
 }
 
 .l_body.content[layout="post"] .article.banner {
-  width: min(100% - 2rem, 48rem);
+  width: min(100% - 2rem, 64rem);
   margin-inline: auto;
 }
 
 .l_body.content[layout="post"] article.md-text.content {
   position: relative;
-  width: min(100% - 2rem, 48rem);
-  max-width: 48rem;
+  width: min(100% - 2rem, 64rem);
+  max-width: 64rem;
   margin: clamp(1.75rem, 4vw, 3rem) auto;
   padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 5vw, 4rem);
   overflow: visible;
@@ -187,7 +212,7 @@
   .l_body.content[layout="post"] .scrapbook-article-tools-toggle,
   .l_body.content[layout="post"] .scrapbook-article-tools {
     position: static;
-    width: min(100% - 2rem, 48rem);
+    width: min(100% - 2rem, 64rem);
     margin: 1rem auto;
   }
 
