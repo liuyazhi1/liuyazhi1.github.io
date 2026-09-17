@@ -1,0 +1,77 @@
+/* Shared homepage shell, while Stellar owns list content and pagination. */
+body.scrapbook-list {
+  --text-p1: var(--sb-ink);
+  --text-p2: var(--sb-ink);
+  --text-p3: var(--sb-ink);
+  margin: 0;
+  color: var(--sb-ink);
+  background: var(--sb-paper) radial-gradient(circle, rgb(143 111 145 / 18%) 1px, transparent 1.5px) 0 0 / 18px 18px;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+.scrapbook-list .l_body.index {
+  display: block;
+  width: min(70rem, calc(100% - 2rem));
+  max-width: none;
+  padding: 0;
+  margin: clamp(1.5rem, 4vw, 3rem) auto;
+}
+.scrapbook-list .l_body.index > .l_left,
+.scrapbook-list .l_body.index > .l_right,
+.scrapbook-list .float-panel,
+.scrapbook-list .l_main > .logo-wrap { display: none; }
+/* Stellar's mobile-only utility sets display with !important. */
+.scrapbook-list .l_main > .header.mobile-only { display: none !important; }
+.scrapbook-list .l_main { width: 100%; max-width: none; min-width: 0; padding: 0; margin: 0; }
+.scrapbook-list .scrapbook-header a { color: inherit; }
+.scrapbook-list .navbar { position: static; margin: 0 0 2rem; background: transparent; border-radius: 0; box-shadow: none; }
+.scrapbook-list .navbar-blur,
+.scrapbook-list .navbar-container { background: transparent; box-shadow: none; backdrop-filter: none; border-radius: 0; }
+.scrapbook-list .navbar-blur::before,
+.scrapbook-list .navbar-blur::after { display: none; }
+.scrapbook-list .navbar nav { display: flex; flex-wrap: wrap; gap: .65rem; overflow: visible; padding: .35rem; }
+.scrapbook-list .navbar nav a {
+  padding: .6rem 1rem;
+  min-height: 44px;
+  color: var(--sb-ink);
+  background: var(--sb-white);
+  border: 1px dashed var(--sb-nav);
+  border-radius: 0;
+  box-shadow: var(--sb-shadow);
+}
+.scrapbook-list .navbar nav a.active { background: var(--sb-lavender); color: var(--sb-paper-ink); font-weight: 700; }
+.scrapbook-list .post-list { margin: 0; }
+.scrapbook-list .post-card-wrap { margin-bottom: 1.75rem; overflow: visible; }
+.scrapbook-list .post-card,
+.scrapbook-list .post-list > article {
+  display: block;
+  position: relative;
+  padding: clamp(1rem, 3vw, 2rem);
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--sb-nav);
+  border-radius: 0;
+  color: var(--sb-ink);
+  background: var(--sb-white);
+  box-shadow: var(--sb-shadow);
+  overflow-wrap: anywhere;
+}
+.scrapbook-list .post-card::before {
+  content: "";
+  position: absolute;
+  top: -.55rem;
+  left: 1.5rem;
+  width: 5rem;
+  height: 1rem;
+  transform: rotate(-3deg);
+  background: repeating-linear-gradient(110deg, #eab8cdcc 0 7px, #f8dae7cc 7px 12px);
+}
+.scrapbook-list .post-card:hover { background: var(--sb-white); box-shadow: 6px 7px 0 rgb(99 74 103 / 20%); }
+.scrapbook-list .post-card .post-title,
+.scrapbook-list .archive-header { color: var(--sb-ink); font-family: STKaiti, KaiTi, "Microsoft YaHei", serif; }
+.scrapbook-list .post-card .excerpt,
+.scrapbook-list .post-card .meta { color: var(--sb-ink); }
+.scrapbook-list #cats .cat,
+.scrapbook-list #tags .tag { color: var(--sb-paper-ink); background: var(--sb-lavender); border: 1px dashed var(--sb-nav); border-radius: 0; padding: .5rem .75rem; margin: .35rem; }
+.scrapbook-list .archive-list a { color: var(--sb-ink); border-bottom: 1px dotted var(--sb-nav); padding: .75rem 0; }
+.scrapbook-list .page-footer { color: var(--sb-ink); border-top: 2px dashed var(--sb-nav); padding-top: 1.5rem; }
+.scrapbook-list .page-footer a { color: inherit; }
+.scrapbook-list .paginator a { background: var(--sb-white); color: var(--sb-ink); border: 1px dashed var(--sb-nav); border-radius: 0; }

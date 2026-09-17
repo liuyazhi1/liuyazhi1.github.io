@@ -25,7 +25,7 @@
 .pixel-scene:not([data-runner="idle"]) .pixel-star { display: none; }
 .pixel-scene[data-runner="over"] .pixel-mushroom { opacity: .6; }
 .scrapbook-profile > .pixel-sprite { float: right; }
-.scrapbook-home .scrapbook-space-toggle { border-radius: 12px 12px 32px 12px; border: 3px solid #95839f; padding: 12px 18px 20px; background: #d6c8e0; color: #42374b; box-shadow: 5px 6px #bbaac4; }
+:is(.scrapbook-home, .scrapbook-list) .scrapbook-space-toggle { border-radius: 12px 12px 32px 12px; border: 3px solid #95839f; padding: 12px 18px 20px; background: #d6c8e0; color: #42374b; box-shadow: 5px 6px #bbaac4; }
 .pocket-label { display: block; font: bold 11px/2 Consolas, monospace; letter-spacing: 2px; }
 .pocket-screen { display: block; border: 7px solid #716579; padding: 12px; background: #dce6bc; color: #384331; }
 .pocket-keys { display: flex; justify-content: space-between; padding-top: 12px; font: bold 18px/1 Consolas, monospace; }
