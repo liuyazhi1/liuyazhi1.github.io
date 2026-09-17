@@ -332,6 +332,7 @@
     const body = document?.querySelector?.('.l_body');
     const layout = body?.getAttribute?.('layout');
     const mounted = body?.getAttribute?.('data-scrapbook-mounted') === 'true';
+    if (!mounted || layout !== 'post') document?.querySelector?.('[data-warp-top]')?.remove?.();
     if (!shouldMountArticleTools(layout, mounted)) return null;
 
     const main = document.querySelector('.l_main');
@@ -425,6 +426,32 @@
     panel.appendChild(section);
     main.appendChild(dock);
     main.appendChild(panel);
+    const warp = createArticleToolButton(document, '', {
+      class: 'scrapbook-warp-top',
+      'data-scroll-top': '',
+      'data-warp-top': '',
+      'aria-label': '回到文章顶部'
+    });
+    warp.hidden = true;
+    const art = setAttributes(document.createElement('span'), { class: 'warp-art', 'aria-hidden': 'true' });
+    const mushroom = setAttributes(document.createElement('span'), { class: 'warp-mushroom' });
+    const palette = { o: '#66506e', r: '#d982a4', w: '#fff6eb', s: '#f4d79f', k: '#493a52' };
+    const pixels = ['....oooo....', '..oorrrroo..', '.orwwrrrrro.', 'orwwwrrwwrro',
+      'orwwwrrwwwro', 'orrrrrrwwwro', 'orrrwwrrrrro', '.oooooooooo.',
+      '..oswsswso..', '..osksksso..', '..osssssso..', '...oooooo...'];
+    pixels.forEach(row => Array.from(row.padEnd(12, '.')).forEach(pixel => {
+      const cell = document.createElement('i');
+      cell.setAttribute('style', `background:${palette[pixel] || 'transparent'}`);
+      mushroom.appendChild(cell);
+    }));
+    art.appendChild(mushroom);
+    ['warp-pipe-body', 'warp-pipe-rim'].forEach(className => {
+      art.appendChild(setAttributes(document.createElement('span'), { class: className }));
+    });
+    const warpLabel = setAttributes(document.createElement('span'), { class: 'warp-label' });
+    warpLabel.textContent = '回到顶部';
+    appendChildren(warp, [art, warpLabel]);
+    body.appendChild(warp);
     body.setAttribute('data-scrapbook-mounted', 'true');
 
     return { dock, panel, mobileToc, readingTime };
@@ -447,6 +474,12 @@
     const audioTitle = findInPanel('[data-audio-title]');
     const volumeInput = findInPanel('[data-audio-volume]');
     const scrollTopButton = findInPanel('[data-scroll-top]');
+    const scrollTopButtons = Array.from(document.querySelectorAll?.('[data-scroll-top]') || []);
+    if (!scrollTopButtons.length && scrollTopButton) scrollTopButtons.push(scrollTopButton);
+    const warpButton = document.querySelector('[data-warp-top]');
+    let warpBusy = false;
+    let warpTimer;
+    let warpFinishTimer;
     const liveRegion = findInPanel('[data-space-status]');
     const queriedThemeButtons = document.querySelectorAll?.('[data-theme-toggle]');
     const themeButtons = queriedThemeButtons?.length
@@ -499,6 +532,7 @@
       }
       if (audio) audio.volume = state.volume;
       if (volumeInput) volumeInput.value = String(state.volume);
+      updateScrollTopVisibility();
     };
 
     const dispatch = event => {
@@ -584,21 +618,47 @@
       announce(theme === 'dark' ? '已切换为深色主题' : '已切换为浅色主题');
     }));
     const updateScrollTopVisibility = () => {
-      if (!scrollTopButton) return;
-      scrollTopButton.hidden = !shouldShowScrollTop(
+      const visible = shouldShowScrollTop(
         document.defaultView?.scrollY,
         document.defaultView?.innerHeight
       );
+      if (warpBusy && document.defaultView?.scrollY <= 1) finishWarp();
+      scrollTopButtons.forEach(button => {
+        button.hidden = button === warpButton ? state.open || !(visible || warpBusy) : !visible;
+      });
+    };
+    const finishWarp = () => {
+      clearTimeout(warpTimer);
+      clearTimeout(warpFinishTimer);
+      warpBusy = false;
+      warpButton?.setAttribute('data-warp-busy', 'false');
+      warpButton?.removeAttribute?.('aria-disabled');
+      if (document.defaultView?.scrollY <= 1 && document.activeElement === warpButton) {
+        document.querySelector('.article.banner a')?.focus?.({ preventScroll: true });
+      }
     };
     on(document.defaultView, 'scroll', updateScrollTopVisibility);
     on(document.defaultView, 'resize', updateScrollTopVisibility);
     updateScrollTopVisibility();
-    on(scrollTopButton, 'click', () => {
+    scrollTopButtons.forEach(button => on(button, 'click', () => {
+      if (warpBusy) return;
       const reducedMotion = document.defaultView
         ?.matchMedia?.('(prefers-reduced-motion: reduce)')
         ?.matches;
-      document.defaultView?.scrollTo?.({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
-    });
+      const scroll = () => document.defaultView?.scrollTo?.({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' });
+      if (button !== warpButton) {
+        document.defaultView?.scrollTo?.({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+        return;
+      }
+      warpBusy = true;
+      warpButton.setAttribute('data-warp-busy', 'true');
+      warpButton.setAttribute('aria-disabled', 'true');
+      if (reducedMotion) { scroll(); finishWarp(); updateScrollTopVisibility(); return; }
+      warpTimer = setTimeout(() => {
+        scroll();
+        warpFinishTimer = setTimeout(() => { finishWarp(); updateScrollTopVisibility(); }, 1800);
+      }, 240);
+    }));
 
     render();
     announce(state.musicStatus === 'missing' ? '音乐暂未放入' : '音乐已就绪');
@@ -609,6 +669,7 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
+        finishWarp();
         listeners.splice(0).forEach(remove => remove());
         if (mountedDocuments.get(document) === controller) {
           mountedDocuments.delete(document);
