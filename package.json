@@ -5,7 +5,7 @@
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
+    "deploy": "node -e \"console.error('Deployment disabled. Use npm run verify, npm run sync:static, then review and commit explicitly.'); process.exitCode = 1;\"",
     "server": "hexo server",
     "test": "node --test test/*.test.js",
     "verify": "npm test && npm run clean && npm run build",

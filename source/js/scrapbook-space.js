@@ -20,6 +20,7 @@
     spaceController?.destroy();
     searchController?.destroy();
     navigationController?.destroy();
+    api.restoreTheme(root.document, storage);
     api.mountArticleTools(root.document);
     navigationController = api.mountNavigation(root.document);
     spaceController = api.mountSpaceTools(root.document, storage);
@@ -289,6 +290,20 @@
     }
   }
 
+  function restoreTheme(document, storage) {
+    // Stellar is the shared preference; migrate the old homepage key only when needed.
+    let theme = readStorage(storage, 'Stellar.theme');
+    if (!['light', 'dark', 'auto'].includes(theme)) {
+      theme = readStorage(storage, 'scrapbook-theme');
+      if (theme === 'light' || theme === 'dark') writeStorage(storage, 'Stellar.theme', theme);
+    }
+    if (theme === 'auto') {
+      delete document.documentElement.dataset.theme;
+    } else if (theme === 'light' || theme === 'dark') {
+      document.documentElement.dataset.theme = theme;
+    }
+  }
+
   function shouldMountArticleTools(layout, mounted) {
     return layout === 'post' && mounted === false;
   }
@@ -545,15 +560,13 @@
       dock.focus?.();
     };
 
-    const storedTheme = readStorage(storage, 'scrapbook-theme');
-    if (storedTheme === 'light' || storedTheme === 'dark') {
-      document.documentElement.dataset.theme = storedTheme;
-    }
-    const currentTheme = () => document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const themeMedia = document.defaultView?.matchMedia?.('(prefers-color-scheme: dark)');
+    const currentTheme = () => (document.documentElement.dataset.theme || (themeMedia?.matches ? 'dark' : 'light'));
     const renderThemeButtons = () => {
       themeButtons.forEach(button => button.setAttribute('aria-pressed', String(currentTheme() === 'dark')));
     };
     renderThemeButtons();
+    on(themeMedia, 'change', renderThemeButtons);
 
     on(dock, 'click', () => {
       dispatch({ type: state.open ? 'CLOSE_PANEL' : 'OPEN_PANEL' });
@@ -608,7 +621,7 @@
       const theme = currentTheme() === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = theme;
       renderThemeButtons();
-      writeStorage(storage, 'scrapbook-theme', theme);
+      writeStorage(storage, 'Stellar.theme', theme);
       announce(theme === 'dark' ? '已切换为深色主题' : '已切换为浅色主题');
     }));
     const updateScrollTopVisibility = () => {
@@ -675,6 +688,7 @@
   }
 
   return {
+    restoreTheme,
     createInitialState,
     reduceSpaceState,
     filterSearchEntries,

@@ -282,20 +282,8 @@ function renderHome(model, site) {
 }
 
 module.exports = {
-  escapeHtml,
-  urlFor,
-  hrefFor,
   renderNavigation,
   renderSearchPanel,
-  renderHero,
-  renderPositioning,
-  renderScrapbookGrid,
-  renderProfile,
-  renderCategoryTickets,
-  renderPostNotes,
-  renderProjectPhotos,
-  renderVisitorCard,
-  renderMessageStatus,
   renderSpaceDock,
   renderHome
 };

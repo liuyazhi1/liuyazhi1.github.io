@@ -49,7 +49,7 @@ git push origin main
 
 Pages 保持 `main / (root)`。`.nojekyll` 禁止 Jekyll 误解析 Hexo 配置，`.gitmodules` 记录主题来源，均须保留。同步命令仅复制白名单中的生成目录，未知输出会报错；新增栏目时先审查白名单。删除文章或资源后，要单独核对并删除对应旧发布文件，命令不会自动清空目录。
 
-**不要运行旧 `npm run deploy` / `hexo deploy`**：其目标也为 main，可能用纯静态内容覆盖源码分支。旧命令仅保留兼容，本仓库使用上述显式提交流程。
+`npm run deploy` 已停用，会提示上述流程并以退出码 1 结束；Hexo 的旧部署目标也已清空，避免直接运行 `hexo deploy` 覆盖源码分支。本仓库使用上述显式提交流程。
 
 推送后检查 GitHub Actions 对应提交是否部署成功，再访问 <https://liuyazhi1.github.io/>；不能把 push 成功等同于上线。
 

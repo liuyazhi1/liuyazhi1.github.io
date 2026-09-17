@@ -91,7 +91,5 @@ ignore:
 
 theme: stellar
 
-deploy:
-  type: 'git'
-  repo: https://github.com/liuyazhi1/liuyazhi1.github.io.git
-  branch: main
+# Publish reviewed static files through explicit Git commits; never replace the source branch.
+deploy: []

@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
+  restoreTheme,
   createInitialState,
   reduceSpaceState,
   mountSpaceTools,
@@ -111,8 +112,8 @@ function createDomFixture({ reducedMotion = false, tracks = [{ title: 'A', src: 
     documentElement,
     defaultView: {
       matchMedia(query) {
-        assert.equal(query, '(prefers-reduced-motion: reduce)');
-        return { matches: reducedMotion };
+        assert.ok(['(prefers-reduced-motion: reduce)', '(prefers-color-scheme: dark)'].includes(query));
+        return { matches: query === '(prefers-reduced-motion: reduce)' && reducedMotion };
       },
       scrollTo(options) { scrollOptions.push(options); }
     },
@@ -214,9 +215,11 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
     setItem(key, value) { values.set(key, value); }
   };
 
+  restoreTheme(fixture.document, storage);
   const mounted = mountSpaceTools(fixture.document, storage);
   assert.equal(fixture.calls.play, 0);
   assert.equal(fixture.document.documentElement.dataset.theme, 'dark');
+  assert.equal(values.get('Stellar.theme'), 'dark');
   assert.equal(fixture.elements['[data-audio]'].volume, 0.35);
 
   fixture.elements['[data-space-dock]'].dispatch('click');
@@ -238,7 +241,7 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
   assert.equal(values.get('scrapbook-volume'), '0.8');
 
   fixture.elements['[data-theme-toggle]'].dispatch('click');
-  assert.equal(values.get('scrapbook-theme'), 'light');
+  assert.equal(values.get('Stellar.theme'), 'light');
 
   fixture.document.dispatch('keydown', { key: 'Escape' });
   assert.equal(fixture.elements['[data-space-panel]'].hidden, true);
@@ -246,6 +249,32 @@ test('mounts stored preferences but only plays after the user clicks play', asyn
   assert.equal(fixture.elements['[data-space-dock]'].focused, true);
 
   mounted.destroy();
+
+  const page = { documentElement: { dataset: { theme: 'dark' } } };
+  assert.equal(mountSpaceTools(page, storage), null);
+  restoreTheme(page, storage);
+  assert.equal(page.documentElement.dataset.theme, 'light', 'shared preference wins without a dock');
+
+  values.set('Stellar.theme', 'auto');
+  restoreTheme(page, storage);
+  assert.equal(page.documentElement.dataset.theme, undefined, 'native auto mode leaves color choice to CSS');
+  assert.equal(values.get('Stellar.theme'), 'auto', 'keep the native automatic preference');
+  restoreTheme(page, { getItem() { throw new Error('storage unavailable'); } });
+  assert.equal(page.documentElement.dataset.theme, undefined);
+
+  const media = new FakeElement({ matches: true });
+  fixture.document.defaultView.matchMedia = () => media;
+  restoreTheme(fixture.document, storage);
+  const automatic = mountSpaceTools(fixture.document, storage);
+  const themeButton = fixture.elements['[data-theme-toggle]'];
+  assert.equal(themeButton.getAttribute('aria-pressed'), 'true');
+  media.matches = false;
+  media.dispatch('change');
+  assert.equal(themeButton.getAttribute('aria-pressed'), 'false');
+  themeButton.dispatch('click');
+  assert.equal(values.get('Stellar.theme'), 'dark');
+  automatic.destroy();
+  assert.equal(media.listeners.change.length, 0);
 });
 
 test('scopes space announcements away from the search live region', () => {

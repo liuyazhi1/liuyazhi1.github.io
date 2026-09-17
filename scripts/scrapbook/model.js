@@ -114,4 +114,4 @@ function buildHomeModel(locals, config) {
   };
 }
 
-module.exports = { buildHomeModel, decodeEntities, toPlainText, normalizePost, toArray };
+module.exports = { buildHomeModel };

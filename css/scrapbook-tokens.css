@@ -24,6 +24,18 @@
   --sb-learning-label: #f5edf6;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --sb-nav: #6f5874;
+    --sb-nav-surface: #604564;
+    --sb-ink: #f5edf6;
+    --sb-paper: #2e2734;
+    --sb-white: #3b3341;
+    --sb-focus: #f4cada;
+    --sb-learning-label: #f5edf6;
+  }
+}
+
 *,
 *::before,
 *::after {
