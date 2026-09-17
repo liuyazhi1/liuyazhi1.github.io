@@ -114,6 +114,7 @@ inject:
     - '<link rel="stylesheet" href="/css/scrapbook-tokens.css">'
     - '<link rel="stylesheet" href="/css/scrapbook-article.css">'
   script:
+    - '<script src="/js/pixel-world.js" defer></script>'
     - '<script src="/js/scrapbook-space.js" defer></script>'
 
 style:

@@ -1,12 +1,13 @@
 <!doctype html><html lang="zh-CN" data-theme="light">
   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>钱钱的 Pipeline 手账</title>
+  <title>钱钱的小小世界</title>
   <link rel="stylesheet" href="/css/scrapbook-tokens.css">
-  <link rel="stylesheet" href="/css/scrapbook-home.css"></head>
+  <link rel="stylesheet" href="/css/scrapbook-home.css">
+  <link rel="stylesheet" href="/css/pixel-world.css"></head>
   <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
   <header class="scrapbook-header">
     <div class="scrapbook-header__inner">
-      <a class="scrapbook-brand" href="/">钱钱的 Pipeline 手账</a>
+      <a class="scrapbook-brand" href="/">钱钱的小小世界</a>
       <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
     <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
       <a href="/">主页</a>
@@ -19,7 +20,7 @@
     </nav>
     </div>
   </header><section id="search-panel" data-search-panel role="dialog" aria-labelledby="search-title" hidden>
-    <h2 id="search-title">搜索手账</h2>
+    <h2 id="search-title">搜索笔记</h2>
     <form data-search-form role="search">
       <label for="scrapbook-search-input">关键词</label>
       <input id="scrapbook-search-input" type="search" data-search-input autocomplete="off">
@@ -30,12 +31,29 @@
     <button type="button" data-search-close>关闭搜索</button>
   </section><main id="main"><section class="scrapbook-hero" aria-labelledby="hero-title">
     <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
-    <p class="scrapbook-hero__eyebrow">Pipeline 手账</p>
-    <h1 id="hero-title">钱钱的 Pipeline 手账</h1>
+    <p class="scrapbook-hero__eyebrow">QIANQIAN'S LITTLE WORLD</p>
+    <h1 id="hero-title">钱钱的小小世界</h1>
     <p class="scrapbook-hero__tagline">今天也在把麻烦的制作流程，变成顺手的小工具。</p>
     <p class="scrapbook-hero__role">Pipeline TD</p>
     <p class="scrapbook-hero__direction">Maya、Unreal、Deadline、Omniverse 与数据库流程开发</p>
     <p class="scrapbook-hero__status">正在学习 Omniverse 与数据库</p>
+    <div class="pixel-game" data-pixel-game>
+      <div class="pixel-controls" aria-label="像素跳跃游戏控制">
+        <button type="button" data-game-start>开始游戏</button>
+        <button type="button" data-game-jump hidden>跳跃 ↑</button>
+        <button type="button" data-game-exit hidden>退出</button>
+        <span class="pixel-score" data-game-score>SCORE 00</span>
+      </div>
+      <p class="pixel-hint" data-game-hint role="status">小蘑菇跳一跳 · 越过砖块得分 · 无音效</p>
+      <div class="pixel-scene" data-runner="idle" aria-label="蘑菇像素世界">
+        <span class="pixel-sprite pixel-mushroom" data-pixel-art="mushroom" aria-hidden="true"></span>
+        <span class="pixel-sprite pixel-coin" data-pixel-art="coin" aria-hidden="true"></span>
+        <button class="pixel-block" type="button" aria-label="敲一下问号砖块">?</button>
+        <span class="pixel-sprite pixel-star" data-pixel-art="star" aria-hidden="true"></span>
+        <span class="pixel-sprite pixel-cloud" data-pixel-art="cloud" aria-hidden="true"></span>
+        <div class="pixel-obstacle" aria-hidden="true"></div><div class="pixel-ground" aria-hidden="true"></div>
+      </div>
+    </div>
   </section><div class="scrapbook-grid">
     <section class="scrapbook-card scrapbook-positioning" data-grid-area="positioning" aria-labelledby="positioning-title">
     <h2 id="positioning-title">把流程经验变成可复用工具</h2>
@@ -62,7 +80,7 @@
         <time datetime="2026-07-22">2026-07-22</time>
         </div>
         <a class="post-note__title" href="/2026/07/23/maya-asset-batch-submit/">Maya 资产批量自动提交工具：从手动整理到一键分发的实践</a>
-        <p class="post-note__excerpt">背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…</p>
+        <p class="post-note__excerpt">背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…</p>
         <ul class="post-note__tags" aria-label="文章标签"><li class="post-note__tag">Maya</li><li class="post-note__tag">Pipeline</li><li class="post-note__tag">自动化</li></ul>
       </li><li class="post-note">
         <div class="post-note__meta">
@@ -111,6 +129,7 @@
     <a class="scrapbook-more-link" href="/projects/">查看项目页</a>
   </section>
     <section class="scrapbook-card scrapbook-profile profile-polaroid" data-grid-area="profile" aria-labelledby="profile-title">
+    <span class="pixel-sprite" data-pixel-art="mushroom" aria-hidden="true"></span>
     <h2 id="profile-title">个人档案</h2>
     <dl>
       <div><dt>身份</dt><dd>Pipeline TD</dd></div>
@@ -128,7 +147,7 @@
     <p>留言服务暂未配置，可先从<a href="/about/">关于我</a>了解联系信息。</p>
   </section>
   </div></main>
-  <button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
+  <button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false" aria-label="打开空间工具盒"><span class="pocket-label" aria-hidden="true">POCKET · 小小休息站</span><span class="pocket-screen">打开空间工具盒</span><span class="pocket-keys" aria-hidden="true"><span>✚</span><span>● B　● A</span></span></button>
   <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="disabled" data-comments-status="disabled" aria-label="个人空间工具盒" hidden>
     <section aria-labelledby="music-title">
       <h2 id="music-title">音乐角</h2>
@@ -154,4 +173,4 @@
       <button type="button" data-scroll-top hidden>返回顶部</button>
       <button type="button" data-space-close>关闭工具盒</button>
     </section>
-  </aside><script src="/js/scrapbook-space.js" defer></script></body></html>
+  </aside><script src="/js/pixel-world.js" defer></script><script src="/js/scrapbook-space.js" defer></script></body></html>

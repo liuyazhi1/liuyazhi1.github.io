@@ -1,94 +1,62 @@
-# 钱钱的博客
+# 钱钱的小小世界
 
-> 记录学习，分享成长
+Hexo + Stellar 技术博客：真实文章、像素蘑菇小游戏、搜索、音乐工具盒与文章回顶。
 
-基于 Hexo + Stellar 主题搭建的个人技术博客，专注于影视流程开发和人工智能方向的 Pipeline TD 技术分享。
+## 开发
 
-## 🚀 快速开始
+使用 Node.js 22 或更高版本。首次克隆需要初始化主题子模块：
 
-### 环境要求
-
-- Node.js >= 14.0.0
-- npm >= 6.0.0
-
-### 安装依赖
-
-```bash
-cd hexo-project
-npm install
-```
-
-### 本地开发
-
-```bash
-# 启动开发服务器
+```sh
+git submodule update --init --recursive
+npm ci
 npm run server
-
-# 或
-npx hexo server
 ```
 
-访问 http://localhost:4000/ 查看博客效果。
+本地地址：<http://localhost:4000/>。
 
-### 构建部署
+## 编辑入口
 
-```bash
-# 生成静态文件
-npm run build
+| 路径 | 职责 |
+| --- | --- |
+| `source/_posts/` | 正式文章 |
+| `source/about/`、`source/projects/`、`source/wiki/` | 独立页面 |
+| `scripts/scrapbook/model.js` | 首页真实数据 |
+| `scripts/scrapbook/render-home.js` | 首页 HTML |
+| `source/css/scrapbook-*.css` | 配色、首页和文章布局 |
+| `source/js/scrapbook-space.js` | 搜索、主题、音乐、阅读工具 |
+| `source/js/pixel-world.js`、`source/css/pixel-world.css` | 共用像素图案、首页场景和游戏 |
+| `_config.yml`、`_config.stellar.yml` | 内容配置、主题资源注入 |
+| `tools/sync-static.cjs` | 安全同步静态发布文件，不删除目录 |
+| `themes/stellar/` | 原主题子模块 |
 
-# 部署到 GitHub Pages
-npm run deploy
+`public/` 是可重建且不提交的构建结果。根目录 HTML、`css/`、`js/` 和文章日期目录是 Pages 当前使用的发布产物，**不要直接编辑**，请改源码后统一同步。
+
+## 验证和发布
+
+```sh
+npm run verify
+npm run sync:static
+git diff --check
+git status --short
 ```
 
-## 📁 项目结构
+先检查本地桌面/手机页面、小游戏、搜索、主题和文章目录/回顶，再按实际变更逐个选择文件暂存；不要将个人文件一起 `git add .`。
 
-```
-hexo-project/
-├── source/                    # 源文件目录
-│   ├── _posts/               # 博客文章
-│   ├── wiki/                 # 学习文档页面
-│   ├── projects/             # 项目展示页面
-│   ├── about/                # 关于我页面
-│   └── _data/                # 数据配置文件
-├── themes/
-│   └── stellar/              # Stellar 主题
-├── _config.yml               # Hexo 主配置
-├── _config.stellar.yml       # Stellar 主题配置
-└── package.json              # 项目依赖
+```sh
+git commit -m "描述本次修改"
+git push origin main
 ```
 
-## 🔧 功能分区
+Pages 保持 `main / (root)`。`.nojekyll` 禁止 Jekyll 误解析 Hexo 配置，`.gitmodules` 记录主题来源，均须保留。同步命令仅复制白名单中的生成目录，未知输出会报错；新增栏目时先审查白名单。删除文章或资源后，要单独核对并删除对应旧发布文件，命令不会自动清空目录。
 
-| 分区 | 路径 | 说明 |
-|------|------|------|
-| **博客** | `/` | 最新文章列表 |
-| **学习文档** | `/wiki/` | 系统化技术笔记（DCC、AI、Pipeline） |
-| **项目展示** | `/projects/` | 个人项目作品集 |
-| **关于我** | `/about/` | 个人介绍和技能展示 |
+**不要运行旧 `npm run deploy` / `hexo deploy`**：其目标也为 main，可能用纯静态内容覆盖源码分支。旧命令仅保留兼容，本仓库使用上述显式提交流程。
 
-## 📝 文章分类
+推送后检查 GitHub Actions 对应提交是否部署成功，再访问 <https://liuyazhi1.github.io/>；不能把 push 成功等同于上线。
 
-- **学习文档**: DCC 软件学习笔记（Maya、Nuke、Houdini、Blender）
-- **Debug记录**: 开发过程中的问题解决记录
-- **日常随笔**: 生活感悟和技术思考
+## 音乐和小游戏
 
-## 🌐 技术栈
+音乐文件放入 `source/music/` 后，在 `_config.yml` 的 `scrapbook.music.tracks` 填写 `title` 和 `src: music/文件名.mp3`。使用有权公开播放的音源。无音源时按钮保持禁用，不自动播放。
 
-- **框架**: Hexo 7.0.0
-- **主题**: Hexo Theme Stellar 1.33.1
-- **评论**: Giscus（基于 GitHub Discussions）
-- **搜索**: Local Search
+游戏主动开始，空格/↑ 或触屏按钮跳跃；Esc、窗口失焦或切换标签页会暂停，退出停止游戏。无音效，减少动态效果设置会关闭装饰动画。
 
-## 📚 参考资源
-
-- [Hexo 官方文档](https://hexo.io/zh-cn/docs/)
-- [Stellar 主题文档](https://xaoxuu.com/wiki/stellar/)
-- [Giscus 配置](https://giscus.app/zh-CN)
-
-## 📄 许可证
-
-本博客所有文章采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议。
-
----
-
-> 持续学习，不断进步 💪
+文章许可：CC BY-NC-SA 4.0。

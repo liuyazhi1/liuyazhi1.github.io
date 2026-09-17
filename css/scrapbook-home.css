@@ -119,7 +119,7 @@ body.scrapbook-home {
   display: block;
   margin-bottom: 0.35rem;
   color: var(--sb-nav);
-  content: "✦ LOCAL SEARCH · 本地手账 ✦";
+  content: "✦ LOCAL SEARCH · 本地笔记 ✦";
   font-family: Consolas, "Microsoft YaHei", monospace;
   font-size: 0.7rem;
   font-weight: 700;

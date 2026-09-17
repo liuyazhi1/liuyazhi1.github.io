@@ -15,7 +15,7 @@ const urlFor = path => '/' + String(path ?? '')
 const hrefFor = path => escapeHtml(urlFor(path));
 
 function renderNavigation(model = {}, site = {}) {
-  const brand = model.brand || site.title || '钱钱的 Pipeline 手账';
+  const brand = model.brand || site.title || '钱钱的小小世界';
   return `<header class="scrapbook-header">
     <div class="scrapbook-header__inner">
       <a class="scrapbook-brand" href="${hrefFor('')}">${escapeHtml(brand)}</a>
@@ -35,7 +35,7 @@ function renderNavigation(model = {}, site = {}) {
 
 function renderSearchPanel() {
   return `<section id="search-panel" data-search-panel role="dialog" aria-labelledby="search-title" hidden>
-    <h2 id="search-title">搜索手账</h2>
+    <h2 id="search-title">搜索笔记</h2>
     <form data-search-form role="search">
       <label for="scrapbook-search-input">关键词</label>
       <input id="scrapbook-search-input" type="search" data-search-input autocomplete="off">
@@ -50,16 +50,33 @@ function renderSearchPanel() {
 function renderHero(model) {
   const profile = model.profile || {};
   const status = model.status || {};
-  const brand = model.brand || '钱钱的 Pipeline 手账';
+  const brand = model.brand || '钱钱的小小世界';
 
   return `<section class="scrapbook-hero" aria-labelledby="hero-title">
     <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
-    <p class="scrapbook-hero__eyebrow">Pipeline 手账</p>
+    <p class="scrapbook-hero__eyebrow">QIANQIAN'S LITTLE WORLD</p>
     <h1 id="hero-title">${escapeHtml(brand)}</h1>
     <p class="scrapbook-hero__tagline">${escapeHtml(model.tagline)}</p>
     <p class="scrapbook-hero__role">${escapeHtml(profile.role)}</p>
     <p class="scrapbook-hero__direction">${escapeHtml(profile.direction)}</p>
     <p class="scrapbook-hero__status">${escapeHtml(status.text)}</p>
+    <div class="pixel-game" data-pixel-game>
+      <div class="pixel-controls" aria-label="像素跳跃游戏控制">
+        <button type="button" data-game-start>开始游戏</button>
+        <button type="button" data-game-jump hidden>跳跃 ↑</button>
+        <button type="button" data-game-exit hidden>退出</button>
+        <span class="pixel-score" data-game-score>SCORE 00</span>
+      </div>
+      <p class="pixel-hint" data-game-hint role="status">小蘑菇跳一跳 · 越过砖块得分 · 无音效</p>
+      <div class="pixel-scene" data-runner="idle" aria-label="蘑菇像素世界">
+        <span class="pixel-sprite pixel-mushroom" data-pixel-art="mushroom" aria-hidden="true"></span>
+        <span class="pixel-sprite pixel-coin" data-pixel-art="coin" aria-hidden="true"></span>
+        <button class="pixel-block" type="button" aria-label="敲一下问号砖块">?</button>
+        <span class="pixel-sprite pixel-star" data-pixel-art="star" aria-hidden="true"></span>
+        <span class="pixel-sprite pixel-cloud" data-pixel-art="cloud" aria-hidden="true"></span>
+        <div class="pixel-obstacle" aria-hidden="true"></div><div class="pixel-ground" aria-hidden="true"></div>
+      </div>
+    </div>
   </section>`;
 }
 
@@ -80,6 +97,7 @@ function renderProfile(model) {
   const profile = model.profile || {};
 
   return `<section class="scrapbook-card scrapbook-profile profile-polaroid" data-grid-area="profile" aria-labelledby="profile-title">
+    <span class="pixel-sprite" data-pixel-art="mushroom" aria-hidden="true"></span>
     <h2 id="profile-title">个人档案</h2>
     <dl>
       <div><dt>身份</dt><dd>${escapeHtml(profile.role || '未填写')}</dd></div>
@@ -219,7 +237,7 @@ function renderSpaceDock(space = {}) {
     ? `<a data-comments-entry href="${hrefFor(comments.href)}">打开留言</a>`
     : '<button type="button" data-comments-entry disabled>打开留言</button>';
 
-  return `<button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false">打开空间工具盒</button>
+  return `<button class="scrapbook-space-toggle" type="button" data-space-dock aria-controls="space-tools-panel" aria-expanded="false" aria-label="打开空间工具盒"><span class="pocket-label" aria-hidden="true">POCKET · 小小休息站</span><span class="pocket-screen">打开空间工具盒</span><span class="pocket-keys" aria-hidden="true"><span>✚</span><span>● B　● A</span></span></button>
   <aside id="space-tools-panel" class="scrapbook-space-dock space-dock" data-space-panel data-visitor-status="${visitorEnabled ? 'enabled' : 'disabled'}" data-comments-status="${commentsEnabled ? 'enabled' : 'disabled'}" aria-label="个人空间工具盒" hidden>
     <section aria-labelledby="music-title">
       <h2 id="music-title">音乐角</h2>
@@ -256,10 +274,11 @@ function renderHome(model, site) {
   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>${escapeHtml(safeSite.title)}</title>
   <link rel="stylesheet" href="/css/scrapbook-tokens.css">
-  <link rel="stylesheet" href="/css/scrapbook-home.css"></head>
+  <link rel="stylesheet" href="/css/scrapbook-home.css">
+  <link rel="stylesheet" href="/css/pixel-world.css"></head>
   <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
   ${renderNavigation(safeModel, safeSite)}${renderSearchPanel()}<main id="main">${renderHero(safeModel)}${renderScrapbookGrid(safeModel)}</main>
-  ${renderSpaceDock(safeModel.space)}<script src="/js/scrapbook-space.js" defer></script></body></html>`;
+  ${renderSpaceDock(safeModel.space)}<script src="/js/pixel-world.js" defer></script><script src="/js/scrapbook-space.js" defer></script></body></html>`;
 }
 
 module.exports = {

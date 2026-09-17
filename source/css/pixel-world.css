@@ -1,0 +1,35 @@
+/* Homepage scene and pocket decoration. Behavior lives in pixel-world.js. */
+.pixel-game { margin-top: 1.5rem; }
+.pixel-sprite { display: inline-grid; grid-template-columns: repeat(12, 1fr); width: var(--pixel-size, 48px); height: var(--pixel-size, 48px); flex: none; }
+.pixel-sprite i { display: block; }
+.pixel-scene { position: relative; height: 166px; overflow: hidden; margin-top: .5rem; }
+.pixel-scene .pixel-sprite { position: absolute; bottom: 20px; }
+.pixel-scene .pixel-mushroom { left: 9%; --pixel-size: 56px; }
+.pixel-scene .pixel-star { left: 66%; bottom: 66px; --pixel-size: 38px; animation: pixel-bob 2.4s steps(3, end) infinite; }
+.pixel-scene .pixel-cloud { right: 2%; bottom: 63px; --pixel-size: 72px; }
+.pixel-scene .pixel-coin { left: 47%; bottom: 70px; --pixel-size: 28px; }
+.pixel-ground { position: absolute; bottom: 0; left: 0; right: 0; height: 20px; border-top: 5px solid #8d9b76; background: repeating-linear-gradient(90deg, #d9bca8 0 29px, #b99686 29px 32px); }
+.pixel-block { position: absolute; bottom: 20px; left: 44%; width: 49px; height: 49px; padding: 0; color: #42374b; background: #f5d384; border: 4px solid #977043; box-shadow: inset 4px 4px #ffe9b1, inset -4px -4px #c4915b; font: bold 32px/40px Consolas, monospace; cursor: pointer; }
+.pixel-block:hover { transform: translateY(-4px); }
+.pixel-controls { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.pixel-controls button { min-height: 44px; padding: .45rem .8rem; font: inherit; color: var(--sb-ink); background: var(--sb-white); border: 2px solid var(--sb-nav); box-shadow: var(--sb-shadow); cursor: pointer; touch-action: manipulation; }
+.pixel-controls [data-game-start] { background: var(--sb-nav-surface); color: #fffdf8; }
+.pixel-controls button:disabled { opacity: .55; cursor: default; }
+.pixel-score { margin-left: auto; font: 13px Consolas, monospace; }
+.pixel-hint { font-size: .8rem; min-height: 1.5em; }
+.pixel-obstacle { display: none; position: absolute; bottom: 20px; left: 0; width: 28px; height: 30px; background: #d5a177; border: 3px solid #856347; box-shadow: inset 3px 3px #f5d4a6; }
+.pixel-scene:not([data-runner="idle"]) .pixel-mushroom { left: 28px; --pixel-size: 40px; }
+.pixel-scene:not([data-runner="idle"]) .pixel-obstacle { display: block; }
+.pixel-scene:not([data-runner="idle"]) .pixel-block,
+.pixel-scene:not([data-runner="idle"]) .pixel-coin,
+.pixel-scene:not([data-runner="idle"]) .pixel-star { display: none; }
+.pixel-scene[data-runner="over"] .pixel-mushroom { opacity: .6; }
+.scrapbook-profile > .pixel-sprite { float: right; }
+.scrapbook-home .scrapbook-space-toggle { border-radius: 12px 12px 32px 12px; border: 3px solid #95839f; padding: 12px 18px 20px; background: #d6c8e0; color: #42374b; box-shadow: 5px 6px #bbaac4; }
+.pocket-label { display: block; font: bold 11px/2 Consolas, monospace; letter-spacing: 2px; }
+.pocket-screen { display: block; border: 7px solid #716579; padding: 12px; background: #dce6bc; color: #384331; }
+.pocket-keys { display: flex; justify-content: space-between; padding-top: 12px; font: bold 18px/1 Consolas, monospace; }
+.pocket-keys span:last-child { color: #77415f; }
+@keyframes pixel-bob { 50% { transform: translateY(-7px); } }
+@media (max-width: 420px) { .pixel-score { width: 100%; margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .pixel-scene .pixel-star { animation: none; } }

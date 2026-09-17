@@ -17,15 +17,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账</title>
+  <title>Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的小小世界</title>
 
   
-    <meta name="description" content="背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务  这就带来几个典型痛点：  重复劳动：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯">
+    <meta name="description" content="背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交&quot;模型任务&quot;和&quot;材质任务&quot;两个任务  这就带来几个典型痛点：  重复">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maya 资产批量自动提交工具：从手动整理到一键分发的实践">
 <meta property="og:url" content="https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/">
-<meta property="og:site_name" content="钱钱的 Pipeline 手账">
-<meta property="og:description" content="背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务  这就带来几个典型痛点：  重复劳动：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯">
+<meta property="og:site_name" content="钱钱的小小世界">
+<meta property="og:description" content="背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;：  手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是模型、材质分开提交，所以同一个资产还要分别提交&quot;模型任务&quot;和&quot;材质任务&quot;两个任务  这就带来几个典型痛点：  重复">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd">
 <meta property="article:published_time" content="2026-07-22T16:00:00.000Z">
@@ -59,7 +59,7 @@
 <body><div id="l_cover"></div><div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">钱钱的 Pipeline 手账</div><div class="sub cap">Pipeline TD 的流程开发、工具实践与学习记录</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20kawaii%20anime%20style%20avatar%20portrait%20soft%20pastel%20morandi%20color%20dusty%20pink%20cream%20aesthetic%20simple%20clean%20design&image_size=square_hd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">钱钱的小小世界</div><div class="sub cap">Pipeline TD 的流程开发、工具实践与学习记录</div></a></div></header>
 
 <div class="nav-area">
 
@@ -92,41 +92,49 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="背景与痛点"><a href="#背景与痛点" class="headerlink" title="背景与痛点"></a>背景与痛点</h2><p>在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：</p>
+  </div><article class="md-text content"><h2 id="背景与痛点">背景与痛点</h2>
+<p>在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;：</p>
 <ol>
 <li>手动整理大纲（Outliner）里的节点命名</li>
 <li>手动把贴图归类、摆到正确位置</li>
-<li>因为我们的流程是<strong>模型、材质分开提交</strong>，所以同一个资产还要分别提交”模型任务”和”材质任务”两个任务</li>
+<li>因为我们的流程是<strong>模型、材质分开提交</strong>，所以同一个资产还要分别提交&quot;模型任务&quot;和&quot;材质任务&quot;两个任务</li>
 </ol>
 <p>这就带来几个典型痛点：</p>
 <ul>
-<li><strong>重复劳动</strong>：几百个植被&#x2F;道具，每个都手动整理一遍，耗时且枯燥</li>
+<li><strong>重复劳动</strong>：几百个植被/道具，每个都手动整理一遍，耗时且枯燥</li>
 <li><strong>容易漏提交</strong>：两个任务分开提，经常会提了模型忘了材质</li>
-<li><strong>命名&#x2F;格式不统一</strong>：人肉整理全靠自觉，资产库越来越乱</li>
+<li><strong>命名/格式不统一</strong>：人肉整理全靠自觉，资产库越来越乱</li>
 <li><strong>模型材质对不上</strong>：分开提交后，两阶段之间缺乏自动关联，还原时容易错位</li>
 </ul>
-<p>这篇文章分享的工具，就是把上面这一整串”整理 + 双任务提交 + 还原”的动作自动化掉。</p>
-<h2 id="工具整体流程"><a href="#工具整体流程" class="headerlink" title="工具整体流程"></a>工具整体流程</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">选中一批资产</span><br><span class="line">   ↓</span><br><span class="line">【预处理】大纲命名 / 整理贴图 / 按材质分组</span><br><span class="line">   ↓</span><br><span class="line">导出「材质 JSON」（记录材质球与贴图映射关系）</span><br><span class="line">   ↓</span><br><span class="line">后台提交【模型任务】→ Deadline 渲染农场</span><br><span class="line">   ↓</span><br><span class="line">等待 Deadline 的成功通知</span><br><span class="line">   ↓</span><br><span class="line">模型上传完成后，统一输出一份 ABC 缓存</span><br><span class="line">   ↓</span><br><span class="line">提交【材质任务】：ABC 作为参考导入 + import 材质球 + 按 JSON 还原材质</span><br></pre></td></tr></table></figure>
-
-<p>核心思路只有一句话：<strong>模型与材质分离提交，但用 ABC 做几何载体、用材质 JSON 做”关系说明书”，保证两个阶段最终能对上。</strong></p>
-<h2 id="一、预处理阶段"><a href="#一、预处理阶段" class="headerlink" title="一、预处理阶段"></a>一、预处理阶段</h2><blockquote>
+<p>这篇文章分享的工具，就是把上面这一整串&quot;整理 + 双任务提交 + 还原&quot;的动作自动化掉。</p>
+<h2 id="工具整体流程">工具整体流程</h2>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">选中一批资产</span><br><span class="line">   ↓</span><br><span class="line">【预处理】大纲命名 / 整理贴图 / 按材质分组</span><br><span class="line">   ↓</span><br><span class="line">导出「材质 JSON」（记录材质球与贴图映射关系）</span><br><span class="line">   ↓</span><br><span class="line">后台提交【模型任务】→ Deadline 渲染农场</span><br><span class="line">   ↓</span><br><span class="line">等待 Deadline 的成功通知</span><br><span class="line">   ↓</span><br><span class="line">模型上传完成后，统一输出一份 ABC 缓存</span><br><span class="line">   ↓</span><br><span class="line">提交【材质任务】：ABC 作为参考导入 + import 材质球 + 按 JSON 还原材质</span><br></pre></td></tr></table></figure>
+<p>核心思路只有一句话：<strong>模型与材质分离提交，但用 ABC 做几何载体、用材质 JSON 做&quot;关系说明书&quot;，保证两个阶段最终能对上。</strong></p>
+<h2 id="一、预处理阶段">一、预处理阶段</h2>
+<blockquote>
 <p>说明：下面三块的具体规则（命名规范长什么样、贴图按什么归类、分组依据是什么）来自实际脚本。脚本目前在另一台机器上，待拿过来后补充真实实现。</p>
 </blockquote>
-<h3 id="1-大纲命名"><a href="#1-大纲命名" class="headerlink" title="1. 大纲命名"></a>1. 大纲命名</h3><p>[待补：命名规范，例如 <code>类型_名称_序号</code> 之类的具体格式，见实际脚本]</p>
-<h3 id="2-整理贴图"><a href="#2-整理贴图" class="headerlink" title="2. 整理贴图"></a>2. 整理贴图</h3><p>[待补：贴图归类规则，例如按通道 BaseColor &#x2F; Normal &#x2F; Roughness 归类，还是按资产分文件夹]</p>
-<h3 id="3-按材质分组"><a href="#3-按材质分组" class="headerlink" title="3. 按材质分组"></a>3. 按材质分组</h3><p>[待补：分组依据——是按 shader（材质球）分，还是按贴图类型分；一组是否对应一次提交]</p>
-<h2 id="二、两阶段提交：模型与材质分离"><a href="#二、两阶段提交：模型与材质分离" class="headerlink" title="二、两阶段提交：模型与材质分离"></a>二、两阶段提交：模型与材质分离</h2><p>这是整个工具最关键、也最巧妙的设计。</p>
-<h3 id="2-1-提交前先导出「材质-JSON」"><a href="#2-1-提交前先导出「材质-JSON」" class="headerlink" title="2.1 提交前先导出「材质 JSON」"></a>2.1 提交前先导出「材质 JSON」</h3><p>在提交模型之前，工具会先把当前资产的材质信息序列化成一个 JSON 文件，把”哪个模型用了哪个材质球、贴图路径是什么、shader 连接怎么连”都记下来。这个 JSON 就是后面材质还原阶段的”说明书”。</p>
+<h3 id="1-大纲命名">1. 大纲命名</h3>
+<p>[待补：命名规范，例如 <code>类型_名称_序号</code> 之类的具体格式，见实际脚本]</p>
+<h3 id="2-整理贴图">2. 整理贴图</h3>
+<p>[待补：贴图归类规则，例如按通道 BaseColor / Normal / Roughness 归类，还是按资产分文件夹]</p>
+<h3 id="3-按材质分组">3. 按材质分组</h3>
+<p>[待补：分组依据——是按 shader（材质球）分，还是按贴图类型分；一组是否对应一次提交]</p>
+<h2 id="二、两阶段提交：模型与材质分离">二、两阶段提交：模型与材质分离</h2>
+<p>这是整个工具最关键、也最巧妙的设计。</p>
+<h3 id="2-1-提交前先导出「材质-JSON」">2.1 提交前先导出「材质 JSON」</h3>
+<p>在提交模型之前，工具会先把当前资产的材质信息序列化成一个 JSON 文件，把&quot;哪个模型用了哪个材质球、贴图路径是什么、shader 连接怎么连&quot;都记下来。这个 JSON 就是后面材质还原阶段的&quot;说明书&quot;。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：导出材质 JSON 的实现，见脚本]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-后台提交模型任务到-Deadline"><a href="#2-2-后台提交模型任务到-Deadline" class="headerlink" title="2.2 后台提交模型任务到 Deadline"></a>2.2 后台提交模型任务到 Deadline</h3><p>预处理完成后，工具直接把模型任务提交到 <strong>Deadline 渲染农场</strong>，而且是后台提交——艺术家不用干等，可以继续干别的。</p>
+<h3 id="2-2-后台提交模型任务到-Deadline">2.2 后台提交模型任务到 Deadline</h3>
+<p>预处理完成后，工具直接把模型任务提交到 <strong>Deadline 渲染农场</strong>，而且是后台提交——艺术家不用干等，可以继续干别的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：Deadline 提交相关代码，见脚本]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-等待-Deadline-的成功通知"><a href="#2-3-等待-Deadline-的成功通知" class="headerlink" title="2.3 等待 Deadline 的成功通知"></a>2.3 等待 Deadline 的成功通知</h3><p>模型任务不是本地同步等结果的。工具会<strong>等待 Deadline 的任务成功通知</strong>（事件 &#x2F; 回调机制），收到”模型任务成功”的信号后，才自动进入材质阶段。这样不需要人工去盯进度。</p>
+<h3 id="2-3-等待-Deadline-的成功通知">2.3 等待 Deadline 的成功通知</h3>
+<p>模型任务不是本地同步等结果的。工具会<strong>等待 Deadline 的任务成功通知</strong>（事件 / 回调机制），收到&quot;模型任务成功&quot;的信号后，才自动进入材质阶段。这样不需要人工去盯进度。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：Deadline 成功通知的监听/回调实现，见脚本]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-4-模型上传后统一输出-ABC"><a href="#2-4-模型上传后统一输出-ABC" class="headerlink" title="2.4 模型上传后统一输出 ABC"></a>2.4 模型上传后统一输出 ABC</h3><p>模型任务成功后，系统会统一输出一份 <strong>ABC 缓存</strong>。这份 ABC 不带材质，只作为几何载体，供接下来的材质阶段做参考导入。</p>
-<h3 id="2-5-提交材质任务：ABC-参考-材质还原"><a href="#2-5-提交材质任务：ABC-参考-材质还原" class="headerlink" title="2.5 提交材质任务：ABC 参考 + 材质还原"></a>2.5 提交材质任务：ABC 参考 + 材质还原</h3><p>材质阶段做三件事：</p>
+<h3 id="2-4-模型上传后统一输出-ABC">2.4 模型上传后统一输出 ABC</h3>
+<p>模型任务成功后，系统会统一输出一份 <strong>ABC 缓存</strong>。这份 ABC 不带材质，只作为几何载体，供接下来的材质阶段做参考导入。</p>
+<h3 id="2-5-提交材质任务：ABC-参考-材质还原">2.5 提交材质任务：ABC 参考 + 材质还原</h3>
+<p>材质阶段做三件事：</p>
 <ol>
 <li>把上一步的 <strong>ABC 作为参考（reference）导入</strong></li>
 <li><strong>import 之前导出的材质球</strong></li>
@@ -134,23 +142,24 @@
 </ol>
 <p>全部还原正确后，再提交材质任务。至此，同一个资产的两个任务才算都交完，而且模型与材质是严丝合缝对上的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [待补：材质还原 + 提交材质任务，见脚本]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="三、界面与交互"><a href="#三、界面与交互" class="headerlink" title="三、界面与交互"></a>三、界面与交互</h2><p>工具以 <strong>Maya 内的自定义 UI</strong>（面板 &#x2F; 窗口）形式提供给艺术家使用：</p>
+<h2 id="三、界面与交互">三、界面与交互</h2>
+<p>工具以 <strong>Maya 内的自定义 UI</strong>（面板 / 窗口）形式提供给艺术家使用：</p>
 <ul>
 <li>在视口里选中要提交的一批资产</li>
 <li>在面板里点一下按钮</li>
 <li>工具在后台跑完整条流程</li>
 <li>进度和结果实时显示在面板里</li>
 </ul>
-<p>对艺术家来说，复杂的”命名 → 贴图 → 分组 → 双任务提交 → 还原”被收敛成了一个动作。</p>
-<p>[待补：UI 截图 &#x2F; 面板布局描述，可在脚本到位或截图后补充]</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这个工具把”命名—贴图—分组—双任务提交—材质还原”串成了一条自动化链路，解决的核心问题是：<strong>在模型材质必须分离提交的流程下，如何让两阶段自动对齐、不让艺术家做重复手工活。</strong></p>
+<p>对艺术家来说，复杂的&quot;命名 → 贴图 → 分组 → 双任务提交 → 还原&quot;被收敛成了一个动作。</p>
+<p>[待补：UI 截图 / 面板布局描述，可在脚本到位或截图后补充]</p>
+<h2 id="小结">小结</h2>
+<p>这个工具把&quot;命名—贴图—分组—双任务提交—材质还原&quot;串成了一条自动化链路，解决的核心问题是：<strong>在模型材质必须分离提交的流程下，如何让两阶段自动对齐、不让艺术家做重复手工活。</strong></p>
 <p>后续待补充（脚本到位后）：</p>
 <ul>
-<li><input disabled="" type="checkbox"> 命名规范的具体实现</li>
-<li><input disabled="" type="checkbox"> 贴图整理的具体规则</li>
-<li><input disabled="" type="checkbox"> 按材质分组的具体逻辑</li>
-<li><input disabled="" type="checkbox"> 各阶段（JSON 导出 &#x2F; Deadline 提交 &#x2F; 通知监听 &#x2F; 材质还原）的真实代码</li>
+<li>[ ] 命名规范的具体实现</li>
+<li>[ ] 贴图整理的具体规则</li>
+<li>[ ] 按材质分组的具体逻辑</li>
+<li>[ ] 各阶段（JSON 导出 / Deadline 提交 / 通知监听 / 材质还原）的真实代码</li>
 </ul>
 <hr>
 <blockquote>
@@ -170,11 +179,12 @@
       <div class="header"><span>分享文章</span></div>
       <div class="body">
         <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/&title=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账&summary=背景与痛点在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”：
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/&title=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的小小世界&summary=背景与痛点
+在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;：
 
 手动整理大纲（Outliner）里的节点命名
 手动把贴图归类、摆到正确位置
-因为我们的流程是模型、材质..."><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的 Pipeline 手账&amp;body=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+因为..."><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Maya 资产批量自动提交工具：从手动整理到一键分发的实践 - 钱钱的小小世界&amp;body=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img  src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://liuyazhi1.github.io/2026/07/23/maya-asset-batch-submit/"/>
@@ -191,7 +201,8 @@
 
 
 
-<footer class="page-footer footnote"><hr><div class="sitemap" style="column-count:4;"><div class="sitemap-group"><span class="fs15">博客</span><a href="/blog/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">学习文档</span><a href="/wiki/maya/">Maya学习</a><a href="/wiki/nuke/">Nuke合成</a></div><div class="sitemap-group"><span class="fs15">项目展示</span><a href="/projects/">项目首页</a></div><div class="sitemap-group"><span class="fs15">关于</span><a href="/about/">关于我</a></div></div><div class="text"><p>本站由 <a href="/">钱钱</a> 使用 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<footer class="page-footer footnote"><hr><div class="sitemap" style="column-count:4;"><div class="sitemap-group"><span class="fs15">博客</span><a href="/blog/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">学习文档</span><a href="/wiki/maya/">Maya学习</a><a href="/wiki/nuke/">Nuke合成</a></div><div class="sitemap-group"><span class="fs15">项目展示</span><a href="/projects/">项目首页</a></div><div class="sitemap-group"><span class="fs15">关于</span><a href="/about/">关于我</a></div></div><div class="text"><p>本站由 <a href="/">钱钱</a> 使用 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">Stellar</a> 主题创建。<br>
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right"><div class="widgets">
 
@@ -1126,5 +1137,5 @@
 
 
 <!-- inject -->
-<script src="/js/scrapbook-space.js" defer></script>
+<script src="/js/pixel-world.js" defer></script><script src="/js/scrapbook-space.js" defer></script>
 </div><div class="page-loading-bar"><img src="https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd"></div></body></html>

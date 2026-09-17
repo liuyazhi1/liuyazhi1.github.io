@@ -435,15 +435,9 @@
     warp.hidden = true;
     const art = setAttributes(document.createElement('span'), { class: 'warp-art', 'aria-hidden': 'true' });
     const mushroom = setAttributes(document.createElement('span'), { class: 'warp-mushroom' });
-    const palette = { o: '#66506e', r: '#d982a4', w: '#fff6eb', s: '#f4d79f', k: '#493a52' };
-    const pixels = ['....oooo....', '..oorrrroo..', '.orwwrrrrro.', 'orwwwrrwwrro',
-      'orwwwrrwwwro', 'orrrrrrwwwro', 'orrrwwrrrrro', '.oooooooooo.',
-      '..oswsswso..', '..osksksso..', '..osssssso..', '...oooooo...'];
-    pixels.forEach(row => Array.from(row.padEnd(12, '.')).forEach(pixel => {
-      const cell = document.createElement('i');
-      cell.setAttribute('style', `background:${palette[pixel] || 'transparent'}`);
-      mushroom.appendChild(cell);
-    }));
+    const pixelWorld = typeof module === 'object' && module.exports
+      ? require('./pixel-world') : document.defaultView.PixelWorld;
+    pixelWorld.paintSprite(mushroom, 'mushroom', document);
     art.appendChild(mushroom);
     ['warp-pipe-body', 'warp-pipe-rim'].forEach(className => {
       art.appendChild(setAttributes(document.createElement('span'), { class: className }));
