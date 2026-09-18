@@ -50,7 +50,7 @@ index_generator:
 
 scrapbook:
   brand: 钱钱的小小世界
-  tagline: 今天也在把麻烦的制作流程，变成顺手的小工具。
+  tagline: 写一点代码，攒一点经验，偶尔发现一颗隐藏星星。
   latest_limit: 3
   categories: [Maya, Unreal Engine, Deadline, Omniverse, 数据库]
   featured_projects:

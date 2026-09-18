@@ -5,16 +5,23 @@ layout: page
 menu_id: about
 ---
 
-# 关于我
+<div class="about-notes">
+<section class="project-note">
 
 ## 👋 自我介绍
 
 你好！我是钱钱，一名影视流程TD，拥有3年经验，专注于人工智能方向的pipeline开发。
 
+</section>
+<section class="project-note">
+
 ## 💼 工作经历
 
 - **2021 - 至今**: 影视流程TD
 - **主要职责**: 影视动画管线开发、AI工具链集成、自动化流程优化
+
+</section>
+<section class="project-note">
 
 ## 🎯 技能栈
 
@@ -33,11 +40,17 @@ menu_id: about
 - 资产管理: ShotGrid, Ftrack
 - 云渲染: AWS, RenderMan
 
+</section>
+<section class="project-note">
+
 ## 📫 联系方式
 
 - **GitHub**: [@liuyazhi1](https://github.com/liuyazhi1)
 - **邮箱**: 2698669434@qq.com
 - **博客**: [liuyazhi.com](https://liuyazhi1.github.io)
+
+</section>
+<section class="project-note">
 
 ## 📝 个人目标
 
@@ -45,6 +58,9 @@ menu_id: about
 2. 分享技术经验
 3. 参与开源项目
 4. 打造优秀产品
+
+</section>
+</div>
 
 ---
 

@@ -7,7 +7,16 @@
   <body class="scrapbook-home"><a class="skip-link" href="#main">跳到主要内容</a>
   <header class="scrapbook-header">
     <div class="scrapbook-header__inner">
-      <a class="scrapbook-brand" href="/">钱钱的小小世界</a>
+      <div class="save-point">
+        <button class="save-point__button" type="button" data-save-point aria-label="升旗收星星，集齐三颗庆祝（趣味互动）">
+          <svg class="save-point__flag" width="32" height="32" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#fff6eb" d="M3 1h2v12h-2zM1 13h6v2H1z"/><g class="save-point__cloth"><path fill="#d982a4" d="M5 2h8v2h-2v2h2v2H5z"/><path fill="#fff6eb" d="M6 3h3v2H6z"/></g></svg>
+          <span class="save-point__label">SAVE POINT</span>
+          <span class="save-point__stars" data-save-count aria-hidden="true">★ ×0</span>
+          <svg class="save-point__reward" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#efd270" stroke="#66506e" d="M7 1h2v4h5v3h-3v3h2v3H9v-2H7v2H3v-3h2V8H2V5h5z"/><path fill="#493a52" d="M6 6h1v2H6zm3 0h1v2H9z"/></svg>
+          <span class="save-point__confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <span class="save-point__message" data-save-message role="status" aria-live="polite"></span>
+      </div>
       <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
     <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
       <a href="/">主页</a>
@@ -29,12 +38,7 @@
     <p data-search-status aria-live="polite">输入关键词，按标题与正文查找笔记</p>
     <div data-search-results></div>
     <button type="button" data-search-close>关闭搜索</button>
-  </section><main id="main"><section class="scrapbook-hero" aria-labelledby="hero-title">
-    <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
-    <p class="scrapbook-hero__eyebrow">QIANQIAN'S LITTLE WORLD</p>
-    <h1 id="hero-title">钱钱的小小世界</h1>
-    <p class="scrapbook-hero__tagline">今天也在把麻烦的制作流程，变成顺手的小工具。</p>
-    <p class="scrapbook-hero__role">Pipeline TD</p>
+  </section><main id="main"><section class="scrapbook-hero" aria-label="像素休息区">
     <p class="scrapbook-hero__direction">Maya、Unreal、Deadline、Omniverse 与数据库流程开发</p>
     <p class="scrapbook-hero__status">正在学习 Omniverse 与数据库</p>
     <div class="pixel-game" data-pixel-game>
@@ -57,7 +61,7 @@
   </section><div class="scrapbook-grid">
     <section class="scrapbook-card scrapbook-positioning" data-grid-area="positioning" aria-labelledby="positioning-title">
     <h2 id="positioning-title">把流程经验变成可复用工具</h2>
-    <p>今天也在把麻烦的制作流程，变成顺手的小工具。</p>
+    <p>写一点代码，攒一点经验，偶尔发现一颗隐藏星星。</p>
     <p>Maya、Unreal、Deadline、Omniverse 与数据库流程开发</p>
     <div class="scrapbook-positioning__actions">
       <a href="/blog/">浏览技术日志</a>
@@ -80,7 +84,7 @@
         <time datetime="2026-07-22">2026-07-22</time>
         </div>
         <a class="post-note__title" href="/2026/07/23/maya-asset-batch-submit/">Maya 资产批量自动提交工具：从手动整理到一键分发的实践</a>
-        <p class="post-note__excerpt">背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多&quot;杂活&quot;： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…</p>
+        <p class="post-note__excerpt">背景与痛点 在影视动画项目里，植被和道具类资产的数量往往非常庞大。在过去的工作流中，艺术家要提交一批资产，得先手动做很多”杂活”： 手动整理大纲（Outliner）里的节点命名 手动把贴图归类、摆到正确位置 因为我们的流程是 模型、材质分…</p>
         <ul class="post-note__tags" aria-label="文章标签"><li class="post-note__tag">Maya</li><li class="post-note__tag">Pipeline</li><li class="post-note__tag">自动化</li></ul>
       </li><li class="post-note">
         <div class="post-note__meta">

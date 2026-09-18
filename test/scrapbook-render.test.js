@@ -31,7 +31,7 @@ test('renders semantic scrapbook homepage and escapes content', () => {
   }, { title: '钱钱的博客', root: '/' });
 
   assert.match(html, /<main/);
-  assert.equal((html.match(/<h1/g) || []).length, 1);
+  assert.match(html, /aria-label="像素休息区"/);
   assert.match(html, /aria-label="主导航"/);
   assert.match(html, /href="\/maya\/"/);
   assert.doesNotMatch(html, /<script>alert/);
@@ -50,7 +50,7 @@ test('renders semantic scrapbook homepage and escapes content', () => {
   );
 });
 
-test('renders the approved brand hero and complete responsive navigation', () => {
+test('keeps the game and navigation without the removed hero introduction', () => {
   const html = renderHome({
     brand: '钱钱的 Pipeline 手账',
     tagline: '今天也在把麻烦的制作流程，变成顺手的小工具。',
@@ -62,8 +62,9 @@ test('renders the approved brand hero and complete responsive navigation', () =>
     space: {}
   }, { title: '钱钱的 Pipeline 手账' });
 
-  assert.match(html, /<a[^>]*class="scrapbook-brand"[^>]*href="\/"[^>]*>钱钱的 Pipeline 手账<\/a>/);
-  assert.match(html, /<h1[^>]*>钱钱的 Pipeline 手账<\/h1>/);
+  assert.doesNotMatch(html, /class="scrapbook-brand"/);
+  assert.doesNotMatch(html, /hero-title|scrapbook-hero__(mark|eyebrow|tagline|role)/);
+  assert.match(html, /data-game-start>开始游戏/);
   assert.match(html, /今天也在把麻烦的制作流程，变成顺手的小工具。/);
   assert.match(html, /Pipeline TD/);
   assert.match(html, /Maya、Unreal、Deadline、Omniverse 与数据库流程开发/);

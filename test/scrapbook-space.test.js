@@ -295,10 +295,12 @@ test('scopes space announcements away from the search live region', () => {
 test('collapses mobile navigation with Escape and restores toggle focus', () => {
   const toggle = new FakeElement();
   const menu = new FakeElement({ dataset: {} });
+  const savePoint = new FakeElement({ removeAttribute(name) { delete this.attributes[name]; } });
+  const saveMessage = new FakeElement({ textContent: '' });
   const document = {
     listeners: {},
     querySelector(selector) {
-      return { '[data-nav-toggle]': toggle, '[data-nav-menu]': menu }[selector] || null;
+      return { '[data-nav-toggle]': toggle, '[data-nav-menu]': menu, '[data-save-point]': savePoint, '[data-save-message]': saveMessage }[selector] || null;
     },
     addEventListener(type, listener) { this.listeners[type] = listener; },
     removeEventListener(type) { delete this.listeners[type]; }
@@ -313,7 +315,14 @@ test('collapses mobile navigation with Escape and restores toggle focus', () => 
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
   assert.equal(menu.dataset.mobileCollapsed, 'true');
   assert.equal(toggle.focused, true);
+  savePoint.dispatch('click');
+  assert.equal(savePoint.getAttribute('data-lit'), 'true');
+  assert.match(saveMessage.textContent, /发现一颗隐藏星星！1 \/ 3/);
+  savePoint.dispatch('click');
+  assert.match(saveMessage.textContent, /1 \/ 3/);
   mounted.destroy();
+  assert.equal(savePoint.getAttribute('data-lit'), null);
+  assert.equal(saveMessage.textContent, '');
 });
 
 test('clamps an out-of-range stored volume before assigning media volume', () => {

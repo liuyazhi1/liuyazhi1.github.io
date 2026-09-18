@@ -8,15 +8,15 @@ body.scrapbook-list {
   background: var(--sb-paper) radial-gradient(circle, rgb(143 111 145 / 18%) 1px, transparent 1.5px) 0 0 / 18px 18px;
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
-.scrapbook-list .l_body.index {
+.scrapbook-list .l_body {
   display: block;
   width: min(70rem, calc(100% - 2rem));
   max-width: none;
   padding: 0;
   margin: clamp(1.5rem, 4vw, 3rem) auto;
 }
-.scrapbook-list .l_body.index > .l_left,
-.scrapbook-list .l_body.index > .l_right,
+.scrapbook-list .l_body > .l_left,
+.scrapbook-list .l_body > .l_right,
 .scrapbook-list .float-panel,
 .scrapbook-list .l_main > .logo-wrap { display: none; }
 /* Stellar's mobile-only utility sets display with !important. */
@@ -75,3 +75,19 @@ body.scrapbook-list {
 .scrapbook-list .page-footer { color: var(--sb-ink); border-top: 2px dashed var(--sb-nav); padding-top: 1.5rem; }
 .scrapbook-list .page-footer a { color: inherit; }
 .scrapbook-list .paginator a { background: var(--sb-white); color: var(--sb-ink); border: 1px dashed var(--sb-nav); border-radius: 0; }
+
+.scrapbook-page .article.banner { background: transparent; border: 0; box-shadow: none; padding: 0; margin-bottom: 2rem; }
+.scrapbook-page .article.banner h1 { color: var(--sb-ink); font-family: STKaiti, KaiTi, serif; }
+.scrapbook-page .md-text.content { padding: 0; background: transparent; color: var(--sb-ink); }
+.scrapbook-page .md-text h2 { margin: 2rem 0 1.4rem; font-family: STKaiti, KaiTi, serif; color: var(--sb-ink); }
+.project-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.scrapbook-page .project-note { position: relative; min-width: 0; padding: 1.4rem; background: var(--sb-white); border: 1px dashed var(--sb-nav); box-shadow: var(--sb-shadow); overflow-wrap: anywhere; }
+.project-note::before { content: ''; position: absolute; top: -.5rem; left: 1.5rem; width: 4.5rem; height: .9rem; background: repeating-linear-gradient(110deg, #eab8cdcc 0 7px, #f8dae7cc 7px 12px); transform: rotate(-3deg); }
+.scrapbook-page .project-note h2,
+.scrapbook-page .project-note h3 { margin: .25rem 0 1rem; color: var(--sb-ink); }
+.scrapbook-page .project-note ul { padding-left: 1.2rem; margin-bottom: 0; }
+.scrapbook-page .project-note li { margin: .7rem 0; }
+.scrapbook-page .md-text a { color: var(--sb-ink); text-decoration: underline; text-underline-offset: .2em; }
+.scrapbook-page .md-text table { background: var(--sb-white); color: var(--sb-ink); }
+.about-notes { display: grid; gap: 1.75rem; }
+@media (max-width: 639.98px) { .project-card-grid { grid-template-columns: minmax(0, 1fr); } }

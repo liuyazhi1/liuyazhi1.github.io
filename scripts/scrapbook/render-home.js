@@ -15,10 +15,18 @@ const urlFor = path => '/' + String(path ?? '')
 const hrefFor = path => escapeHtml(urlFor(path));
 
 function renderNavigation(model = {}, site = {}) {
-  const brand = model.brand || site.title || '钱钱的小小世界';
   return `<header class="scrapbook-header">
     <div class="scrapbook-header__inner">
-      <a class="scrapbook-brand" href="${hrefFor('')}">${escapeHtml(brand)}</a>
+      <div class="save-point">
+        <button class="save-point__button" type="button" data-save-point aria-label="升旗收星星，集齐三颗庆祝（趣味互动）">
+          <svg class="save-point__flag" width="32" height="32" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#fff6eb" d="M3 1h2v12h-2zM1 13h6v2H1z"/><g class="save-point__cloth"><path fill="#d982a4" d="M5 2h8v2h-2v2h2v2H5z"/><path fill="#fff6eb" d="M6 3h3v2H6z"/></g></svg>
+          <span class="save-point__label">SAVE POINT</span>
+          <span class="save-point__stars" data-save-count aria-hidden="true">★ ×0</span>
+          <svg class="save-point__reward" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#efd270" stroke="#66506e" d="M7 1h2v4h5v3h-3v3h2v3H9v-2H7v2H3v-3h2V8H2V5h5z"/><path fill="#493a52" d="M6 6h1v2H6zm3 0h1v2H9z"/></svg>
+          <span class="save-point__confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <span class="save-point__message" data-save-message role="status" aria-live="polite"></span>
+      </div>
       <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
     <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
       <a href="${hrefFor('')}">主页</a>
@@ -50,14 +58,7 @@ function renderSearchPanel() {
 function renderHero(model) {
   const profile = model.profile || {};
   const status = model.status || {};
-  const brand = model.brand || '钱钱的小小世界';
-
-  return `<section class="scrapbook-hero" aria-labelledby="hero-title">
-    <span class="scrapbook-hero__mark" aria-hidden="true">✦</span>
-    <p class="scrapbook-hero__eyebrow">QIANQIAN'S LITTLE WORLD</p>
-    <h1 id="hero-title">${escapeHtml(brand)}</h1>
-    <p class="scrapbook-hero__tagline">${escapeHtml(model.tagline)}</p>
-    <p class="scrapbook-hero__role">${escapeHtml(profile.role)}</p>
+  return `<section class="scrapbook-hero" aria-label="像素休息区">
     <p class="scrapbook-hero__direction">${escapeHtml(profile.direction)}</p>
     <p class="scrapbook-hero__status">${escapeHtml(status.text)}</p>
     <div class="pixel-game" data-pixel-game>

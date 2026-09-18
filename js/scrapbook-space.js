@@ -62,6 +62,35 @@
       render();
       if (restoreFocus) toggle.focus?.();
     };
+    const savePoint = document.querySelector('[data-save-point]');
+    const saveMessage = document.querySelector('[data-save-message]');
+    const saveCount = document.querySelector('[data-save-count]');
+    let stars = 0, collecting = false;
+    let saveTimer;
+    const clearSave = () => {
+      clearTimeout(saveTimer);
+      savePoint?.removeAttribute('data-lit');
+      savePoint?.removeAttribute('data-celebrate');
+      collecting = false;
+      if (saveMessage) saveMessage.textContent = '';
+    };
+    on(savePoint, 'click', () => {
+      if (!saveMessage || collecting) return;
+      clearSave();
+      collecting = true;
+      stars++;
+      savePoint.setAttribute('data-lit', 'true');
+      if (saveCount) saveCount.textContent = `★ ×${stars}`;
+      savePoint.setAttribute('data-celebrate', String(stars === 3));
+      saveMessage.textContent = stars === 3 ? '三颗集齐！今日灵感 +3 ✨' : `发现一颗隐藏星星！${stars} / 3`;
+      saveTimer = setTimeout(() => {
+        clearSave();
+        if (stars === 3) {
+          stars = 0;
+          if (saveCount) saveCount.textContent = '★ ×0';
+        }
+      }, stars === 3 ? 2200 : 900);
+    });
     on(toggle, 'click', () => {
       open = !open;
       render();
@@ -76,6 +105,7 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
+        clearSave();
         listeners.splice(0).forEach(remove => remove());
         if (mountedNavigationDocuments.get(document) === controller) {
           mountedNavigationDocuments.delete(document);

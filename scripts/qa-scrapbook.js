@@ -278,8 +278,8 @@ async function viewportQa(browser, viewport) {
 
   assert.equal(home.overflow, 0);
   assert.deepEqual(home.hero, {
-    title: '钱钱的 Pipeline 手账',
-    tagline: '今天也在把麻烦的制作流程，变成顺手的小工具。',
+    title: undefined,
+    tagline: undefined,
     direction: 'Maya、Unreal、Deadline、Omniverse 与数据库流程开发',
     status: '正在学习 Omniverse 与数据库'
   });

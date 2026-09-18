@@ -52,7 +52,16 @@
 <link rel="stylesheet" href="/css/scrapbook-home.css"><link rel="stylesheet" href="/css/pixel-world.css"><link rel="stylesheet" href="/css/scrapbook-list.css"></head>
 <body class="scrapbook-list"><a class="skip-link" href="#main">跳到主要内容</a><header class="scrapbook-header">
     <div class="scrapbook-header__inner">
-      <a class="scrapbook-brand" href="/">钱钱的小小世界</a>
+      <div class="save-point">
+        <button class="save-point__button" type="button" data-save-point aria-label="升旗收星星，集齐三颗庆祝（趣味互动）">
+          <svg class="save-point__flag" width="32" height="32" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#fff6eb" d="M3 1h2v12h-2zM1 13h6v2H1z"/><g class="save-point__cloth"><path fill="#d982a4" d="M5 2h8v2h-2v2h2v2H5z"/><path fill="#fff6eb" d="M6 3h3v2H6z"/></g></svg>
+          <span class="save-point__label">SAVE POINT</span>
+          <span class="save-point__stars" data-save-count aria-hidden="true">★ ×0</span>
+          <svg class="save-point__reward" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges"><path fill="#efd270" stroke="#66506e" d="M7 1h2v4h5v3h-3v3h2v3H9v-2H7v2H3v-3h2V8H2V5h5z"/><path fill="#493a52" d="M6 6h1v2H6zm3 0h1v2H9z"/></svg>
+          <span class="save-point__confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <span class="save-point__message" data-save-message role="status" aria-live="polite"></span>
+      </div>
       <button class="scrapbook-nav-toggle" type="button" data-nav-toggle aria-controls="primary-navigation" aria-expanded="false">菜单</button>
     <nav id="primary-navigation" data-nav-menu data-mobile-collapsed="true" aria-label="主导航">
       <a href="/">主页</a>
@@ -104,24 +113,32 @@
           <span class='name'>Pipeline</span>
         </a>
       
-        <a class='tag' href="/tags/Deadline/">
-          <span class='name'>Deadline</span>
-        </a>
-      
         <a class='tag' href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">
           <span class='name'>自动化</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%AD%A6%E4%B9%A0/">
-          <span class='name'>学习</span>
+        <a class='tag' href="/tags/Deadline/">
+          <span class='name'>Deadline</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%BF%83%E5%BE%97/">
-          <span class='name'>心得</span>
+        <a class='tag' href="/tags/Node-js/">
+          <span class='name'>Node.js</span>
         </a>
       
-        <a class='tag' href="/tags/%E6%88%90%E9%95%BF/">
-          <span class='name'>成长</span>
+        <a class='tag' href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+          <span class='name'>性能优化</span>
+        </a>
+      
+        <a class='tag' href="/tags/Debug/">
+          <span class='name'>Debug</span>
+        </a>
+      
+        <a class='tag' href="/tags/Maya/">
+          <span class='name'>Maya</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86/">
+          <span class='name'>资产管理</span>
         </a>
       
         <a class='tag' href="/tags/Unreal-Engine/">
@@ -136,24 +153,16 @@
           <span class='name'>Movie Render Pipeline</span>
         </a>
       
-        <a class='tag' href="/tags/Maya/">
-          <span class='name'>Maya</span>
+        <a class='tag' href="/tags/%E5%AD%A6%E4%B9%A0/">
+          <span class='name'>学习</span>
         </a>
       
-        <a class='tag' href="/tags/%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86/">
-          <span class='name'>资产管理</span>
+        <a class='tag' href="/tags/%E5%BF%83%E5%BE%97/">
+          <span class='name'>心得</span>
         </a>
       
-        <a class='tag' href="/tags/Node-js/">
-          <span class='name'>Node.js</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
-          <span class='name'>性能优化</span>
-        </a>
-      
-        <a class='tag' href="/tags/Debug/">
-          <span class='name'>Debug</span>
+        <a class='tag' href="/tags/%E6%88%90%E9%95%BF/">
+          <span class='name'>成长</span>
         </a>
       
     </article>
